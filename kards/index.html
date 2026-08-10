@@ -589,9 +589,9 @@
                     </select>
                     <button class="copy-btn" onclick="openWeatherGuideModal()" style="background: linear-gradient(135deg, rgba(212,175,55,0.25), rgba(56,139,253,0.25)); color: var(--accent-gold-bright); border: 1px solid var(--accent-gold); font-weight: 700; padding: 6px 14px; font-size: 13px; cursor: pointer; border-radius: 8px;">🌤️ Weather Tactical Guide</button>
                     <select id="deck-sort-select" class="search-input" style="width: 270px; font-size: 13.5px; cursor: pointer;">
-                        <option value="master-rank-asc" selected>🏆 Sort: Master League Rank (#1 → #56)</option>
+                        <option value="winrate-desc" selected>🎯 Sort: Expected Win Rate (High → Low)</option>
+                        <option value="master-rank-asc">🏆 Sort: Master League Rank (#1 → #56)</option>
                         <option value="server-first">⚡ Sort: Live Server Decks First</option>
-                        <option value="winrate-desc">🎯 Sort: Expected Win Rate (High → Low)</option>
                         <option value="rating-desc">Sort: Rating Score (High → Low)</option>
                         <option value="rating-asc">Sort: Rating Score (Low → High)</option>
                         <option value="name-asc">Sort: Name (A → Z)</option>
@@ -1140,20 +1140,25 @@
                 const bName = b.name.toLowerCase();
                 const aRank = masterRankMap[aName] || 999;
                 const bRank = masterRankMap[bName] || 999;
-                const aOnServer = serverDecksSet.has(aName) ? 1 : 0;
-                const bOnServer = serverDecksSet.has(bName) ? 1 : 0;
+                const getDeckWinRate = (d) => {
+                    const dn = (d.name || '').toLowerCase();
+                    const masterPct = masterWinPctMap[dn];
+                    if (masterPct != null) return masterPct;
+                    if (d.expected_win_rate != null) return Math.min(d.expected_win_rate, 95);
+                    return Math.min(d.rating || 50, 95);
+                };
 
                 if (currentDeckSort === 'master-rank-asc') return aRank - bRank;
                 if (currentDeckSort === 'server-first') {
                     if (bOnServer !== aOnServer) return bOnServer - aOnServer;
                     return aRank - bRank;
                 }
-                if (currentDeckSort === 'winrate-desc') return (parseFloat(b.expected_win_rate)||0) - (parseFloat(a.expected_win_rate)||0);
+                if (currentDeckSort === 'winrate-desc') return getDeckWinRate(b) - getDeckWinRate(a);
                 if (currentDeckSort === 'rating-desc') return (parseInt(b.rating)||0) - (parseInt(a.rating)||0);
                 if (currentDeckSort === 'rating-asc')  return (parseInt(a.rating)||0) - (parseInt(b.rating)||0);
                 if (currentDeckSort === 'name-asc')    return a.name.localeCompare(b.name);
                 if (currentDeckSort === 'cards-desc')   return (b.total_cards||0) - (a.total_cards||0);
-                return aRank - bRank;
+                return getDeckWinRate(b) - getDeckWinRate(a);
             });
 
             if (filtered.length === 0) {

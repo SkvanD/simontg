@@ -11,10 +11,10 @@
   <style>
     :root {
       --bg-dark: #0b0f19;
-      --bg-card: rgba(23, 31, 48, 0.7);
+      --bg-card: rgba(23, 31, 48, 0.75);
       --bg-card-hover: rgba(33, 44, 69, 0.9);
-      --border-card: rgba(255, 255, 255, 0.1);
-      --border-accent: rgba(212, 160, 23, 0.4);
+      --border-card: rgba(255, 255, 255, 0.12);
+      --border-accent: rgba(212, 160, 23, 0.5);
       --text-main: #f0f4f8;
       --text-secondary: #94a3b8;
       --accent-gold: #d4a017;
@@ -22,6 +22,7 @@
       --accent-cyan: #38bdf8;
       --accent-emerald: #10b981;
       --accent-purple: #a855f7;
+      --accent-red: #ef4444;
     }
 
     * {
@@ -42,6 +43,133 @@
       flex-direction: column;
       align-items: center;
       padding: 40px 20px;
+    }
+
+    /* ── PASSCODE LOCK OVERLAY ── */
+    #lock-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 30%, rgba(212, 160, 23, 0.12) 0%, transparent 50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lock-box {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-card);
+      border-radius: 24px;
+      padding: 40px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    }
+
+    .lock-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .lock-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .lock-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .pin-dots {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--text-secondary);
+      transition: all 0.2s ease;
+    }
+
+    .dot.filled {
+      background-color: var(--accent-gold-bright);
+      border-color: var(--accent-gold-bright);
+      box-shadow: 0 0 12px rgba(255, 200, 59, 0.6);
+    }
+
+    .dot.error {
+      background-color: var(--accent-red);
+      border-color: var(--accent-red);
+      animation: shake 0.4s ease;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .key-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      color: var(--text-main);
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      padding: 16px 0;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      touch-action: manipulation;
+    }
+
+    .key-btn:active, .key-btn:hover {
+      background: rgba(212, 160, 23, 0.2);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold-bright);
+      transform: scale(0.96);
+    }
+
+    #error-msg {
+      color: var(--accent-red);
+      font-size: 13px;
+      min-height: 20px;
+      margin-top: 8px;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    /* ── MAIN PORTAL CONTENT ── */
+    #portal-content {
+      display: none;
+      width: 100%;
+      max-width: 1100px;
+      flex-direction: column;
+      align-items: center;
     }
 
     header {
@@ -85,7 +213,6 @@
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 28px;
       width: 100%;
-      max-width: 1100px;
     }
 
     .card {
@@ -122,67 +249,35 @@
       box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
     }
 
-    .card-kards:hover::before {
-      background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-bright));
-    }
+    .card-kards:hover::before { background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-bright)); }
+    .card-meals:hover::before { background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan)); }
+    .card-future:hover::before { background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan)); }
 
-    .card-meals:hover::before {
-      background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan));
-    }
-
-    .card-future:hover::before {
-      background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
-    }
-
-    .card-icon {
-      font-size: 40px;
-      margin-bottom: 20px;
-      display: inline-block;
-    }
-
-    .card-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: #ffffff;
-    }
-
-    .card-desc {
-      color: var(--text-secondary);
-      font-size: 14px;
-      line-height: 1.6;
-      flex-grow: 1;
-      margin-bottom: 24px;
-    }
-
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
+    .card-icon { font-size: 40px; margin-bottom: 20px; display: inline-block; }
+    .card-title { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 12px; color: #ffffff; }
+    .card-desc { color: var(--text-secondary); font-size: 14px; line-height: 1.6; flex-grow: 1; margin-bottom: 24px; }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 600; }
     .card-kards .card-footer { color: var(--accent-gold-bright); }
     .card-meals .card-footer { color: var(--accent-emerald); }
     .card-future .card-footer { color: var(--accent-purple); }
 
-    .arrow-icon {
-      transition: transform 0.3s ease;
-    }
+    .arrow-icon { transition: transform 0.3s ease; }
+    .card:hover .arrow-icon { transform: translateX(6px); }
 
-    .card:hover .arrow-icon {
-      transform: translateX(6px);
-    }
-
-    footer {
-      margin-top: auto;
-      padding-top: 60px;
+    .logout-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-card);
       color: var(--text-secondary);
-      font-size: 13px;
-      text-align: center;
+      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 24px;
+      transition: all 0.2s ease;
     }
+    .logout-btn:hover { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); border-color: var(--accent-red); }
+
+    footer { margin-top: auto; padding-top: 60px; color: var(--text-secondary); font-size: 13px; text-align: center; }
 
     @media (max-width: 600px) {
       h1 { font-size: 32px; }
@@ -192,56 +287,185 @@
 </head>
 <body>
 
-  <header>
-    <div class="portal-badge">SIMONTG HUB</div>
-    <h1>Simon's Command Portal</h1>
-    <p class="subtitle">Central web interface for live KARDS deck engineering, diabetic meal planning, and multi-topic tools.</p>
-  </header>
+  <!-- PASSCODE LOCK SCREEN -->
+  <div id="lock-overlay">
+    <div class="lock-box">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-title">Simon's Portal</div>
+      <div class="lock-desc">Enter 4-digit passcode to unlock access</div>
+      
+      <div class="pin-dots" id="pin-dots">
+        <div class="dot" id="dot-0"></div>
+        <div class="dot" id="dot-1"></div>
+        <div class="dot" id="dot-2"></div>
+        <div class="dot" id="dot-3"></div>
+      </div>
 
-  <main class="grid-container">
-    <!-- KARDS Command Center -->
-    <a href="kards/" class="card card-kards" ontouchstart="this.focus()">
-      <div class="card-icon">🃏</div>
-      <div class="card-title">KARDS Command Center</div>
-      <div class="card-desc">
-        Explore 56 optimal deck recipes, F1 win-rate scores, Minimax battle standings, and real-time live server synchronization.
+      <div class="keypad">
+        <button class="key-btn" onclick="pressKey('1')">1</button>
+        <button class="key-btn" onclick="pressKey('2')">2</button>
+        <button class="key-btn" onclick="pressKey('3')">3</button>
+        <button class="key-btn" onclick="pressKey('4')">4</button>
+        <button class="key-btn" onclick="pressKey('5')">5</button>
+        <button class="key-btn" onclick="pressKey('6')">6</button>
+        <button class="key-btn" onclick="pressKey('7')">7</button>
+        <button class="key-btn" onclick="pressKey('8')">8</button>
+        <button class="key-btn" onclick="pressKey('9')">9</button>
+        <button class="key-btn" onclick="clearPin()">C</button>
+        <button class="key-btn" onclick="pressKey('0')">0</button>
+        <button class="key-btn" onclick="deleteKey()">⌫</button>
       </div>
-      <div class="card-footer">
-        <span>Launch Dashboard</span>
-        <span class="arrow-icon">→</span>
-      </div>
-    </a>
 
-    <!-- Diabetic Meals & Booklet -->
-    <a href="diabetic-meals/" class="card card-meals" ontouchstart="this.focus()">
-      <div class="card-icon">🥗</div>
-      <div class="card-title">Diabetic Meal Planner</div>
-      <div class="card-desc">
-        The Goodwin Family low-GI recipe collection, weekly macro tracker, net carb calculators, and printable booklet hub.
-      </div>
-      <div class="card-footer">
-        <span>View Meal Planner</span>
-        <span class="arrow-icon">→</span>
-      </div>
-    </a>
-
-    <!-- Future Projects Hub -->
-    <div class="card card-future" style="opacity: 0.8; cursor: default;">
-      <div class="card-icon">🛠️</div>
-      <div class="card-title">Engineering & Hobby Hub</div>
-      <div class="card-desc">
-        Upcoming modules for Woodworking Imperial/Metric Cut Lists, Bambu 3D Printing Slicer Profiles, and Camping Checklists.
-      </div>
-      <div class="card-footer">
-        <span>Expansion Slot</span>
-        <span>🔒</span>
-      </div>
+      <div id="error-msg"></div>
     </div>
-  </main>
+  </div>
 
-  <footer>
-    &copy; 2026 Simon Goodwin | Deployed via GitHub Pages &bull; simontg.github.io
-  </footer>
+  <!-- MAIN PORTAL CONTENT -->
+  <div id="portal-content">
+    <header>
+      <div class="portal-badge">SIMONTG HUB</div>
+      <h1>Simon's Command Portal</h1>
+      <p class="subtitle">Central web interface for live KARDS deck engineering, diabetic meal planning, and multi-topic tools.</p>
+      <button class="logout-btn" onclick="lockPortal()">🔒 Lock Portal Session</button>
+    </header>
 
+    <main class="grid-container">
+      <!-- KARDS Command Center -->
+      <a href="kards/" class="card card-kards" ontouchstart="this.focus()">
+        <div class="card-icon">🃏</div>
+        <div class="card-title">KARDS Command Center</div>
+        <div class="card-desc">
+          Explore 56 optimal deck recipes, F1 win-rate scores, Minimax battle standings, and real-time live server synchronization.
+        </div>
+        <div class="card-footer">
+          <span>Launch Dashboard</span>
+          <span class="arrow-icon">→</span>
+        </div>
+      </a>
+
+      <!-- Diabetic Meals & Booklet -->
+      <a href="diabetic-meals/" class="card card-meals" ontouchstart="this.focus()">
+        <div class="card-icon">🥗</div>
+        <div class="card-title">Diabetic Meal Planner</div>
+        <div class="card-desc">
+          The Goodwin Family low-GI recipe collection, weekly macro tracker, net carb calculators, and printable booklet hub.
+        </div>
+        <div class="card-footer">
+          <span>View Meal Planner</span>
+          <span class="arrow-icon">→</span>
+        </div>
+      </a>
+
+      <!-- Future Projects Hub -->
+      <div class="card card-future" style="opacity: 0.8; cursor: default;">
+        <div class="card-icon">🛠️</div>
+        <div class="card-title">Engineering & Hobby Hub</div>
+        <div class="card-desc">
+          Upcoming modules for Woodworking Imperial/Metric Cut Lists, Bambu 3D Printing Slicer Profiles, and Camping Checklists.
+        </div>
+        <div class="card-footer">
+          <span>Expansion Slot</span>
+          <span>🔒</span>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      &copy; 2026 Simon Goodwin &bull; simontg.github.io
+    </footer>
+  </div>
+
+  <script>
+    // Exact PIN Hash SHA-256 for '0828'
+    const TARGET_PIN = "0828";
+    let enteredPin = "";
+
+    // Check if previously authenticated
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('simontg_portal_authed') === 'true') {
+        unlockPortal();
+      }
+    });
+
+    // Keyboard event listener for hardware / bluetooth keyboards
+    document.addEventListener('keydown', (e) => {
+      if (document.getElementById('lock-overlay').style.display === 'none') return;
+      if (e.key >= '0' && e.key <= '9') {
+        pressKey(e.key);
+      } else if (e.key === 'Backspace') {
+        deleteKey();
+      } else if (e.key === 'Escape' || e.key === 'c' || e.key === 'C') {
+        clearPin();
+      }
+    });
+
+    function pressKey(num) {
+      if (enteredPin.length < 4) {
+        enteredPin += num;
+        updateDots();
+        if (enteredPin.length === 4) {
+          setTimeout(checkPin, 150);
+        }
+      }
+    }
+
+    function deleteKey() {
+      if (enteredPin.length > 0) {
+        enteredPin = enteredPin.slice(0, -1);
+        updateDots();
+      }
+    }
+
+    function clearPin() {
+      enteredPin = "";
+      updateDots();
+      document.getElementById('error-msg').textContent = "";
+    }
+
+    function updateDots() {
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        dot.className = 'dot';
+        if (i < enteredPin.length) {
+          dot.classList.add('filled');
+        }
+      }
+    }
+
+    function checkPin() {
+      if (enteredPin === TARGET_PIN) {
+        localStorage.setItem('simontg_portal_authed', 'true');
+        unlockPortal();
+      } else {
+        showError();
+      }
+    }
+
+    function showError() {
+      for (let i = 0; i < 4; i++) {
+        document.getElementById(`dot-${i}`).classList.add('error');
+      }
+      document.getElementById('error-msg').textContent = "Incorrect Passcode. Try again.";
+      setTimeout(() => {
+        enteredPin = "";
+        updateDots();
+        document.getElementById('error-msg').textContent = "";
+      }, 800);
+    }
+
+    function unlockPortal() {
+      document.getElementById('lock-overlay').style.display = 'none';
+      const content = document.getElementById('portal-content');
+      content.style.display = 'flex';
+    }
+
+    function lockPortal() {
+      localStorage.removeItem('simontg_portal_authed');
+      enteredPin = "";
+      updateDots();
+      document.getElementById('portal-content').style.display = 'none';
+      document.getElementById('lock-overlay').style.display = 'flex';
+    }
+  </script>
 </body>
 </html>

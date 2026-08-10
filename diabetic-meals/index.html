@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Goodwins' Diabetic Meal Dashboard 🥗</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #161b26;
+            --card-border: #232d3f;
+            --accent-gold: #d4af37;
+            --accent-gold-bright: #ffd700;
+            --accent-cyan: #4cc9f0;
+            --accent-green: #2ec4b6;
+            --text-main: #f0f4f8;
+            --text-secondary: #94a3b8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 30px;
+            line-height: 1.5;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffd700, #ff9d00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .stats-summary {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .stat-pill {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--accent-gold-bright);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-weight: 600;
+        }
+
+        .controls-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 12px 18px;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13.5px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-gold);
+            color: #000;
+            border-color: var(--accent-gold);
+        }
+
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 22px;
+        }
+
+        .recipe-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold);
+        }
+
+        .card-img-wrap {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .recipe-card:hover .card-img-wrap img {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .meal-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .badge-category {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: rgba(76, 201, 240, 0.15);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .rating-badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: var(--accent-gold-bright);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        .dose-box {
+            background: rgba(46, 196, 182, 0.1);
+            border: 1px solid rgba(46, 196, 182, 0.3);
+            padding: 12px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-around;
+            margin: 14px 0;
+            text-align: center;
+        }
+
+        .dose-item .val {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent-green);
+        }
+
+        .dose-item .lbl {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .card-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-action:hover {
+            background: var(--accent-gold);
+            color: #000;
+        }
+
+        /* Printable Modal Styling */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal-card {
+            background: #121824;
+            border: 2px solid var(--accent-gold);
+            border-radius: 16px;
+            max-width: 750px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 35px;
+            position: relative;
+        }
+
+        .modal-img-banner {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--card-border);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px; right: 25px;
+            background: none; border: none;
+            color: var(--text-secondary);
+            font-size: 28px; cursor: pointer;
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            .modal-card, .modal-card * { visibility: visible; }
+            .modal-card {
+                position: absolute;
+                left: 0; top: 0; width: 100%; max-width: 100%;
+                background: #fff !important; color: #000 !important;
+                border: none !important; box-shadow: none !important;
+            }
+            .modal-img-banner { max-height: 200px; }
+            .close-btn, .no-print { display: none !important; }
+            .dose-box { background: #f0f0f0 !important; border: 1px solid #ccc !important; }
+            .dose-item .val { color: #000 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <div>
+            <h1>The Goodwins' Diabetic Meal Dashboard 🥗</h1>
+            <div class="subtitle">Insulin Ratio: 1 Unit per 5g Carbs | Saturated Fat & Cardiac Friendly</div>
+        </div>
+        <div class="stats-summary">
+            <div class="stat-pill">💉 Ratio: 1u ÷ 5g</div>
+            <div class="stat-pill">🫀 Saturated Fat Controlled</div>
+            <div class="stat-pill">🚫 No Pulled Pork</div>
+            <div class="stat-pill">🌶️ Sacred Wife Chili</div>
+        </div>
+    </div>
+
+    <div class="controls-bar">
+        <input type="text" id="search" class="search-input" placeholder="🔍 Search by meal name, ingredient, or appliance (Pellet Smoker, Instant Pot)...">
+        <button class="filter-btn active" data-filter="all">All Meals</button>
+        <button class="filter-btn" data-filter="Quick (30-40m)">Quick (30-40m)</button>
+        <button class="filter-btn" data-filter="Slow Cooker">Slow Cooker</button>
+        <button class="filter-btn" data-filter="Instant Pot">Instant Pot</button>
+        <button class="filter-btn" data-filter="Pellet Smoker">Pellet Smoker 💨</button>
+        
+    </div>
+
+    <div class="recipe-grid" id="grid"></div>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal-card" id="modal-content"></div>
+    </div>
+
+    <script>
+        const MEALS = [
+  {
+    "id": "chicken_fajitas",
+    "name": "Mild Chicken Fajitas",
+    "category": "Quick (30-40m)",
+    "appliance": "Stovetop",
+    "prep_time": "30 mins",
+    "portions": "4 Portions (2 Dinner + 2 Lunch Leftovers)",
+    "image_url": "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600",
+    "carbs_g": 60,
+    "insulin_units": 12,
+    "calories_kcal": 480,
+    "protein_g": 42,
+    "sat_fat_g": 4,
+    "ingredients": [
+      "600g Chicken breast strips",
+      "3 Mixed bell peppers (sliced)",
+      "1 Large onion (sliced)",
+      "Mild Fajita Seasoning (1 tsp Cumin, 1 tsp Smoked Paprika, 1 tsp Garlic powder, 1/2 tsp Oregano \u2014 No Chili)",
+      "8 Medium Flour tortillas (2 per serving)",
+      "160g Sweetcorn (side dish)",
+      "Light sour cream & grated cheddar cheese"
+    ],
+    "instructions": [
+      "Heat 1 tbsp olive oil in a large skillet over medium-high heat.",
+      "Add chicken strips and sear for 5-6 minutes until browned.",
+      "Add sliced peppers, onion, and mild seasoning mix. Stir fry for 6-8 minutes until tender-crisp.",
+      "Warm tortillas in microwave for 20 seconds.",
+      "Serve 2 tortillas per portion topped with chicken/peppers, light sour cream, cheese, and sweetcorn on the side."
+    ],
+    "notes": "Mild seasoning only (wife friendly). Yields 2 dinner portions + 2 reheatable lunch portions."
+  },
+  {
+    "id": "spaghetti_bolognese",
+    "name": "Spaghetti Bolognese",
+    "category": "Quick (30-40m)",
+    "appliance": "Stovetop",
+    "prep_time": "35 mins",
+    "portions": "4 Portions (2 Dinner + 2 Lunch Leftovers)",
+    "image_url": "https://images.unsplash.com/photo-1621996346565-e3d5d6281292?w=600",
+    "carbs_g": 15,
+    "insulin_units": 3,
+    "calories_kcal": 420,
+    "protein_g": 38,
+    "sat_fat_g": 3,
+    "ingredients": [
+      "500g 5% Lean Beef Mince",
+      "1 Can (400g) Chopped Tomatoes",
+      "2 tbsp Tomato Pur\u00e9e",
+      "1 Onion & 2 cloves Garlic (finely diced)",
+      "1 tsp Italian Herb mix (Oregano, Basil, Thyme)",
+      "300g Carbe Diem Spaghetti (75g dry per serving)",
+      "Fresh Parmesan for topping"
+    ],
+    "instructions": [
+      "Brown beef mince in a pan; drain any excess fat.",
+      "Add diced onion and garlic, cooking for 3 minutes.",
+      "Stir in chopped tomatoes, tomato pur\u00e9e, and Italian herbs. Simmer gently for 20 minutes.",
+      "Boil Carbe Diem spaghetti according to package directions (approx 8-10 mins).",
+      "Serve bolognese over pasta with a sprinkle of fresh parmesan."
+    ],
+    "notes": "Carbe Diem pasta keeps carbs low (~15g carbs = 3 units). Regular whole wheat is 50g carbs = 10 units."
+  },
+  {
+    "id": "tuna_pasta_bake",
+    "name": "Tuna Pasta Bake",
+    "category": "Quick (30-40m)",
+    "appliance": "Oven",
+    "prep_time": "35 mins",
+    "portions": "4 Portions (2 Dinner + 2 Lunch Leftovers)",
+    "image_url": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=600",
+    "carbs_g": 18,
+    "insulin_units": 4,
+    "calories_kcal": 410,
+    "protein_g": 36,
+    "sat_fat_g": 4,
+    "ingredients": [
+      "2 Cans (160g ea) Tuna in spring water (drained)",
+      "300g Carbe Diem Penne pasta (or whole wheat)",
+      "160g Sweetcorn & 160g Peas",
+      "1 Can Condensed Cream of Mushroom/Celery soup (light) or light cheese sauce",
+      "60g Grated reduced-fat Cheddar cheese"
+    ],
+    "instructions": [
+      "Preheat oven to 190\u00b0C (375\u00b0F). Boil pasta until al dente.",
+      "In a large bowl, mix cooked pasta, drained tuna, sweetcorn, peas, and soup/light sauce.",
+      "Transfer to a baking dish and top with grated cheddar cheese.",
+      "Bake for 20 minutes until golden and bubbling."
+    ],
+    "notes": "Wife eats tuna! Great high-protein, comfort meal."
+  },
+  {
+    "id": "smoked_turkey_breast",
+    "name": "Pellet-Smoked Lean Turkey Breast",
+    "category": "Pellet Smoker",
+    "appliance": "Pellet Grill Smoker",
+    "prep_time": "15m prep, 2.5h smoke",
+    "portions": "4 Portions (2 Dinner + 2 Lunch Leftovers)",
+    "image_url": "https://images.unsplash.com/photo-1544025162-d76694265947?w=600",
+    "carbs_g": 12,
+    "insulin_units": 2.5,
+    "calories_kcal": 380,
+    "protein_g": 46,
+    "sat_fat_g": 2.5,
+    "ingredients": [
+      "800g Skinless Turkey Breast roast (boneless)",
+      "1 tbsp Olive oil & Mild Smoked Paprika, Garlic, Onion powder, Black pepper rub",
+      "300g Roasted French Green Beans",
+      "300g Roasted Carrots (tossed in 1 tsp olive oil)",
+      "12 Small New Potatoes (roasted alongside)"
+    ],
+    "instructions": [
+      "Preheat Pellet Smoker to 225\u00b0F (107\u00b0C) using hickory or apple wood pellets.",
+      "Rub turkey breast with olive oil and mild spice rub.",
+      "Smoke turkey for approx 2 to 2.5 hours until internal temperature reaches 165\u00b0F (74\u00b0C).",
+      "Toss green beans, carrots, and new potatoes in olive oil and roast in oven/smoker for last 35 minutes.",
+      "Rest turkey for 10 minutes, slice, and serve with roasted veg and 3 new potatoes per portion."
+    ],
+    "notes": "Incredible smoky flavor, ultra-lean, low saturated fat, 4 large portions!"
+  },
+  {
+    "id": "smoked_bbq_chicken_breast",
+    "name": "Pellet-Smoked Mild BBQ Chicken Breasts",
+    "category": "Pellet Smoker",
+    "appliance": "Pellet Grill Smoker",
+    "prep_time": "10m prep, 1.5h smoke",
+    "portions": "4 Portions (2 Dinner + 2 Lunch Leftovers)",
+    "image_url": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600",
+    "carbs_g": 15,
+    "insulin_units": 3,
+    "calories_kcal": 390,
+    "protein_g": 45,
+    "sat_fat_g": 3,
+    "ingredients": [
+      "4 Large Skinless Chicken Breasts (~700g total)",
+      "1 tbsp Olive oil & Mild Sweet Smoked BBQ Rub (no chili)",
+      "2 tbsp Low-sugar mild BBQ sauce for glaze",
+      "300g Steamed French Green Beans",
+      "160g Sweetcorn side dish"
+    ],
+    "instructions": [
+      "Preheat Pellet Smoker to 225\u00b0F (107\u00b0C) using apple or cherry wood pellets.",
+      "Coat chicken breasts in olive oil and mild BBQ rub.",
+      "Smoke for 1 hour 15 minutes, brush lightly with low-sugar BBQ sauce, and smoke 15 mins more until internal temp reaches 165\u00b0F (74\u00b0C).",
+      "Serve juicy smoked chicken breasts alongside steamed french green beans and sweetcorn."
+    ],
+    "notes": "Juicy smoked chicken breasts with light glaze. Low carb, high protein!"
+  },
+  {
+    "id": "instant_pot_barbacoa",
+    "name": "Instant Pot Mild Beef Barbacoa",
+    "category": "Instant Pot",
+    "appliance": "Instant Pot",
+    "prep_time": "15m prep, 50m pressure cook",
+    "portions": "4 Portions (2 Dinner + 2 Lunch Leftovers)",
+    "image_url": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600",
+    "carbs_g": 35,
+    "insulin_units": 7,
+    "calories_kcal": 440,
+    "protein_g": 42,
+    "sat_fat_g": 4,
+    "ingredients": [
+      "700g Lean Chuck Roast / Braising steak (trimmed, cut into large chunks)",
+      "1/2 Cup Beef Broth",
+      "2 tbsp Lime juice & 2 tbsp Apple cider vinegar",
+      "3 Cloves Garlic (minced), 1 tsp Cumin, 1 tsp Smoked Paprika, 1/2 tsp Oregano (No Chili)",
+      "8 Small Corn or Wholemeal Tortillas (2 per portion)",
+      "Shredded lettuce, diced tomato, light sour cream"
+    ],
+    "instructions": [
+      "Place beef chunks, broth, lime juice, vinegar, garlic, and spices into Instant Pot inner pot.",
+      "Secure lid and pressure cook on HIGH for 50 minutes, followed by 15 minutes natural release.",
+      "Shred beef with two forks in the flavorful juices.",
+      "Serve 2 warmed tortillas per portion loaded with shredded beef, lettuce, tomato, and sour cream."
+    ],
+    "notes": "Melt-in-your-mouth shredded beef! Mild Mexican flavor wife loves."
+  },
+  {
+    "id": "instant_pot_beef_broccoli",
+    "name": "Instant Pot Lean Beef & Broccoli",
+    "category": "Instant Pot",
+    "appliance": "Instant Pot",
+    "prep_time": "15m prep, 15m pressure cook",
+    "portions": "4 Portions (2 Dinner + 2 Lunch Leftovers)",
+    "image_url": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600",
+    "carbs_g": 20,
+    "insulin_units": 4,
+    "calories_kcal": 410,
+    "protein_g": 40,
+    "sat_fat_g": 3,
+    "ingredients": [
+      "600g Lean Sirloin or Flank Steak (sliced thin against grain)",
+      "1/2 Cup Low-sodium Beef broth",
+      "3 tbsp Low-sodium Soy sauce",
+      "1 tbsp Sesame oil, 2 cloves Garlic (minced), 1 tsp Ginger",
+      "1 Large head Broccoli (cut into florets)",
+      "300g Carbe Diem Rice or Basmati rice"
+    ],
+    "instructions": [
+      "Add sliced beef, beef broth, soy sauce, garlic, ginger, and sesame oil to Instant Pot.",
+      "Pressure cook on HIGH for 12 minutes, then quick release.",
+      "Stir in fresh broccoli florets, lock lid, and let steam in residual heat for 5 minutes until tender-crisp.",
+      "Serve over a small portion of Carbe Diem or Basmati rice."
+    ],
+    "notes": "Tender savory beef and broccoli in a mild Chinese-style soy sauce."
+  },
+  {
+    "id": "sausage_bean_casserole",
+    "name": "Slow-Cooker Sausage & Bean Casserole",
+    "category": "Slow Cooker",
+    "appliance": "Crockpot / Slow Cooker",
+    "prep_time": "15m prep, 5h low",
+    "portions": "4 Portions (2 Dinner + 2 Lunch Leftovers)",
+    "image_url": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600",
+    "carbs_g": 30,
+    "insulin_units": 6,
+    "calories_kcal": 410,
+    "protein_g": 34,
+    "sat_fat_g": 3.5,
+    "ingredients": [
+      "8 Lean Chicken or Turkey Sausages (high meat content, low fat)",
+      "1 Can (400g) Cannellini or Haricot beans (drained)",
+      "1 Can (400g) Chopped Tomatoes",
+      "2 Carrots (sliced) & 150g French Green Beans",
+      "1 tsp Thyme & 1 tsp Smoked Paprika"
+    ],
+    "instructions": [
+      "Optionally brown sausages in a pan for 5 minutes, then transfer to slow cooker.",
+      "Add drained beans, chopped tomatoes, sliced carrots, green beans, and herbs.",
+      "Cover and cook on LOW for 5-6 hours.",
+      "Serve hot. Extremely comforting and easy to portion count!"
+    ],
+    "notes": "Using lean turkey/chicken sausages keeps saturated fat minimal for heart health."
+  },
+  {
+    "id": "beef_veg_stew",
+    "name": "Slow-Cooker Beef & Veg Stew",
+    "category": "Slow Cooker",
+    "appliance": "Crockpot / Slow Cooker",
+    "prep_time": "15m prep, 6h low",
+    "portions": "4 Portions (2 Dinner + 2 Lunch Leftovers)",
+    "image_url": "https://images.unsplash.com/photo-1534939561126-855b8675edd7?w=600",
+    "carbs_g": 45,
+    "insulin_units": 9,
+    "calories_kcal": 440,
+    "protein_g": 40,
+    "sat_fat_g": 3.5,
+    "ingredients": [
+      "600g Lean Braising Steak / Chuck (trimmed of fat, cubed)",
+      "3 Carrots (thickly sliced) & 150g Peas",
+      "4 Medium Potatoes (cubed)",
+      "500ml Beef stock (low sodium)",
+      "1 tbsp Worcestershire sauce & 1 tsp Thyme",
+      "4 Slices Sourdough bread (1 per portion for dipping)"
+    ],
+    "instructions": [
+      "Place cubed beef, carrots, potatoes, and seasoning into slow cooker.",
+      "Pour beef stock and Worcestershire sauce over top.",
+      "Cook on LOW for 6-7 hours until beef is melt-in-your-mouth tender.",
+      "Stir in peas during the last 15 minutes.",
+      "Serve hot with 1 slice of sourdough bread."
+    ],
+    "notes": "Dump-and-forget prep. Sourdough dipping bread counted in dosing."
+  },
+  {
+    "id": "slow_cooker_creamy_chicken",
+    "name": "Slow-Cooker Garlic & Herb Chicken Casserole",
+    "category": "Slow Cooker",
+    "appliance": "Crockpot / Slow Cooker",
+    "prep_time": "15m prep, 5h low",
+    "portions": "4 Portions (2 Dinner + 2 Lunch Leftovers)",
+    "image_url": "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=600",
+    "carbs_g": 25,
+    "insulin_units": 5,
+    "calories_kcal": 420,
+    "protein_g": 44,
+    "sat_fat_g": 3.5,
+    "ingredients": [
+      "600g Skinless Chicken Breasts",
+      "200ml Low-sodium Chicken stock",
+      "100g Light cream cheese / Creme fraiche",
+      "3 Carrots (sliced) & 200g French Green Beans",
+      "2 cloves Garlic (minced) & 1 tsp Thyme",
+      "12 Small New Potatoes (steamed on side)"
+    ],
+    "instructions": [
+      "Place chicken breasts, carrots, green beans, garlic, stock, and thyme into slow cooker.",
+      "Cook on LOW for 5 hours until chicken is tender.",
+      "Stir in light cream cheese during the last 20 minutes to create a silky mild herb sauce.",
+      "Serve hot with 3 steamed new potatoes per portion."
+    ],
+    "notes": "Mild, rich, and comforting. Wife loves green beans and carrots in this dish."
+  },
+  {
+    "id": "jacket_potato_tuna",
+    "name": "Jacket Potato with Tuna & Cheese",
+    "category": "Quick (30-40m)",
+    "appliance": "Oven",
+    "prep_time": "45m bake (or 10m microwave + oven crisp)",
+    "portions": "2 Portions",
+    "image_url": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600",
+    "carbs_g": 35,
+    "insulin_units": 7,
+    "calories_kcal": 420,
+    "protein_g": 35,
+    "sat_fat_g": 4,
+    "ingredients": [
+      "2 Medium Baking Potatoes (~180g ea)",
+      "1 Can (160g) Tuna in spring water (drained)",
+      "80g Sweetcorn (drained)",
+      "2 tbsp Light Mayonnaise",
+      "40g Reduced-fat Cheddar cheese (grated)",
+      "Side Salad (Lettuce, Cucumber, Balsamic dressing)"
+    ],
+    "instructions": [
+      "Microwave potatoes for 8 minutes, then rub skin with 1/2 tsp olive oil and bake at 200\u00b0C (400\u00b0F) for 15 minutes to crisp skin.",
+      "Mix drained tuna, sweetcorn, and light mayo in a bowl.",
+      "Cut open potatoes, fill with tuna sweetcorn mix, and top with grated cheese.",
+      "Serve with a crisp side salad."
+    ],
+    "notes": "Classic, foolproof, and extremely simple to count carbs."
+  },
+  {
+    "id": "lean_cottage_pie",
+    "name": "Lean Beef Cottage Pie",
+    "category": "Quick (30-40m)",
+    "appliance": "Oven",
+    "prep_time": "40 mins",
+    "portions": "4 Portions (2 Dinner + 2 Lunch Leftovers)",
+    "image_url": "https://images.unsplash.com/photo-1584947897850-c8375631481b?w=600",
+    "carbs_g": 35,
+    "insulin_units": 7,
+    "calories_kcal": 430,
+    "protein_g": 38,
+    "sat_fat_g": 3.5,
+    "ingredients": [
+      "500g 5% Lean Beef Mince",
+      "2 Carrots & 150g Peas & 150g French Green Beans",
+      "1 tbsp Tomato Pur\u00e9e & 1 tbsp Worcestershire sauce",
+      "300ml Beef stock",
+      "500g Mashed potatoes (made with skimmed milk and 1 tsp olive oil spread)"
+    ],
+    "instructions": [
+      "Brown beef mince in pan, add carrots, peas, green beans, tomato pur\u00e9e, Worcestershire sauce, and stock. Simmer for 15 mins.",
+      "Transfer beef filling into a oven dish.",
+      "Top evenly with mashed potato and fluff with a fork.",
+      "Bake at 200\u00b0C (400\u00b0F) for 20 minutes until potato top is golden brown."
+    ],
+    "notes": "Traditional comfort dinner! Easy portion control on the mash topping."
+  }
+];
+
+        const grid = document.getElementById('grid');
+        const searchInput = document.getElementById('search');
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+
+        let currentFilter = 'all';
+
+        function getStoredFeedback(id) {
+            try {
+                const ratings = JSON.parse(localStorage.getItem('diabetic_meal_ratings') || '{}');
+                return ratings[id] || null;
+            } catch(e) { return null; }
+        }
+
+        function rateMeal(id) {
+            const m = MEALS.find(x => x.id === id);
+            if (!m) return;
+
+            const starsInput = prompt(`Rate ${m.name} (1 to 5 stars):
+5 = ⭐⭐⭐⭐⭐ Make again anytime!
+4 = ★★★★☆ Good
+3 = ★★★☆☆ Fine
+2 = ★★☆☆☆ Once is enough
+1 = ★☆☆☆☆ Never again`, "5");
+            if (starsInput === null) return;
+            const stars = parseInt(starsInput, 10);
+            if (isNaN(stars) || stars < 1 || stars > 5) {
+                alert("Please enter a valid rating between 1 and 5!");
+                return;
+            }
+
+            const note = prompt(`Enter feedback/notes for ${m.name} (e.g. "Wife loved it, great leftovers"):`, "");
+
+            try {
+                const ratings = JSON.parse(localStorage.getItem('diabetic_meal_ratings') || '{}');
+                ratings[id] = {
+                    stars: stars,
+                    note: note || '',
+                    date: new Date().toISOString()
+                };
+                localStorage.setItem('diabetic_meal_ratings', JSON.stringify(ratings));
+                alert(`Logged ${stars} Stars for ${m.name}! The AI will use this feedback to suggest matching recipes.`);
+                renderMeals();
+            } catch(e) { alert("Error saving rating: " + e); }
+        }
+
+        function renderMeals() {
+            grid.innerHTML = '';
+            const q = searchInput.value.toLowerCase();
+
+            const filtered = MEALS.filter(m => {
+                const matchesCat = currentFilter === 'all' || m.category === currentFilter;
+                const matchesSearch = !q || 
+                    m.name.toLowerCase().includes(q) ||
+                    m.appliance.toLowerCase().includes(q) ||
+                    m.ingredients.some(i => i.toLowerCase().includes(q));
+                return matchesCat && matchesSearch;
+            });
+
+            filtered.forEach(m => {
+                const fb = getStoredFeedback(m.id);
+                let ratingHTML = '';
+                if (fb) {
+                    const starStr = '★'.repeat(fb.stars) + '☆'.repeat(5 - fb.stars);
+                    ratingHTML = `<div class="rating-badge">${starStr} (${fb.stars}/5) ${fb.note ? '• ' + fb.note : ''}</div>`;
+                } else {
+                    ratingHTML = `<div class="rating-badge" style="background: rgba(255,255,255,0.05); color: var(--text-secondary); border-color: rgba(255,255,255,0.1);">Not Yet Rated</div>`;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'recipe-card';
+                card.innerHTML = `
+                    <div class="card-img-wrap">
+                        <img src="${m.image_url}" alt="${m.name}" onerror="this.src='https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=500'">
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div class="card-header">
+                                <div class="meal-title">${m.name}</div>
+                                <span class="badge-category">${m.category}</span>
+                            </div>
+                            ${ratingHTML}
+                            <div class="card-meta" style="margin-top: 10px;">
+                                ⚙️ <strong>${m.appliance}</strong> • ⏱️ ${m.prep_time}
+                            </div>
+                            <div class="dose-box">
+                                <div class="dose-item">
+                                    <div class="val">${m.carbs_g}g</div>
+                                    <div class="lbl">Total Carbs</div>
+                                </div>
+                                <div class="dose-item">
+                                    <div class="val">${m.insulin_units}u</div>
+                                    <div class="lbl">Insulin (÷5)</div>
+                                </div>
+                                <div class="dose-item">
+                                    <div class="val">${m.calories_kcal}</div>
+                                    <div class="lbl">Calories</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px;">
+                                ${m.notes}
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-action" onclick="rateMeal('${m.id}')" style="border-color: var(--accent-gold); color: var(--accent-gold-bright);">⭐ Rate & Feedback</button>
+                            <button class="btn-action" onclick="openRecipeModal('${m.id}')">📖 Recipe & Print</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openRecipeModal(id) {
+            const m = MEALS.find(x => x.id === id);
+            if (!m) return;
+
+            const fb = getStoredFeedback(m.id);
+            let ratingHTML = fb ? `⭐ Rating: ${'★'.repeat(fb.stars)} (${fb.stars}/5) - ${fb.note}` : 'Not yet rated';
+
+            modalContent.innerHTML = `
+                <button class="close-btn no-print" onclick="closeModal()">&times;</button>
+                <img src="${m.image_url}" class="modal-img-banner" alt="${m.name}">
+                <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 6px; color: #fff;">${m.name}</h2>
+                <div style="color: var(--text-secondary); margin-bottom: 18px; font-size: 14px;">
+                    Category: <strong>${m.category}</strong> | Appliance: <strong>${m.appliance}</strong> | Portions: <strong>${m.portions}</strong><br>
+                    <span style="color: var(--accent-gold-bright); font-weight: 600;">${ratingHTML}</span>
+                </div>
+
+                <div class="dose-box" style="margin-bottom: 25px;">
+                    <div class="dose-item"><div class="val">${m.carbs_g}g</div><div class="lbl">Total Carbs</div></div>
+                    <div class="dose-item"><div class="val">${m.insulin_units}u</div><div class="lbl">Insulin Dose (÷5)</div></div>
+                    <div class="dose-item"><div class="val">${m.calories_kcal}</div><div class="lbl">Calories (kcal)</div></div>
+                    <div class="dose-item"><div class="val">${m.protein_g}g</div><div class="lbl">Protein</div></div>
+                    <div class="dose-item"><div class="val">${m.sat_fat_g}g</div><div class="lbl">Sat. Fat</div></div>
+                </div>
+
+                <h3 style="font-size: 18px; font-weight: 700; color: var(--accent-gold-bright); margin-bottom: 10px;">🛒 Ingredients</h3>
+                <ul style="margin-left: 20px; margin-bottom: 22px; color: #e2e8f0; line-height: 1.7;">
+                    ${m.ingredients.map(i => `<li>${i}</li>`).join('')}
+                </ul>
+
+                <h3 style="font-size: 18px; font-weight: 700; color: var(--accent-gold-bright); margin-bottom: 10px;">🍳 Step-by-Step Instructions</h3>
+                <ol style="margin-left: 20px; margin-bottom: 25px; color: #e2e8f0; line-height: 1.7;">
+                    ${m.instructions.map(step => `<li>${step}</li>`).join('')}
+                </ol>
+
+                <div class="no-print" style="display: flex; justify-content: flex-end; gap: 12px;">
+                    <button class="btn-action" onclick="rateMeal('${m.id}')" style="background: rgba(255,215,0,0.2); color: var(--accent-gold-bright); border-color: var(--accent-gold);">⭐ Rate & Feedback</button>
+                    <button class="btn-action" onclick="window.print()" style="background: var(--accent-gold); color: #000; font-weight: 700; padding: 12px 24px;">🖨️ Print Recipe Card / Save PDF</button>
+                </div>
+            `;
+            modal.classList.add('open');
+        }
+
+        function closeModal() { modal.classList.remove('open'); }
+
+        searchInput.addEventListener('input', renderMeals);
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.getAttribute('data-filter');
+                renderMeals();
+            });
+        });
+
+        renderMeals();
+    </script>
+</body>
+</html>

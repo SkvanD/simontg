@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simon's Command Portal</title>
+  <meta name="description" content="Central Hub for KARDS Deck Command Center, Diabetic Meal Planner, and Engineering Projects.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --bg-card: rgba(23, 31, 48, 0.7);
+      --bg-card-hover: rgba(33, 44, 69, 0.9);
+      --border-card: rgba(255, 255, 255, 0.1);
+      --border-accent: rgba(212, 160, 23, 0.4);
+      --text-main: #f0f4f8;
+      --text-secondary: #94a3b8;
+      --accent-gold: #d4a017;
+      --accent-gold-bright: #ffc83b;
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-purple: #a855f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(212, 160, 23, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.08) 0%, transparent 40%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+      max-width: 800px;
+    }
+
+    .portal-badge {
+      display: inline-block;
+      background: rgba(212, 160, 23, 0.15);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold-bright);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 42px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, var(--accent-gold-bright) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    p.subtitle {
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 32px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, transparent);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-6px);
+      border-color: var(--border-accent);
+      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-kards:hover::before {
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-bright));
+    }
+
+    .card-meals:hover::before {
+      background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan));
+    }
+
+    .card-future:hover::before {
+      background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+    }
+
+    .card-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .card-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+      flex-grow: 1;
+      margin-bottom: 24px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .card-kards .card-footer { color: var(--accent-gold-bright); }
+    .card-meals .card-footer { color: var(--accent-emerald); }
+    .card-future .card-footer { color: var(--accent-purple); }
+
+    .arrow-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .arrow-icon {
+      transform: translateX(6px);
+    }
+
+    footer {
+      margin-top: auto;
+      padding-top: 60px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 32px; }
+      .grid-container { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="portal-badge">SIMONTG HUB</div>
+    <h1>Simon's Command Portal</h1>
+    <p class="subtitle">Central web interface for live KARDS deck engineering, diabetic meal planning, and multi-topic tools.</p>
+  </header>
+
+  <main class="grid-container">
+    <!-- KARDS Command Center -->
+    <a href="kards/" class="card card-kards" ontouchstart="this.focus()">
+      <div class="card-icon">🃏</div>
+      <div class="card-title">KARDS Command Center</div>
+      <div class="card-desc">
+        Explore 56 optimal deck recipes, F1 win-rate scores, Minimax battle standings, and real-time live server synchronization.
+      </div>
+      <div class="card-footer">
+        <span>Launch Dashboard</span>
+        <span class="arrow-icon">→</span>
+      </div>
+    </a>
+
+    <!-- Diabetic Meals & Booklet -->
+    <a href="diabetic-meals/" class="card card-meals" ontouchstart="this.focus()">
+      <div class="card-icon">🥗</div>
+      <div class="card-title">Diabetic Meal Planner</div>
+      <div class="card-desc">
+        The Goodwin Family low-GI recipe collection, weekly macro tracker, net carb calculators, and printable booklet hub.
+      </div>
+      <div class="card-footer">
+        <span>View Meal Planner</span>
+        <span class="arrow-icon">→</span>
+      </div>
+    </a>
+
+    <!-- Future Projects Hub -->
+    <div class="card card-future" style="opacity: 0.8; cursor: default;">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Engineering & Hobby Hub</div>
+      <div class="card-desc">
+        Upcoming modules for Woodworking Imperial/Metric Cut Lists, Bambu 3D Printing Slicer Profiles, and Camping Checklists.
+      </div>
+      <div class="card-footer">
+        <span>Expansion Slot</span>
+        <span>🔒</span>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 Simon Goodwin | Deployed via GitHub Pages &bull; simontg.github.io
+  </footer>
+
+</body>
+</html>

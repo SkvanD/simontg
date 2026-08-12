@@ -1566,101 +1566,87 @@ Excellent performance across ${count} games!`);
         }
 
         function openDeckModal(deck) {
-            let deckLogs = (JSON.parse(localStorage.getItem('kards_match_logs') || '[]')).filter(m => m.deck === deck.name);
-            let wins = deckLogs.filter(m => m.result === 'WIN').length + (deck.wins || 0);
-            let losses = deckLogs.filter(m => m.result === 'LOSS').length + (deck.losses || 0);
+            let allLogs = [];
+            try { allLogs = JSON.parse(localStorage.getItem('kards_match_logs') || '[]'); } catch(e){}
+            if (allLogs.length === 0 && RAW_DATA.match_logs && RAW_DATA.match_logs.length > 0) allLogs = RAW_DATA.match_logs;
+            let deckLogs = allLogs.filter(m => (m.deck || '').toLowerCase() === deck.name.toLowerCase());
+            let wins = deckLogs.filter(m => m.result === 'WIN').length;
+            let losses = deckLogs.filter(m => m.result === 'LOSS').length;
             let totalMatches = wins + losses;
-            let winRate = totalMatches > 0 ? Math.round((wins / totalMatches) * 100) : (deck.expected_win_rate ? Math.round(deck.expected_win_rate) : Math.min(deck.rating || 50, 95));
 
-            // Calculate Unit Type Summary & Check Synergy Warnings
-            let airUnitCount = 0;
-            let hasFlightToOblivion = false;
-            (deck.cards || []).forEach(c => {
-                const t = (c.type || '').toLowerCase();
-                if (t === 'fighter' || t === 'bomber' || t === 'air') airUnitCount += ((c.qty_owned !== undefined ? c.qty_owned : (c.qty || 0)) || 1);
-                if ((c.name || '').toUpperCase() === 'FLIGHT TO OBLIVION') hasFlightToOblivion = true;
-            });
-
-            let warningBannerHTML = '';
-            if (hasFlightToOblivion && airUnitCount < 4) {
-                warningBannerHTML = `
-                    <div style="background: rgba(248,81,73,0.15); border: 1px solid var(--accent-red); border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; color: #ff7b72; font-size: 13.5px; line-height: 1.5;">
-                        <strong>⚠️ SYNERGY WARNING:</strong> This deck contains <strong>FLIGHT TO OBLIVION</strong> but currently has only <strong>${airUnitCount} Air units</strong> (Fighter / Bomber)! Flight to Oblivion will fail to deal damage without high-attack Air units in deck.
-                    </div>
-                `;
-            }
-
-            const typeBadgeClass = (t) => {
-                const typeLow = (t || '').toLowerCase();
-                if (typeLow === 'infantry') return 'background: rgba(46,160,67,0.2); color: #3fb950; border: 1px solid rgba(46,160,67,0.4);';
-                if (typeLow === 'tank') return 'background: rgba(212,175,55,0.2); color: var(--accent-gold-bright); border: 1px solid rgba(212,175,55,0.4);';
-                if (typeLow === 'artillery') return 'background: rgba(163,113,247,0.2); color: #d2a8ff; border: 1px solid rgba(163,113,247,0.4);';
-                if (typeLow === 'fighter' || typeLow === 'bomber') return 'background: rgba(56,139,253,0.25); color: #58a6ff; border: 1px solid rgba(56,139,253,0.5); font-weight: 700;';
-                if (typeLow === 'order') return 'background: rgba(255,255,255,0.08); color: var(--text-secondary); border: 1px solid var(--border-color);';
-                return 'background: rgba(255,255,255,0.1); color: #fff;';
+            const typeBadgeStyle = (t) => {
+                const tl = (t || '').toLowerCase();
+                if (tl === 'infantry') return 'background:rgba(46,160,67,0.2);color:#3fb950;border:1px solid rgba(46,160,67,0.4);';
+                if (tl === 'tank') return 'background:rgba(212,175,55,0.2);color:var(--accent-gold-bright);border:1px solid rgba(212,175,55,0.4);';
+                if (tl === 'artillery') return 'background:rgba(163,113,247,0.2);color:#d2a8ff;border:1px solid rgba(163,113,247,0.4);';
+                if (tl === 'fighter' || tl === 'bomber') return 'background:rgba(56,139,253,0.25);color:#58a6ff;border:1px solid rgba(56,139,253,0.5);font-weight:700;';
+                if (tl === 'order' || tl === 'countermeasure') return 'background:rgba(255,255,255,0.08);color:var(--text-secondary);border:1px solid var(--border-color);';
+                return 'background:rgba(255,255,255,0.1);color:#fff;';
             };
 
-                        let cardsRows = deck.cards.map(c => {
-                const typeLow = (c.type || '').toLowerCase();
-                const isOrderOrCM = typeLow === 'order' || typeLow === 'countermeasure';
-                const uCostDisplay = isOrderOrCM ? '-' : (c.opCost !== undefined && c.opCost !== null && c.opCost !== '-' ? c.opCost : '1K');
-                return `
-                <tr>
-                    <td style="font-weight: 700; color: var(--accent-gold);">${c.qty || 1}x</td>
-                    <td style="cursor: pointer; text-decoration: underline;" onclick="openCardDossierByName('${c.name.replace(/'/g, "'")}')">${c.name}</td>
-                    <td style="font-weight: 700; color: var(--accent-gold-bright);">${c.kredit !== undefined && c.kredit !== null ? c.kredit + 'K' : '-'}</td>
-                    <td style="font-weight: 700; color: #4cc9f0;">${uCostDisplay}</td>
-                    <td><span class="nation-badge" style="${typeBadgeClass(c.type)} font-size: 11px; padding: 2px 8px; text-transform: uppercase;">${c.type || 'Unit'}</span></td>
-                    <td class="rarity-${(c.rarity || 'standard').toLowerCase()}">${c.rarity || 'Standard'}</td>
-                </tr>
-                `;
+            const sortedCards = [...(deck.cards || [])].sort((a, b) => {
+                const ka = a.kredits || 0, kb = b.kredits || 0;
+                if (ka !== kb) return ka - kb;
+                return (a.title || a.name || '').localeCompare(b.title || b.name || '');
+            });
+
+            let cardsRows = sortedCards.map(c => {
+                const name = c.title || c.name || c.cardId || '?';
+                const tl = (c.type || '').toLowerCase();
+                const isUnit = tl !== 'order' && tl !== 'countermeasure';
+                const statsDisplay = isUnit && (c.attack !== null && c.attack !== undefined)
+                    ? `${c.attack}/${c.defense}`
+                    : '-';
+                const safeEsc = name.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+                return `<tr>
+                    <td style="font-weight:700;color:var(--accent-gold);text-align:center;">${c.qty || 1}x</td>
+                    <td style="font-weight:600;">${name}</td>
+                    <td style="font-weight:700;color:var(--accent-gold-bright);text-align:center;">${c.kredits !== null && c.kredits !== undefined ? c.kredits + 'K' : '-'}</td>
+                    <td style="text-align:center;color:var(--text-secondary);">${statsDisplay}</td>
+                    <td><span class="nation-badge" style="${typeBadgeStyle(c.type)}font-size:11px;padding:2px 8px;text-transform:uppercase;">${c.type || 'unit'}</span></td>
+                    <td class="rarity-${(c.rarity||'standard').toLowerCase()}">${c.rarity||'Standard'}</td>
+                </tr>`;
             }).join('');
 
+            const winRateHTML = totalMatches > 0
+                ? `<div class="rating-pill" style="font-size:14px;background:rgba(46,160,67,0.2);color:#56d364;border:1px solid var(--accent-green);font-weight:700;">🎯 ${wins}W-${losses}L (${Math.round((wins/totalMatches)*100)}%)</div>`
+                : `<div class="rating-pill" style="font-size:14px;background:rgba(255,255,255,0.05);color:var(--text-secondary);border:1px solid var(--border-color);">No matches yet</div>`;
+
             modalBody.innerHTML = `
-                <div style="margin-bottom: 20px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                        <h2 style="font-family: 'Outfit'; font-size: 24px; font-weight: 700;">${deck.name}</h2>
-                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                            ${(deck.name.toLowerCase().includes("weather") || (deck.cards && deck.cards.some(c => c.name.toLowerCase().includes("weather") || c.name.toLowerCase().includes("overcast")))) ? `<button class="copy-btn" onclick="openWeatherGuideModal()" style="background: linear-gradient(135deg, rgba(212,175,55,0.35), rgba(56,139,253,0.35)); color: var(--accent-gold-bright); border: 1px solid var(--accent-gold); font-weight: 700; padding: 5px 12px; font-size: 12.5px; margin-right: 4px; cursor: pointer;">🌤️ Weather Guide</button>` : ""}
-                            <div class="rating-pill" style="background: linear-gradient(135deg, rgba(46,160,67,0.3), rgba(212,175,55,0.4)); border-color: var(--accent-gold); font-size: 14px; font-weight: 700;" title="Expected PvP Win Rate based on F1 Deck Engine">🎯 ${deck.expected_win_rate || Math.min(deck.rating || 50, 95)}% Target Win Rate</div>
-                            <div class="rating-pill" style="font-size: 14px; background: rgba(76, 201, 240, 0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); font-weight: 700;">
-                                📊 ${wins}W - ${losses}L ${totalMatches > 0 ? '(' + Math.round((wins / totalMatches) * 100) + '% Actual Win Rate)' : '(0 Matches)'}
-                            </div>
+                <div style="margin-bottom:20px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+                        <h2 style="font-family:'Outfit';font-size:24px;font-weight:700;">${deck.name}</h2>
+                        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                            ${winRateHTML}
                         </div>
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 14px; color: var(--text-secondary); flex-wrap: wrap; gap: 8px;">
-                        <div>Main: <strong style="color: #fff;">${deck.main_nation}</strong> | Ally: <strong style="color: #fff;">${deck.ally_nation}</strong></div>
-                        <div style="display: flex; gap: 6px; align-items: center;">
-                            <button class="copy-btn" onclick="clearPitStopAlert(event, '${deck.name.replace(/'/g, "\'")}')" style="background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.25); padding: 3px 8px; font-size: 11px; font-weight: 700; margin-right: 6px;">Clear Pit-Stop</button>
-                            <span style="font-size: 12px; color: var(--text-secondary); margin-right: 4px;">Quick Log:</span>
-                            <button class="copy-btn" onclick="logMatchResult(event, '${deck.name}', 'WIN')" style="background: rgba(46, 196, 182, 0.2); color: #2ec4b6; border-color: #2ec4b6; padding: 3px 8px; font-size: 11px; font-weight: 700;">+ WIN</button>
-                            <button class="copy-btn" onclick="logMatchResult(event, '${deck.name}', 'LOSS')" style="background: rgba(231, 76, 60, 0.2); color: #e74c3c; border-color: #e74c3c; padding: 3px 8px; font-size: 11px; font-weight: 700;">+ LOSS</button>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:14px;color:var(--text-secondary);flex-wrap:wrap;gap:8px;">
+                        <div>Main: <strong style="color:#fff;">${deck.main_nation}</strong> | Ally: <strong style="color:#fff;">${deck.ally_nation}</strong></div>
+                        <div style="display:flex;gap:6px;align-items:center;">
+                            <span style="font-size:12px;color:var(--text-secondary);margin-right:4px;">Quick Log:</span>
+                            <button class="copy-btn" onclick="logMatchResult(event,'${deck.name.replace(/'/g,"\'")}','WIN')" style="background:rgba(46,196,182,0.2);color:#2ec4b6;border-color:#2ec4b6;padding:3px 8px;font-size:11px;font-weight:700;">+ WIN</button>
+                            <button class="copy-btn" onclick="logMatchResult(event,'${deck.name.replace(/'/g,"\'")}','LOSS')" style="background:rgba(231,76,60,0.2);color:#e74c3c;border-color:#e74c3c;padding:3px 8px;font-size:11px;font-weight:700;">+ LOSS</button>
                         </div>
                     </div>
-                    <p style="margin-top: 14px; line-height: 1.6; color: var(--text-secondary); font-style: italic;">${deck.blurb || 'Deck optimized for peak F1 synergy, curve control, and battle performance.'}</p>
+                    ${deck.blurb ? `<p style="margin-top:14px;line-height:1.6;color:var(--text-secondary);">${deck.blurb}</p>` : ''}
                 </div>
-                ${warningBannerHTML}
                 ${deck.deck_code ? `
-                    <div style="background: rgba(0,0,0,0.4); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                        <code style="font-family: monospace; color: var(--accent-gold-bright); font-size: 13px;">${deck.deck_code}</code>
-                        <button class="copy-btn" onclick="copyCode(event, '${deck.deck_code}')">Copy Deck Code</button>
+                    <div style="background:rgba(0,0,0,0.4);padding:10px 16px;border-radius:8px;border:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                        <code style="font-family:monospace;color:var(--accent-gold-bright);font-size:12px;word-break:break-all;">${deck.deck_code}</code>
+                        <button class="copy-btn" onclick="copyCode(event,'${deck.deck_code}')" style="margin-left:12px;flex-shrink:0;">Copy Code</button>
                     </div>
                 ` : ''}
-                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Deck Composition (${deck.cards ? deck.cards.reduce((a,b)=>a+(b.qty||1),0) : 39} Cards)</h3>
+                <h3 style="font-size:16px;font-weight:600;margin-bottom:12px;">Cards (${sortedCards.reduce((a,c)=>a+(c.qty||1),0)} / 39)</h3>
                 <table class="card-list-table">
-                    <thead>
-                        <tr>
-                            <th>Qty</th>
-                            <th>Card Name</th>
-                            <th>K Cost (Deploy)</th>
-                            <th>U Cost (Operate)</th>
-                            <th>Type</th>
-                            <th>Rarity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${cardsRows}
-                    </tbody>
+                    <thead><tr>
+                        <th style="text-align:center;">Qty</th>
+                        <th>Card Name</th>
+                        <th style="text-align:center;">Cost</th>
+                        <th style="text-align:center;">Atk/Def</th>
+                        <th>Type</th>
+                        <th>Rarity</th>
+                    </tr></thead>
+                    <tbody>${cardsRows}</tbody>
                 </table>
             `;
             modalOverlay.classList.add('open');

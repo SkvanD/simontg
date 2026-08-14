@@ -50,15 +50,126 @@
 
 <h1>Compact Cedar Dog Kennel Storage House Plan</h1>
 
-<div style="display:flex; gap:16px; flex-wrap:wrap; margin:24px 0;">
-  <div style="flex:1; min-width:240px; text-align:center;">
-    <img src="cedar_kennel_caddy_diagram.jpg" alt="Assembly diagram — door open showing interior shelves and hook" style="max-width:100%; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-    <p style="font-size:12px; color:#666; margin-top:6px;"><em>Assembly diagram (door open)</em></p>
-  </div>
-  <div style="flex:1; min-width:240px; text-align:center;">
-    <img src="cedar_kennel_caddy_render.jpg" alt="3D render of finished caddy on fence" style="max-width:100%; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-    <p style="font-size:12px; color:#666; margin-top:6px;"><em>Finished caddy render</em></p>
-  </div>
+<!-- TECHNICAL DRAWING -->
+<div style="margin:28px 0; background:#f8f6f2; border:1px solid #ddd; border-radius:8px; padding:16px; overflow-x:auto;">
+<svg width="580" height="460" viewBox="0 0 580 460" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif" style="display:block; max-width:100%;">
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <polygon points="0,0 7,3.5 0,7" fill="#555"/>
+    </marker>
+    <marker id="arrl" markerWidth="7" markerHeight="7" refX="1" refY="3.5" orient="auto">
+      <polygon points="7,0 0,3.5 7,7" fill="#555"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="580" height="460" fill="#f8f6f2"/>
+
+  <!-- Title -->
+  <text x="198" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c3a21">Cedar Kennel Caddy — Front Elevation (Door Open)</text>
+  <text x="198" y="38" text-anchor="middle" font-size="10" fill="#999">3/4" cedar throughout  |  all dims in inches</text>
+
+  <!-- ── STRUCTURE (scale: 1" = 32px) ── -->
+  <!-- Roof left overhang line from x=46 to peak at x=198, y=58 -->
+  <!-- Wall top y=186, wall bot y=410, wall thick=24px -->
+  <!-- Roof overhang 3/4"=24px each side: left edge x=46, right edge x=350 -->
+
+  <!-- Left roof panel (shaded lighter) -->
+  <polygon points="46,186 198,58 222,58 198,58 46,186" fill="none"/>
+  <polygon points="46,186 198,58 222,186" fill="#d4aa77" stroke="#7a4f1f" stroke-width="1.5"/>
+  <!-- Right roof panel (slightly darker to show ridge) -->
+  <polygon points="350,186 198,58 222,186" fill="#b8905a" stroke="#7a4f1f" stroke-width="1.5"/>
+  <!-- Left outer wall -->
+  <rect x="70" y="186" width="24" height="224" fill="#c8a06a" stroke="#7a4f1f" stroke-width="1.5"/>
+  <!-- Right outer wall -->
+  <rect x="302" y="186" width="24" height="224" fill="#c8a06a" stroke="#7a4f1f" stroke-width="1.5"/>
+  <!-- Bottom base (Part C) — full width, fixed -->
+  <rect x="70" y="386" width="256" height="24" fill="#c8a06a" stroke="#7a4f1f" stroke-width="1.5"/>
+  <!-- Bottom retaining lip (Part E) — front face strip -->
+  <rect x="70" y="362" width="256" height="24" fill="#b8905a" stroke="#7a4f1f" stroke-width="1.5"/>
+  <!-- Middle shelf (Part D) — 3.5" above base top -->
+  <rect x="70" y="250" width="256" height="24" fill="#c8a06a" stroke="#7a4f1f" stroke-width="1.5"/>
+  <!-- Middle shelf lip (Part E) -->
+  <rect x="70" y="226" width="256" height="24" fill="#b8905a" stroke="#7a4f1f" stroke-width="1.5"/>
+
+  <!-- ── BAG HOOK on right inner wall (x=302), between shelf top (y=226) and wall top (y=186) ── -->
+  <!-- Hook: small J shape at x=302, y=207 -->
+  <line x1="290" y1="204" x2="302" y2="204" stroke="#7a4f1f" stroke-width="2.5"/>
+  <path d="M290,204 Q284,204 284,211 Q284,218 290,218" fill="none" stroke="#7a4f1f" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Hook plate/screw indicator -->
+  <rect x="302" y="200" width="4" height="16" fill="#8b7355" stroke="#5a3a1f" stroke-width="1"/>
+
+  <!-- ── HINGES on left wall ── -->
+  <rect x="66" y="210" width="8" height="14" rx="2" fill="#aaa" stroke="#666" stroke-width="1"/>
+  <rect x="66" y="370" width="8" height="14" rx="2" fill="#aaa" stroke="#666" stroke-width="1"/>
+
+  <!-- ── MAGNETIC CATCH — right wall top ── -->
+  <rect x="326" y="194" width="8" height="10" rx="1" fill="#ccc" stroke="#888" stroke-width="1"/>
+
+  <!-- ── FENCE CLEAT indicators (back, shown as dashed lines at top and bottom of back panel) ── -->
+  <line x1="70" y1="198" x2="326" y2="198" stroke="#7a4f1f" stroke-width="1" stroke-dasharray="5,3"/>
+  <line x1="70" y1="398" x2="326" y2="398" stroke="#7a4f1f" stroke-width="1" stroke-dasharray="5,3"/>
+
+  <!-- ── DIMENSION LINES ── -->
+  <!-- Overall width: 8" -->
+  <line x1="70" y1="445" x2="326" y2="445" stroke="#2980b9" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+  <text x="198" y="455" text-anchor="middle" font-size="10" fill="#2980b9">8"</text>
+  <!-- Wall height: 7" -->
+  <line x1="42" y1="186" x2="42" y2="410" stroke="#2980b9" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+  <text x="36" y="302" text-anchor="middle" font-size="10" fill="#2980b9" transform="rotate(-90 36 302)">7"</text>
+  <!-- Shelf height from base: 3-1/2" -->
+  <line x1="54" y1="250" x2="54" y2="386" stroke="#2980b9" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+  <text x="48" y="324" text-anchor="middle" font-size="10" fill="#2980b9" transform="rotate(-90 48 324)">3½"</text>
+
+  <!-- ── LABELS (right side) ── -->
+  <!-- Roof -->
+  <line x1="290" y1="100" x2="360" y2="85" stroke="#555" stroke-width="1"/>
+  <text x="363" y="83" font-size="11" fill="#333">Roof — 45° gable</text>
+  <text x="363" y="96" font-size="10" fill="#666">(Parts F &amp; G)</text>
+
+  <!-- Right wall -->
+  <line x1="326" y1="290" x2="360" y2="290" stroke="#555" stroke-width="1"/>
+  <text x="363" y="294" font-size="11" fill="#333">Side wall (Part B)</text>
+  <text x="363" y="307" font-size="10" fill="#666">4-3/4" × 7"</text>
+
+  <!-- Middle shelf -->
+  <line x1="326" y1="262" x2="360" y2="230" stroke="#555" stroke-width="1"/>
+  <text x="363" y="228" font-size="11" fill="#333">Middle shelf (Part D)</text>
+
+  <!-- Shelf lip -->
+  <line x1="326" y1="238" x2="360" y2="210" stroke="#555" stroke-width="1"/>
+  <text x="363" y="208" font-size="11" fill="#333">Retaining lip (Part E)</text>
+  <text x="363" y="221" font-size="10" fill="#666">3/4" × 3/4"</text>
+
+  <!-- Bag hook -->
+  <line x1="296" y1="211" x2="360" y2="170" stroke="#555" stroke-width="1"/>
+  <text x="363" y="168" font-size="11" fill="#c0392b" font-weight="bold">Bag hook</text>
+  <text x="363" y="181" font-size="10" fill="#666">side wall, mid-height</text>
+  <text x="363" y="194" font-size="10" fill="#666">1-1/2" L-hook</text>
+
+  <!-- Base tray -->
+  <line x1="326" y1="398" x2="360" y2="420" stroke="#555" stroke-width="1"/>
+  <text x="363" y="418" font-size="11" fill="#333">Bottom tray (Part C)</text>
+  <text x="363" y="431" font-size="10" fill="#666">fixed — glued &amp; nailed</text>
+
+  <!-- Base lip -->
+  <line x1="326" y1="374" x2="360" y2="374" stroke="#555" stroke-width="1"/>
+  <text x="363" y="372" font-size="11" fill="#333">Retaining lip (Part E)</text>
+
+  <!-- Hinges -->
+  <line x1="66" y1="217" x2="18" y2="180" stroke="#555" stroke-width="1"/>
+  <text x="3" y="178" font-size="10" fill="#666">Hinges</text>
+  <text x="3" y="190" font-size="10" fill="#666">(SS butt)</text>
+
+  <!-- Magnetic catch -->
+  <line x1="334" y1="199" x2="356" y2="155" stroke="#555" stroke-width="1"/>
+  <text x="358" y="153" font-size="10" fill="#666">Magnetic</text>
+  <text x="358" y="165" font-size="10" fill="#666">catch</text>
+
+  <!-- Fence cleats note -->
+  <text x="198" y="420" text-anchor="middle" font-size="10" fill="#888">- - -  fence mounting cleats (Part I) on back  - - -</text>
+
+</svg>
 </div>
 <p><strong>Project</strong>: Outdoor Fence-Mounted Kennel Caddy<br>
 <strong>Material</strong>: 3/4" Finished Cedar Planks (Nominal 1" x 6" / Actual 3/4" x 5-1/2")<br>

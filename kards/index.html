@@ -546,6 +546,33 @@
             transform: translateY(0);
             opacity: 1;
         }
+
+        .sync-banner {
+            display: none;
+            background: linear-gradient(90deg, rgba(212,175,55,0.15), rgba(212,175,55,0.08));
+            border-bottom: 2px solid var(--accent-gold);
+            padding: 10px 32px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-gold-bright);
+            position: sticky;
+            top: 69px;
+            z-index: 99;
+        }
+        .sync-banner.active { display: block; }
+        .sync-banner-btn {
+            margin-left: 16px;
+            background: var(--accent-gold);
+            color: #0b0f19;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .sync-banner-btn:hover { background: var(--accent-gold-bright); }
     </style>
 </head>
 <body>
@@ -571,6 +598,11 @@
             </div>
         </div>
     </header>
+
+    <div id="sync-banner" class="sync-banner">
+        ⚠ <span id="sync-banner-count">0</span> unsynced match results — download before you leave this page!
+        <button class="sync-banner-btn" onclick="exportMatchLogsJSON()">Download Now</button>
+    </div>
 
     <div class="main-container">
         <!-- Decks View -->
@@ -809,8 +841,14 @@
         const WISHLIST = RAW_DATA.wishlist || [];
         const GOLDEN_SPECS = RAW_DATA.golden_specs || [];
 
-        if (RAW_DATA.match_logs && RAW_DATA.match_logs.length === 0) {
-            try { localStorage.setItem('kards_match_logs', '[]'); } catch(e){}
+        // Seed localStorage from embedded server logs only if localStorage is currently empty
+        if (RAW_DATA.match_logs && RAW_DATA.match_logs.length > 0) {
+            try {
+                const existing = JSON.parse(localStorage.getItem('kards_match_logs') || '[]');
+                if (existing.length === 0) {
+                    localStorage.setItem('kards_match_logs', JSON.stringify(RAW_DATA.match_logs));
+                }
+            } catch(e){}
         }
 
         document.getElementById('tab-deck-count').textContent = DECKS.length;
@@ -1442,6 +1480,7 @@ Enter opponent archetype / match notes:`, result === 'LOSS' ? 'vs Soviet Light I
 
                     renderMatchLogs();
                     renderDecks();
+                    updateSyncBanner();
 
                     const deckLogs = logs.filter(l => l.deck === deckName);
                     const wins = deckLogs.filter(l => l.result === 'WIN').length;
@@ -1567,6 +1606,23 @@ Excellent performance across ${count} games!`);
                 downloadAnchor.remove();
                 showToast(`Exported ${logs.length} match logs!`);
             } catch(e) { alert('Error exporting match logs: ' + e); }
+        }
+
+        function updateSyncBanner() {
+            const banner = document.getElementById('sync-banner');
+            const countEl = document.getElementById('sync-banner-count');
+            if (!banner || !countEl) return;
+            try {
+                const localLogs = JSON.parse(localStorage.getItem('kards_match_logs') || '[]');
+                const baselineCount = RAW_DATA.match_logs ? RAW_DATA.match_logs.length : 0;
+                const unsaved = localLogs.length - baselineCount;
+                if (unsaved > 0) {
+                    countEl.textContent = unsaved;
+                    banner.classList.add('active');
+                } else {
+                    banner.classList.remove('active');
+                }
+            } catch(e){}
         }
 
         function renderWishlist() {
@@ -2035,6 +2091,7 @@ Excellent performance across ${count} games!`);
         renderDecks();
         renderCards();
         renderWishlist();
+        updateSyncBanner();
     </script>
 
     <!-- Floating Onscreen Touch Keypad Trigger for Remote Tablet Access -->

@@ -1098,7 +1098,7 @@
         const REVIEWS = RAW_DATA.review_cards || [];
         const WEATHER_CARDS = RAW_DATA.weather_cards || [];
         const UNKNOWN_CARDS = RAW_DATA.unknown_cards || [];
-        DATA.oracle_review = RAW_DATA.oracle_review || [];
+        const ORACLE_REVIEW = RAW_DATA.oracle_review || [];
         const WISHLIST = RAW_DATA.wishlist || [];
         const WL = RAW_DATA.wishlist_tiered || {pending:[],p1:[],p2:[],p3:[],p4:[]};
         const LIB_SPECS = RAW_DATA.lib_specs || [];
@@ -2456,7 +2456,7 @@ function toggleSection(elemId, btn) {
             const tbody = document.getElementById('oracle-review-body');
             const empty = document.getElementById('oracle-review-empty');
             if (!tbody) return;
-            const items = (DATA.oracle_review || []);
+            const items = (ORACLE_REVIEW || []);
             const pending = items.filter(i => i.status === 'pending');
             const answered = items.filter(i => i.status !== 'pending');
             if (items.length === 0) { if(empty) empty.style.display='block'; return; }

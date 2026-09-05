@@ -2524,7 +2524,7 @@ function toggleSection(elemId, btn) {
             const section = document.getElementById('goal-text-unknown-section');
             const tbody = document.getElementById('goal-text-unknown-body');
             if (!section || !tbody) return;
-            const cards = (DATA.goal_text_unknown || []);
+            const cards = (RAW_DATA.goal_text_unknown || []);
             if (cards.length === 0) { section.style.display = 'none'; return; }
             section.style.display = 'block';
             tbody.innerHTML = cards.map(c => {

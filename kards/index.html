@@ -1742,8 +1742,21 @@ function buildLocalWinRates() {
                 showToast('Deleted match log entry.');
                 renderMatchLogs();
                 renderDecks();
-                if (deleted) gistRemoveEntry(deleted);
+                if (deleted) {
+                    serverRemoveEntry(deleted);
+                    gistRemoveEntry(deleted);
+                }
             } catch(e) { alert('Error deleting log: ' + e); }
+        }
+
+        async function serverRemoveEntry(entry) {
+            try {
+                await fetch('http://127.0.0.1:5050/delete_match', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({date: entry.date, deck: entry.deck, result: entry.result})
+                });
+            } catch(e) {}
         }
 
         async function gistRemoveEntry(entry) {

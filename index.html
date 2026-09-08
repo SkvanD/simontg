@@ -252,6 +252,7 @@
     .card-kards:hover::before { background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-bright)); }
     .card-meals:hover::before { background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan)); }
     .card-future:hover::before { background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan)); }
+    .card-story:hover::before { background: linear-gradient(90deg, #3a6a4a, #6aaa7a); }
 
     .card-icon { font-size: 40px; margin-bottom: 20px; display: inline-block; }
     .card-title { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 12px; color: #ffffff; }
@@ -260,6 +261,34 @@
     .card-kards .card-footer { color: var(--accent-gold-bright); }
     .card-meals .card-footer { color: var(--accent-emerald); }
     .card-future .card-footer { color: var(--accent-purple); }
+    .card-story .card-footer { color: #5a9a6a; }
+
+    .card-story { padding: 0; }
+    .card-story .card-body {
+      padding: 24px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .cover-thumbnail {
+      width: 100%;
+      height: 240px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      border-radius: 20px 20px 0 0;
+    }
+    .cover-thumbnail iframe {
+      position: absolute;
+      top: 0;
+      left: calc(50% - 150px);
+      width: 600px;
+      height: 900px;
+      border: none;
+      pointer-events: none;
+      transform: scale(0.5);
+      transform-origin: top left;
+    }
 
     .arrow-icon { transition: transform 0.3s ease; }
     .card:hover .arrow-icon { transform: translateX(6px); }
@@ -366,6 +395,23 @@
         <div class="card-footer">
           <span>View Plans</span>
           <span class="arrow-icon">→</span>
+        </div>
+      </a>
+
+      <!-- Dead Ground Story -->
+      <a href="dead-ground/" class="card card-story" ontouchstart="this.focus()">
+        <div class="cover-thumbnail">
+          <iframe src="dead-ground/cover.html" scrolling="no" tabindex="-1" title="Dead Ground cover"></iframe>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Dead Ground</div>
+          <div class="card-desc">
+            A choose-your-own-path mystery set in the Lake District. You weren't looking for trouble — but trouble found you.
+          </div>
+          <div class="card-footer">
+            <span>Enter the Story</span>
+            <span class="arrow-icon">→</span>
+          </div>
         </div>
       </a>
     </main>

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Dead Ground — A Lake District Story</title>
+<title>Dead Ground â€” A Lake District Story</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#1b1f2b;color:#e2d9cc;font-family:Georgia,'Times New Roman',serif;font-size:18px;line-height:1.75;min-height:100vh}
@@ -23,7 +23,7 @@ body{background:#1b1f2b;color:#e2d9cc;font-family:Georgia,'Times New Roman',seri
 .page-header{margin-bottom:30px;border-bottom:1px solid #272d3f;padding-bottom:20px}
 .page-header h2{font-size:1.1em;font-weight:normal;color:#6a9e78;letter-spacing:.08em}
 
-.illustration{margin:0 0 28px;border-radius:3px;overflow:hidden;opacity:.9}
+.illustration{margin:0 0 28px;border-radius:3px;overflow:hidden;opacity:.9;filter:brightness(2) contrast(1.05)}
 .illustration svg{display:block;width:100%}
 
 .prose p{margin-bottom:1em}
@@ -63,21 +63,21 @@ body{background:#1b1f2b;color:#e2d9cc;font-family:Georgia,'Times New Roman',seri
   <div class="sub">A Lake District Story</div>
   <div class="intro">
     <p>A choose-your-own story. Each page ends with a decision. Turn to the page your choice names.</p>
-    <p>Some paths are short. Some end badly. In hindsight, the right choice usually makes sense — but hindsight is the one thing you never have in the moment.</p>
+    <p>Some paths are short. Some end badly. In hindsight, the right choice usually makes sense â€” but hindsight is the one thing you never have in the moment.</p>
     <p>Read together, or alone. Take your time.</p>
   </div>
   <button class="begin-btn" onclick="startGame()">Begin</button>
 </div>
 
 <div id="game-screen">
-  <button class="back-btn" id="backBtn" onclick="goBack()">← Back</button>
+  <button class="back-btn" id="backBtn" onclick="goBack()">â† Back</button>
   <div id="page-container"></div>
 </div>
 
 </div>
 
 <script>
-// ─── SVG ILLUSTRATIONS ───────────────────────────────────────────────────────
+// â”€â”€â”€ SVG ILLUSTRATIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const SVG = {
 
@@ -296,7 +296,7 @@ dawn: `<svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg">
 
 };
 
-// ─── PAGE DATA ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ PAGE DATA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const pages = {
 
@@ -305,7 +305,7 @@ const pages = {
   svg:"odg",
   prose:`<p>You pull into the car park at the Old Dungeon Ghyll just after four in the afternoon. The clouds are sitting low on the Pikes, the kind that never quite decide to rain but never quite lift either. The stone inn looks like it has been here long enough to have stopped caring what the weather does.</p>
 <p>The Hikers' Bar is warm and smells of wet boot leather and coal smoke. You order something dark and find a corner table. Through the window, the valley narrows into mist.</p>
-<p>There is a man at the bar who shouldn't be there. Not because he doesn't belong in a pub — he belongs everywhere people are uncomfortable — but because he has been staring at his pint for twenty minutes without touching it. Early forties. Lean in a way that comes from worry rather than exercise. His hands are doing something that isn't quite still.</p>
+<p>There is a man at the bar who shouldn't be there. Not because he doesn't belong in a pub â€” he belongs everywhere people are uncomfortable â€” but because he has been staring at his pint for twenty minutes without touching it. Early forties. Lean in a way that comes from worry rather than exercise. His hands are doing something that isn't quite still.</p>
 <p>A second man appears from the back corridor and comes directly to your table. He looks at you like he knows you, though you don't immediately place him.</p>
 <p class="dialogue">"Ralph," he says, sitting down uninvited. "We met at Renton's thing. Three years ago."</p>
 <p>You remember now. Good man. Solid.</p>
@@ -333,7 +333,7 @@ const pages = {
 3:{
   title:"What Ralph Knows",
   prose:`<p>Ralph speaks quietly, keeping one eye on Billy at the bar.</p>
-<p>Three days ago, Billy was up on the fells above Stickle Tarn. Early — before most walkers are out. He knows that ground better than he knows most people. He saw two men on a rocky section above the path. An argument. A struggle. One man went over the edge.</p>
+<p>Three days ago, Billy was up on the fells above Stickle Tarn. Early â€” before most walkers are out. He knows that ground better than he knows most people. He saw two men on a rocky section above the path. An argument. A struggle. One man went over the edge.</p>
 <p>The man who fell was found later that day by a shepherd. Reported as an accident. Case closed inside forty-eight hours.</p>
 <p>Billy went to the local police. Spoke to PC Brennan at the Chapel Stile sub-station. Gave his account in full. Two days later Brennan called him back and told him he must have been confused. The light, the distance, the height.</p>
 <p class="dialogue">"Since then," Ralph says, "someone put a stone through Billy's kitchen window. Two in the morning. No note. Just a stone."</p>
@@ -356,7 +356,7 @@ const pages = {
 <p class="dialogue">"Tell him," he says to Billy. "Tell him properly."</p>`,
   choices:[
     {text:"Listen",to:5},
-    {text:"Go back inside — do this properly over a drink",to:3}
+    {text:"Go back inside â€” do this properly over a drink",to:3}
   ]
 },
 
@@ -364,7 +364,7 @@ const pages = {
   title:"What Billy Saw",
   svg:"fell",
   prose:`<p>Billy talks. You ask questions. Ralph fills in the gaps where Billy's memory loses detail.</p>
-<p>Three days ago, shortly after six in the morning, Billy was on the fell path above Stickle Tarn. Two men on a rocky section fifty metres above the path. He almost didn't stop — thought they were early walkers heading for Harrison Stickle. But the body language was wrong. Too still. Too close.</p>
+<p>Three days ago, shortly after six in the morning, Billy was on the fell path above Stickle Tarn. Two men on a rocky section fifty metres above the path. He almost didn't stop â€” thought they were early walkers heading for Harrison Stickle. But the body language was wrong. Too still. Too close.</p>
 <p>Then a shove. Clean and deliberate. The man in the red jacket went over. His body was found at the base of the scree by a shepherd at eleven that morning. Coroner returned accidental death the following day.</p>
 <p class="dialogue">"Quick," you say.</p>
 <p class="dialogue">"Very," Billy agrees.</p>
@@ -387,15 +387,15 @@ const pages = {
 7:{
   title:"",
   prose:`<p class="dialogue">"Why me?" you ask.</p>
-<p>Ralph's expression shifts — just slightly. The look of someone choosing their words.</p>
+<p>Ralph's expression shifts â€” just slightly. The look of someone choosing their words.</p>
 <p class="dialogue">"Someone vouched for you. Said you had useful instincts. And that you weren't local, didn't have a stake in the local arrangements."</p>
 <p class="dialogue">"Who vouched?"</p>
-<p>Ralph's eyes move. Just for a second — involuntary, the way eyes do when they're not quite as controlled as we think. They go to a man sitting alone in the corner of the Hikers' Bar. You hadn't noticed him before. Back to the wall, facing the door. A pint he's actually drinking. Older than you. Perfectly still.</p>
+<p>Ralph's eyes move. Just for a second â€” involuntary, the way eyes do when they're not quite as controlled as we think. They go to a man sitting alone in the corner of the Hikers' Bar. You hadn't noticed him before. Back to the wall, facing the door. A pint he's actually drinking. Older than you. Perfectly still.</p>
 <p>You know that face.</p>
 <p>Marshall. You haven't seen him in the best part of a decade, but you don't forget Marshall. Nobody does.</p>`,
   choices:[
     {text:"Go and talk to Marshall now",to:19},
-    {text:"Leave Marshall for now — hear the rest from Ralph first",to:5}
+    {text:"Leave Marshall for now â€” hear the rest from Ralph first",to:5}
   ]
 },
 
@@ -408,7 +408,7 @@ const pages = {
 <p class="dialogue">"I've been on those fells every week for fifteen years," Billy says. "I know what a slip looks like."</p>
 <p>Something changed Brennan's assessment in forty-eight hours. That kind of change needs a reason.</p>`,
   choices:[
-    {text:"That suggests incompetence — or something worse",to:13},
+    {text:"That suggests incompetence â€” or something worse",to:13},
     {text:"Ask what Billy did after Brennan shut him down",to:14}
   ]
 },
@@ -416,7 +416,7 @@ const pages = {
 9:{
   title:"The Logo",
   prose:`<p class="dialogue">"Did you know either of them?" you ask.</p>
-<p>Billy shakes his head. "Not the one that fell. Not the other one either. But the jacket—" He pauses. "The man in red had a logo on the sleeve. Technical gear. A diamond shape. Two letters inside."</p>
+<p>Billy shakes his head. "Not the one that fell. Not the other one either. But the jacketâ€”" He pauses. "The man in red had a logo on the sleeve. Technical gear. A diamond shape. Two letters inside."</p>
 <p>He reaches for a beer mat and a biro.</p>
 <p class="dialogue">"Something like that," he says, sketching it out.</p>
 <p>DL. Inside a diamond.</p>`,
@@ -429,10 +429,10 @@ const pages = {
 10:{
   title:"Professional Calm",
   prose:`<p class="dialogue">"The man who walked away," you say. "Tell me about him."</p>
-<p>Billy thinks for a moment. <span class="dialogue">"Calm,"</span> he says. <span class="dialogue">"That's the word. No hesitation. No looking around to see if anyone had seen. Just — done, and walking."</span></p>
+<p>Billy thinks for a moment. <span class="dialogue">"Calm,"</span> he says. <span class="dialogue">"That's the word. No hesitation. No looking around to see if anyone had seen. Just â€” done, and walking."</span></p>
 <p class="dialogue">"That kind of calm isn't accidental."</p>
 <p class="dialogue">"No," Billy agrees. "It's not."</p>
-<p>You've seen that quality before. Men who have been in situations where panic is not an option — where the body trains itself out of it over years. It is specific and it does not come from an office job.</p>`,
+<p>You've seen that quality before. Men who have been in situations where panic is not an option â€” where the body trains itself out of it over years. It is specific and it does not come from an office job.</p>`,
   choices:[
     {text:"Ask Billy to describe the man physically",to:17},
     {text:"That sounds like Marshall's kind of calm",to:16}
@@ -445,7 +445,7 @@ const pages = {
 <p class="dialogue">"Shepherd. Tom Hartley. Found him at the base of the scree at mid-morning. Called it in."</p>
 <p class="dialogue">"And the coroner's verdict?"</p>
 <p class="dialogue">"Accidental death. Inside forty-eight hours."</p>
-<p>That is fast. Coroner's inquests don't move that quickly without a reason. Someone had the reach to make that happen — or at least to encourage it.</p>`,
+<p>That is fast. Coroner's inquests don't move that quickly without a reason. Someone had the reach to make that happen â€” or at least to encourage it.</p>`,
   choices:[
     {text:"Fast verdicts need the right friends in the right places",to:13},
     {text:"Ask who the dead man was",to:18}
@@ -455,9 +455,9 @@ const pages = {
 12:{
   title:"",
   prose:`<p class="dialogue">"Who vouched for me?" you ask again. Quieter.</p>
-<p>Ralph keeps his face still. <span class="dialogue">"I'd rather not—"</span></p>
+<p>Ralph keeps his face still. <span class="dialogue">"I'd rather notâ€”"</span></p>
 <p class="dialogue">"Ralph."</p>
-<p>A pause. Then his eyes move — fraction of a second, involuntary — to a man sitting alone in the corner of the bar.</p>
+<p>A pause. Then his eyes move â€” fraction of a second, involuntary â€” to a man sitting alone in the corner of the bar.</p>
 <p>You know that face. You'd know it in a darker room than this.</p>
 <p>Marshall. Sitting with his back to the wall, pint in hand, watching the door. A man entirely comfortable with waiting.</p>`,
   choices:[
@@ -469,7 +469,7 @@ const pages = {
 13:{
   title:"Brennan",
   prose:`<p>A policeman's assessment reversing itself in forty-eight hours means one of two things: someone above him quietly suggested the case should disappear, or someone leaned on him directly. Both are bad. The second is worse.</p>
-<p>In a place like this — small beat, everyone knowing everyone, a man who needs to get along — both are possible. And both point somewhere above Brennan himself.</p>`,
+<p>In a place like this â€” small beat, everyone knowing everyone, a man who needs to get along â€” both are possible. And both point somewhere above Brennan himself.</p>`,
   choices:[
     {text:"Go to the police station and speak to Brennan directly",to:20},
     {text:"Find out more about Brennan before approaching him",to:21}
@@ -479,9 +479,9 @@ const pages = {
 14:{
   title:"The Stone",
   prose:`<p class="dialogue">"What did you do after Brennan shut you down?"</p>
-<p>Billy's jaw tightens. <span class="dialogue">"Nothing. What could I do? He's the police. I thought — maybe he was right. Maybe I was wrong."</span> He looks at his hands. <span class="dialogue">"Then the window went in."</span></p>
+<p>Billy's jaw tightens. <span class="dialogue">"Nothing. What could I do? He's the police. I thought â€” maybe he was right. Maybe I was wrong."</span> He looks at his hands. <span class="dialogue">"Then the window went in."</span></p>
 <p class="dialogue">"When?"</p>
-<p class="dialogue">"That same night. Two in the morning. Stone through the kitchen glass." He pauses. "No note. No follow-up. Just — don't forget we know where you live."</p>`,
+<p class="dialogue">"That same night. Two in the morning. Stone through the kitchen glass." He pauses. "No note. No follow-up. Just â€” don't forget we know where you live."</p>`,
   choices:[
     {text:"Ask if anything was taken",to:22},
     {text:"Ask where Billy is sleeping now",to:23}
@@ -502,7 +502,7 @@ const pages = {
 
 16:{
   title:"",
-  prose:`<p>Marshall. You haven't seen him in years. A man who learned — through whatever the army put him through — to do what needed doing without the feeling showing.</p>
+  prose:`<p>Marshall. You haven't seen him in years. A man who learned â€” through whatever the army put him through â€” to do what needed doing without the feeling showing.</p>
 <p>That quality Billy just described: the calm, the not looking back. Marshall has it. Has always had it.</p>
 <p>The thought arrives quietly: could Marshall be involved in this?</p>`,
   choices:[
@@ -513,7 +513,7 @@ const pages = {
 17:{
   title:"",
   prose:`<p class="dialogue">"Physical description," you say. "The man who walked away."</p>
-<p>Billy thinks. <span class="dialogue">"Tall. Not young — mid-fifties maybe, but fit with it. Good on the fell, no hesitation. Dark jacket."</span> He pauses. <span class="dialogue">"When he left, he didn't look back. Not once."</span></p>
+<p>Billy thinks. <span class="dialogue">"Tall. Not young â€” mid-fifties maybe, but fit with it. Good on the fell, no hesitation. Dark jacket."</span> He pauses. <span class="dialogue">"When he left, he didn't look back. Not once."</span></p>
 <p>Not looking back takes either confidence or practice. Usually both.</p>`,
   choices:[
     {text:"Ask if there was a vehicle",to:26},
@@ -529,9 +529,9 @@ const pages = {
 <p class="dialogue">"Not obviously. No property up here, no walking club, nothing like that."</p>
 <p class="dialogue">"So what was he doing on a fell path at six in the morning?"</p>
 <p class="dialogue">"That," Ralph says, "is the right question."</p>
-<p>A Manchester solicitor with no visible connection to this valley. Dead on a remote path. The official story: an unlucky walker. The real story — if Billy is right — is something else entirely.</p>`,
+<p>A Manchester solicitor with no visible connection to this valley. Dead on a remote path. The official story: an unlucky walker. The real story â€” if Billy is right â€” is something else entirely.</p>`,
   choices:[
-    {text:"He was here for a reason — and someone didn't want him leaving",to:28},
+    {text:"He was here for a reason â€” and someone didn't want him leaving",to:28},
     {text:"Ask if the name Coates means anything to Ralph",to:29}
   ]
 },
@@ -540,7 +540,7 @@ const pages = {
   title:"Marshall",
   svg:"bar",
   prose:`<p>Marshall sees you coming from the moment you turn toward him. He doesn't change his expression. Doesn't move. Just wraps both hands around his pint glass and waits.</p>
-<p>You sit down across from him. He looks older than you remembered. Not in a bad way — in the way of someone who has put the years to use.</p>
+<p>You sit down across from him. He looks older than you remembered. Not in a bad way â€” in the way of someone who has put the years to use.</p>
 <p class="dialogue">"Wondered when you'd find your way over," he says.</p>`,
   choices:[
     {text:'"What do you know about the man on the fell?"',to:30},
@@ -551,13 +551,13 @@ const pages = {
 20:{
   title:"Chapel Stile",
   prose:`<p>The Chapel Stile sub-station is a converted cottage with a blue lamp above the door that looks slightly apologetic about being there. PC Brennan is inside, eating a sandwich at his desk.</p>
-<p>He is uncomfortable the moment you say Gerald Coates. Not theatrical discomfort — the real thing. Small, contained, but there. His eyes go briefly to the door behind you.</p>
+<p>He is uncomfortable the moment you say Gerald Coates. Not theatrical discomfort â€” the real thing. Small, contained, but there. His eyes go briefly to the door behind you.</p>
 <p class="dialogue">"Nothing to add to the file," he says carefully. "Accidental death. Coroner was satisfied."</p>
 <p class="dialogue">"Were you?" you ask.</p>
 <p>He doesn't answer that.</p>`,
   choices:[
     {text:"Push harder",to:32},
-    {text:"Back off — and watch what he does next",to:33}
+    {text:"Back off â€” and watch what he does next",to:33}
   ]
 },
 
@@ -580,7 +580,7 @@ const pages = {
 <p><em>We know where you live. We know you talked.</em></p>`,
   choices:[
     {text:"Billy needs to be somewhere safer",to:23},
-    {text:"The message tells you something — they're frightened of what Billy saw",to:35}
+    {text:"The message tells you something â€” they're frightened of what Billy saw",to:35}
   ]
 },
 
@@ -598,7 +598,7 @@ const pages = {
 24:{
   title:"Dunleavy Land",
   prose:`<p>DL. A diamond logo, two letters. You run the search on your phone. Third result: Dunleavy Land Ltd. Registered in Lancaster. Directors: M. Voss.</p>
-<p>Their website is minimal — countryside retreats, sustainable tourism, rural land management. The kind of language that covers a range of possible activities and commits to none of them.</p>
+<p>Their website is minimal â€” countryside retreats, sustainable tourism, rural land management. The kind of language that covers a range of possible activities and commits to none of them.</p>
 <p>They have been active in the Lake District for just over two years.</p>`,
   choices:[
     {text:"What does a land company need with a solicitor on a remote fell path?",to:28},
@@ -608,7 +608,7 @@ const pages = {
 
 25:{
   title:"",
-  prose:`<p>Marshall has a sister in Grasmere — you've heard him mention her once, years ago. That's the surface reason he might be here.</p>
+  prose:`<p>Marshall has a sister in Grasmere â€” you've heard him mention her once, years ago. That's the surface reason he might be here.</p>
 <p>But Marshall has never done anything for just one reason. In all the years of occasional contact, you've never once seen him be somewhere without a purpose underneath it.</p>`,
   choices:[
     {text:"Go to Grasmere and verify the story",to:38},
@@ -619,11 +619,11 @@ const pages = {
 26:{
   title:"",
   prose:`<p class="dialogue">"Was there a vehicle? Either man?"</p>
-<p>Billy thinks. <span class="dialogue">"Aye. When I came back down the path, there was a Land Rover in the New Dungeon Ghyll car park. Defender. Dark green."</span> He pauses. <span class="dialogue">"It struck me because it was the only car there — too early for walkers."</span></p>
+<p>Billy thinks. <span class="dialogue">"Aye. When I came back down the path, there was a Land Rover in the New Dungeon Ghyll car park. Defender. Dark green."</span> He pauses. <span class="dialogue">"It struck me because it was the only car there â€” too early for walkers."</span></p>
 <p class="dialogue">"Plates?"</p>
 <p>Billy shakes his head. <span class="dialogue">"Didn't think to look. Why would I, then?"</span></p>`,
   choices:[
-    {text:"That's worth checking — the NDG car park has a camera",to:39},
+    {text:"That's worth checking â€” the NDG car park has a camera",to:39},
     {text:"Ask Billy to take you up to the spot on the fell",to:27}
   ]
 },
@@ -631,7 +631,7 @@ const pages = {
 27:{
   title:"Stickle Tarn",
   svg:"tarn",
-  prose:`<p>The path up Stickle Ghyll is steep and wet from the night's rain. Billy sets a fell man's pace — conserving energy, not burning it. Ralph stays below at the ODG.</p>
+  prose:`<p>The path up Stickle Ghyll is steep and wet from the night's rain. Billy sets a fell man's pace â€” conserving energy, not burning it. Ralph stays below at the ODG.</p>
 <p>The tarn comes into view after forty minutes. Grey and still and cold-looking. The Pikes hang above it in the cloud.</p>
 <p>Billy stops at a rocky outcrop on the northern side, above the main path.</p>
 <p class="dialogue">"There," he says quietly. "That's where they were."</p>
@@ -644,7 +644,7 @@ const pages = {
 
 28:{
   title:"Coates and Dunleavy",
-  prose:`<p>Gerald Coates. Solicitor. Manchester. You check Companies House on your phone. It takes less than five minutes. Dunleavy Land Ltd — Director: M. Voss. Solicitor of record on seven land acquisition filings: Gerald Coates, of Coates &amp; Marr, Manchester.</p>
+  prose:`<p>Gerald Coates. Solicitor. Manchester. You check Companies House on your phone. It takes less than five minutes. Dunleavy Land Ltd â€” Director: M. Voss. Solicitor of record on seven land acquisition filings: Gerald Coates, of Coates &amp; Marr, Manchester.</p>
 <p>He was their solicitor. And he ended up dead on a fell above a valley they have been buying into for two years.</p>
 <p>Someone he worked for had him killed.</p>`,
   choices:[
@@ -656,7 +656,7 @@ const pages = {
 29:{
   title:"Ralph's Neighbour",
   prose:`<p>Ralph's expression changes when you say the name Coates.</p>
-<p class="dialogue">"I know that name," he says slowly. "Six, maybe seven months ago. My neighbour Ellen Prescott — she farms up the valley, been there thirty years — she got a letter. Compulsory purchase offer. Below market, with a great deal of legal language."</p>
+<p class="dialogue">"I know that name," he says slowly. "Six, maybe seven months ago. My neighbour Ellen Prescott â€” she farms up the valley, been there thirty years â€” she got a letter. Compulsory purchase offer. Below market, with a great deal of legal language."</p>
 <p class="dialogue">"From Coates?"</p>
 <p class="dialogue">"Coates and Marr. She refused, obviously."</p>
 <p class="dialogue">"Is she still there?"</p>
@@ -671,7 +671,7 @@ const pages = {
   title:"What Marshall Knows",
   prose:`<p class="dialogue">"What do you know about the man on the fell?" you ask.</p>
 <p>Marshall turns his glass slowly.</p>
-<p class="dialogue">"His name was Gerald Coates. He was Dunleavy Land's solicitor for two years — filed their papers, handled their acquisitions, asked no questions." He takes a drink. "Then he started asking questions."</p>
+<p class="dialogue">"His name was Gerald Coates. He was Dunleavy Land's solicitor for two years â€” filed their papers, handled their acquisitions, asked no questions." He takes a drink. "Then he started asking questions."</p>
 <p class="dialogue">"About what?"</p>
 <p class="dialogue">"About what the land was actually for." He looks at you steadily. "Coates found out the planning applications were false. The retreat centres don't exist. They're a front."</p>`,
   choices:[
@@ -725,7 +725,7 @@ const pages = {
 34:{
   title:"The Money Trail",
   prose:`<p>The Land Rover. The extension. You pull the thread.</p>
-<p>Brennan's finances, traced through public records and a few useful databases, show a pattern. Small cash payments, irregularly spaced, over the past eighteen months. Not into his main account — into a second one in his wife's maiden name.</p>
+<p>Brennan's finances, traced through public records and a few useful databases, show a pattern. Small cash payments, irregularly spaced, over the past eighteen months. Not into his main account â€” into a second one in his wife's maiden name.</p>
 <p>Three steps back from those payments: a consultancy firm called Northfield Advisory. Two steps back from Northfield: Dunleavy Land.</p>
 <p>Brennan was bought. Quietly, over time, for exactly a moment like this one.</p>`,
   choices:[
@@ -735,7 +735,7 @@ const pages = {
 
 35:{
   title:"",
-  prose:`<p>The stone through the window was a mistake. Not a confident power move — a panic response. Someone learned that Billy had talked to Brennan, and instead of staying calm they reacted.</p>
+  prose:`<p>The stone through the window was a mistake. Not a confident power move â€” a panic response. Someone learned that Billy had talked to Brennan, and instead of staying calm they reacted.</p>
 <p>Which means Billy's account genuinely worries them.</p>
 <p>Which means Billy saw exactly what he thinks he saw.</p>`,
   choices:[
@@ -745,7 +745,7 @@ const pages = {
 },
 
 36:{
-  prose:`<p>Your instinct says move Billy somewhere less obvious. Ralph agrees reluctantly. You drive Billy to a bed and breakfast in Ambleside — busy enough to be anonymous, far enough from Langdale.</p>
+  prose:`<p>Your instinct says move Billy somewhere less obvious. Ralph agrees reluctantly. You drive Billy to a bed and breakfast in Ambleside â€” busy enough to be anonymous, far enough from Langdale.</p>
 <p>It takes less than twenty-four hours.</p>
 <p>The call from Ralph comes at seven the next morning. Billy didn't come down for breakfast. His room is empty. His bag is still there.</p>
 <p>He isn't found for eleven days. When he is, it is ruled an accident.</p>`,
@@ -755,7 +755,7 @@ const pages = {
 37:{
   title:"Planning Applications",
   prose:`<p>Planning applications. You search the National Park Authority records on your phone.</p>
-<p>Three live applications in the Great Langdale and Little Langdale area, all within the past eighteen months. Tourist accommodation — described as low-impact rural retreats. All on land owned by or under option to Dunleavy Land Ltd.</p>
+<p>Three live applications in the Great Langdale and Little Langdale area, all within the past eighteen months. Tourist accommodation â€” described as low-impact rural retreats. All on land owned by or under option to Dunleavy Land Ltd.</p>
 <p>One has a formal objection lodged by a local farmer: Tom Hartley, Browside Farm, Little Langdale.</p>`,
   choices:[
     {text:"Talk to Tom Hartley",to:44},
@@ -770,7 +770,7 @@ const pages = {
 <p>Gerald Coates died two weeks ago.</p>
 <p>Marshall was already here before it happened.</p>`,
   choices:[
-    {text:"Marshall knew what was coming. Back to him — he owes you an explanation",to:30},
+    {text:"Marshall knew what was coming. Back to him â€” he owes you an explanation",to:30},
     {text:"Marshall is running his own operation. What does that mean for Billy?",to:46}
   ]
 },
@@ -782,14 +782,14 @@ const pages = {
 <p>There. A dark green Defender, arriving at 5:47 AM. Leaving at 7:23 AM. The angle gives you the first three characters of the plate.</p>`,
   choices:[
     {text:"Run the partial plate",to:50},
-    {text:"Show it to Marshall — see if it means anything to him",to:30}
+    {text:"Show it to Marshall â€” see if it means anything to him",to:30}
   ]
 },
 
 40:{
   title:"The Find",
   prose:`<p>You work the ground methodically. Rock, heather, the narrow ledges. Billy watches from a few metres back.</p>
-<p>Under a flat slab of slate, set slightly apart from the natural arrangement — the kind of thing you'd only notice if you were looking — there is a small waterproof pouch. Ziplock inside a rubber dry-bag. Someone placed it here deliberately.</p>
+<p>Under a flat slab of slate, set slightly apart from the natural arrangement â€” the kind of thing you'd only notice if you were looking â€” there is a small waterproof pouch. Ziplock inside a rubber dry-bag. Someone placed it here deliberately.</p>
 <p>Inside: a USB drive.</p>`,
   choices:[
     {text:"Take it",to:51},
@@ -800,7 +800,7 @@ const pages = {
 41:{
   title:"Step by Step",
   prose:`<p>Billy walks you through it. Second by second, as best he can manage.</p>
-<p class="dialogue">"The man in red — Coates, you're saying — he had papers. A folder. Holding them out, like he was showing them. And the other man didn't want to look. Shook his head. Coates kept pushing them forward."</p>
+<p class="dialogue">"The man in red â€” Coates, you're saying â€” he had papers. A folder. Holding them out, like he was showing them. And the other man didn't want to look. Shook his head. Coates kept pushing them forward."</p>
 <p class="dialogue">"And then?"</p>
 <p class="dialogue">"The other man took the folder. Tucked it under his arm."</p>
 <p>A pause.</p>
@@ -808,13 +808,13 @@ const pages = {
 <p>Documents. Coates brought evidence to that meeting. Evidence that was taken before anyone could find it. This was not a dispute that got out of hand. This was an execution with a purpose.</p>`,
   choices:[
     {text:"Coates was silenced and his documents removed. This was planned",to:43},
-    {text:"Ask if Billy heard any words — any names",to:53}
+    {text:"Ask if Billy heard any words â€” any names",to:53}
   ]
 },
 
 42:{
   title:"",
-  prose:`<p>A solicitor who starts asking the wrong questions about his own client's work. Who finds something he can't live with. Who perhaps threatens to go to the authorities — or perhaps simply asks for more money to stay quiet.</p>
+  prose:`<p>A solicitor who starts asking the wrong questions about his own client's work. Who finds something he can't live with. Who perhaps threatens to go to the authorities â€” or perhaps simply asks for more money to stay quiet.</p>
 <p>Someone decided he was more of a problem alive than dead.</p>
 <p>And this high on a remote fell path, with the weather closing in and no other walkers, it could be made to look like exactly what the official story says.</p>`,
   choices:[
@@ -843,14 +843,14 @@ const pages = {
 <p>He looks at you directly.</p>
 <p class="dialogue">"Not an accident. You don't accidentally get that much of the right thing into a dog. I know what that was."</p>`,
   choices:[
-    {text:"Hartley is a witness — get his statement",to:55},
+    {text:"Hartley is a witness â€” get his statement",to:55},
     {text:"Leave Hartley for now and focus on Voss directly",to:56}
   ]
 },
 
 45:{
   title:"What the Land Is For",
-  prose:`<p class="dialogue">"Waste storage," Marshall says. "Not tourist accommodation. The planning applications are a front. The real use is industrial — chemical waste, reclassified on paper as inert landfill. Buried in a National Park valley with the paperwork describing it as something else entirely."</p>
+  prose:`<p class="dialogue">"Waste storage," Marshall says. "Not tourist accommodation. The planning applications are a front. The real use is industrial â€” chemical waste, reclassified on paper as inert landfill. Buried in a National Park valley with the paperwork describing it as something else entirely."</p>
 <p class="dialogue">"And Coates found out."</p>
 <p class="dialogue">"He was asked to sign off on the reclassification documents. He did it once. Then he looked more carefully at what he was signing."</p>
 <p>Marshall sets down his glass.</p>
@@ -878,7 +878,7 @@ const pages = {
   title:"",
   prose:`<p>You say nothing.</p>
 <p>Marshall holds the silence with total comfort. Thirty seconds. A minute. The bar goes on around you.</p>
-<p>Then: <span class="dialogue">"Coates found out his client was using him to falsify planning documents. He decided he couldn't keep doing it. He arranged to meet someone — at his suggestion. On a fell path. Private."</span> Marshall turns his glass. <span class="dialogue">"He didn't know who he was meeting."</span></p>
+<p>Then: <span class="dialogue">"Coates found out his client was using him to falsify planning documents. He decided he couldn't keep doing it. He arranged to meet someone â€” at his suggestion. On a fell path. Private."</span> Marshall turns his glass. <span class="dialogue">"He didn't know who he was meeting."</span></p>
 <p class="dialogue">"Did you?" you ask.</p>
 <p>A pause. <span class="dialogue">"I had a suspicion."</span></p>`,
   choices:[
@@ -890,7 +890,7 @@ const pages = {
 48:{
   prose:`<p>Getting Brennan on record feels right. Solid. Official. The kind of thing that holds up.</p>
 <p>Voss's legal team takes sixteen hours.</p>
-<p>Brennan submits a revised statement retracting everything — a dispute about interview procedure, about whether he understood his rights, about whether anything was properly recorded. His original account vanishes into a procedural argument.</p>
+<p>Brennan submits a revised statement retracting everything â€” a dispute about interview procedure, about whether he understood his rights, about whether anything was properly recorded. His original account vanishes into a procedural argument.</p>
 <p>You are left with a USB drive whose chain of custody is questionable and a witness already dismissed once by police. Voss knows exactly what you have. He moves very carefully for a very long time after that.</p>`,
   end:{type:"bad",note:"Going public too early closes doors that don't open again.",restart:1}
 },
@@ -898,7 +898,7 @@ const pages = {
 49:{
   title:"The Meeting",
   prose:`<p>Brennan walks for ten minutes down a lane off the B5343. You follow at distance on foot.</p>
-<p>He stops at a field gate. Another car is already there — a dark green Defender. A man gets out. They talk for two minutes, close, voices too low to carry. The man gets back in and drives.</p>
+<p>He stops at a field gate. Another car is already there â€” a dark green Defender. A man gets out. They talk for two minutes, close, voices too low to carry. The man gets back in and drives.</p>
 <p>You didn't see the man's face. But you got the full plate.</p>`,
   choices:[
     {text:"Run the plate",to:50},
@@ -918,7 +918,7 @@ const pages = {
 
 51:{
   prose:`<p>You take the USB drive. Wrap it carefully and put it in your jacket pocket.</p>
-<p>That night, someone goes through your room at the ODG. Professionally. Quietly. They leave nothing behind except the fact of having been there — your bag slightly rearranged, one zipper fastened the wrong way.</p>
+<p>That night, someone goes through your room at the ODG. Professionally. Quietly. They leave nothing behind except the fact of having been there â€” your bag slightly rearranged, one zipper fastened the wrong way.</p>
 <p>The drive is gone.</p>
 <p>You had the evidence in your hand. And now it's gone, and whoever took it knows exactly how close you came.</p>
 <p>Ralph finds you in the car park the next morning. <span class="dialogue">"Go home,"</span> he says. He doesn't sound angry. Just tired. Maybe he's right.</p>`,
@@ -929,9 +929,9 @@ const pages = {
   title:"Leave It",
   prose:`<p>You seal the pouch back up and replace the rock exactly as you found it.</p>
 <p>Billy gives you a look. <span class="dialogue">"Best to leave it here," you say. "Taking it makes it ours. And someone could be watching."</span></p>
-<p>You photograph the exact location — the slab, the surrounding rock, two angles. Then you take Billy back down.</p>
+<p>You photograph the exact location â€” the slab, the surrounding rock, two angles. Then you take Billy back down.</p>
 <p>That evening you tell Marshall where it is. He says nothing for a moment. <span class="dialogue">"I'll get it tonight. After dark."</span></p>
-<p>He does. By morning you're all sitting around a laptop in Ralph's kitchen in Little Langdale. The drive contains copies of Coates' own files — every document he signed, annotated with his own notes about what he had discovered. Dates, amounts, names. Chain of custody clean and intact.</p>
+<p>He does. By morning you're all sitting around a laptop in Ralph's kitchen in Little Langdale. The drive contains copies of Coates' own files â€” every document he signed, annotated with his own notes about what he had discovered. Dates, amounts, names. Chain of custody clean and intact.</p>
 <p>It is enough.</p>`,
   choices:[
     {text:"Now use it",to:57}
@@ -942,10 +942,10 @@ const pages = {
   title:"One Word",
   prose:`<p class="dialogue">"Did you hear anything? Words? A name?"</p>
 <p>Billy thinks for a long time.</p>
-<p class="dialogue">"One word. The man in red said it — when the other man shook his head and wouldn't look at the papers."</p>
+<p class="dialogue">"One word. The man in red said it â€” when the other man shook his head and wouldn't look at the papers."</p>
 <p>A pause.</p>
 <p class="dialogue">"He said a name. 'Voss.'"</p>
-<p>An accusation or a name, Billy says. He couldn't tell which. But either way — that's the name.</p>`,
+<p>An accusation or a name, Billy says. He couldn't tell which. But either way â€” that's the name.</p>`,
   choices:[
     {text:"Voss. Find out who he is",to:43}
   ]
@@ -955,7 +955,7 @@ const pages = {
   title:"Voss",
   prose:`<p class="dialogue">"Tell me about Voss," you say.</p>
 <p>Marshall pulls out his phone and shows you a photograph. A careful-looking man. Sixties. Well-dressed in a way designed not to draw attention. The kind of face that appears in charity auction programmes but never in news reports.</p>
-<p class="dialogue">"Martin Voss. Waste management background — legitimate, for the first twenty years. Then he found there was more money in the other kind."</p>
+<p class="dialogue">"Martin Voss. Waste management background â€” legitimate, for the first twenty years. Then he found there was more money in the other kind."</p>
 <p>Marshall puts the phone away.</p>
 <p class="dialogue">"He doesn't do his own dirty work. He has people. People who can handle a problem on a fell path. And without the right evidence, he disappears behind lawyers and shell companies and a very generous reputation for local philanthropy."</p>`,
   choices:[
@@ -966,7 +966,7 @@ const pages = {
 
 55:{
   title:"Hartley's Statement",
-  prose:`<p>Hartley agrees before you finish asking. He has been waiting for someone to take this seriously — months of being frightened and alone with it.</p>
+  prose:`<p>Hartley agrees before you finish asking. He has been waiting for someone to take this seriously â€” months of being frightened and alone with it.</p>
 <p>He gives a careful, detailed account. The letter from Coates &amp; Marr. The timeline. The dog. The subsequent pressure on his planning application. All of it dated, all of it specific.</p>
 <p class="dialogue">"Will it help?" he asks.</p>
 <p class="dialogue">"Yes," you say. And you mean it.</p>`,
@@ -988,13 +988,13 @@ const pages = {
   title:"Dead Ground",
   svg:"dawn",
   prose:`<p>In the end it isn't one thing. It is the accumulation.</p>
-<p>Coates' documents from the USB drive, recovered from the fell. Billy's witness account, finally written down in full. Tom Hartley's statement — the letter, the dog, the timeline. The car park footage placing Voss's vehicle at the scene. Brennan's quiet, unofficial account of the payment and the call.</p>
+<p>Coates' documents from the USB drive, recovered from the fell. Billy's witness account, finally written down in full. Tom Hartley's statement â€” the letter, the dog, the timeline. The car park footage placing Voss's vehicle at the scene. Brennan's quiet, unofficial account of the payment and the call.</p>
 <p>Marshall makes two calls. People he served with, people in positions where this will be heard properly and not quietly shelved. The documentation goes to three separate destinations simultaneously.</p>
 <p>Three weeks later, Martin Voss is arrested in Lancaster. The charges: planning fraud, corporate manslaughter, corruption of a public official. Dunleavy Land is wound up. The planning applications are withdrawn. The land stays as it was.</p>
 <p>Billy reads about it at Ralph's kitchen table, where he has been sleeping ever since. He puts his phone down and doesn't say much. Ralph says he's been sleeping properly for the first time in months.</p>
 <p>Brennan takes early retirement.</p>
 <p>Marshall is gone before the news breaks. Of course he is.</p>
-<p>You drive out of the valley on a clear morning — the first clear morning in what feels like a long time. The Langdale Pikes catch the early light above the Old Dungeon Ghyll, that grey stone building that has stood under those fells for three hundred years, that has seen walkers and climbers and people who needed a warm corner and something to think about.</p>
+<p>You drive out of the valley on a clear morning â€” the first clear morning in what feels like a long time. The Langdale Pikes catch the early light above the Old Dungeon Ghyll, that grey stone building that has stood under those fells for three hundred years, that has seen walkers and climbers and people who needed a warm corner and something to think about.</p>
 <p>You don't look back. But you remember it.</p>`,
   end:{type:"good",note:"You found the truth. Well played.",restart:1}
 },
@@ -1002,7 +1002,7 @@ const pages = {
 58:{
   prose:`<p>Going directly at Voss feels decisive. You know what he's done. Why build patiently when you can confront?</p>
 <p>Because Voss has spent thirty years insulating himself from exactly this.</p>
-<p>Within hours of your approach, his lawyers are involved. A formal complaint is filed — harassment, defamation. By morning the ODG has no record of your booking. Brennan appears in the car park and asks very politely that you leave the area.</p>
+<p>Within hours of your approach, his lawyers are involved. A formal complaint is filed â€” harassment, defamation. By morning the ODG has no record of your booking. Brennan appears in the car park and asks very politely that you leave the area.</p>
 <p>You have no evidence and now you have shown your hand.</p>
 <p>You drive south out of the valley in the rain.</p>`,
   end:{type:"bad",note:"Build the case first. Always.",restart:1}
@@ -1011,7 +1011,7 @@ const pages = {
 59:{
   prose:`<p>Going directly at Voss feels decisive. You know what he's done. Why build patiently when you can confront?</p>
 <p>Because Voss has spent thirty years insulating himself from exactly this.</p>
-<p>Within hours of your approach, his lawyers are involved. A formal complaint is filed — harassment, defamation. By morning the ODG has no record of your booking. Brennan appears in the car park and asks very politely that you leave the area.</p>
+<p>Within hours of your approach, his lawyers are involved. A formal complaint is filed â€” harassment, defamation. By morning the ODG has no record of your booking. Brennan appears in the car park and asks very politely that you leave the area.</p>
 <p>You have no evidence and now you have shown your hand.</p>
 <p>You drive south out of the valley in the rain.</p>`,
   end:{type:"bad",note:"Build the case first. Always.",restart:1}
@@ -1019,7 +1019,7 @@ const pages = {
 
 };
 
-// ─── NAVIGATION ──────────────────────────────────────────────────────────────
+// â”€â”€â”€ NAVIGATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 let history = [];
 
@@ -1063,7 +1063,7 @@ function render(n, pushHist){
   if(p.end){
     const e = p.end;
     html += `<div class="end-panel ${e.type}">
-      <div class="end-label ${e.type}">${e.type==='good'?'★ The End':'The End'}</div>
+      <div class="end-label ${e.type}">${e.type==='good'?'â˜… The End':'The End'}</div>
       <div class="end-rule ${e.type}"></div>
       <div class="end-note">${e.note}</div>
       <button class="restart-btn" onclick="restart(${e.restart})">${e.restart===1?'Start again from the beginning':'Go back and choose differently'}</button>
@@ -1073,7 +1073,7 @@ function render(n, pushHist){
   if(p.choices && p.choices.length){
     html += `<div class="choices"><div class="choices-label">What do you do?</div>`;
     p.choices.forEach(c=>{
-      html += `<button class="choice-btn" onclick="goTo(${c.to})"><span class="choice-arrow">›</span>${c.text}</button>`;
+      html += `<button class="choice-btn" onclick="goTo(${c.to})"><span class="choice-arrow">â€º</span>${c.text}</button>`;
     });
     html += '</div>';
   }
@@ -1097,3 +1097,4 @@ function restart(n){
 </script>
 </body>
 </html>
+

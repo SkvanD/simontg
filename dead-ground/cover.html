@@ -21,33 +21,31 @@
     overflow: hidden;
     box-shadow: 0 0 80px rgba(0,0,0,0.9);
   }
-  .mist {
+  .fade-bottom {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to bottom,
-      rgba(8,12,20,0.0) 0%,
-      rgba(8,12,20,0.0) 52%,
-      rgba(8,12,20,0.6) 72%,
-      rgba(8,12,20,0.95) 86%,
-      rgba(8,12,20,1) 100%
+      rgba(5,8,15,0)    0%,
+      rgba(5,8,15,0)    48%,
+      rgba(5,8,15,0.55) 68%,
+      rgba(5,8,15,0.95) 84%,
+      rgba(5,8,15,1)    100%
     );
     z-index: 2;
   }
   .label-top {
     position: absolute;
-    top: 28px;
-    left: 44px;
+    top: 28px; left: 44px;
     font-size: 11px;
     letter-spacing: .28em;
     text-transform: uppercase;
-    color: #8ad0a0;
+    color: #80cc98;
     z-index: 4;
   }
   .text-layer {
     position: absolute;
-    inset: 0;
-    z-index: 3;
+    inset: 0; z-index: 3;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -55,12 +53,12 @@
   }
   .tagline {
     font-size: 15px;
-    color: #a8c8b8;
-    letter-spacing: .04em;
+    color: #b0ccc0;
     font-style: italic;
+    letter-spacing: .04em;
     margin-bottom: 22px;
     line-height: 1.7;
-    text-shadow: 0 1px 8px rgba(0,0,0,1);
+    text-shadow: 0 1px 10px #000, 0 0 20px #000;
   }
   .title {
     font-size: 90px;
@@ -69,16 +67,16 @@
     color: #f4ece0;
     line-height: .9;
     margin-bottom: 18px;
-    text-shadow: 0 2px 20px rgba(0,0,0,1), 0 0 40px rgba(0,0,0,0.9);
+    text-shadow: 0 2px 20px #000, 0 0 50px #000;
   }
   .subtitle {
     font-size: 15px;
     letter-spacing: .24em;
     text-transform: uppercase;
-    color: #8ad0a0;
+    color: #80cc98;
     margin-bottom: 40px;
     padding-bottom: 18px;
-    border-bottom: 1px solid #2a4838;
+    border-bottom: 1px solid #2a5038;
   }
   .byline {
     font-size: 11px;
@@ -91,170 +89,158 @@
 <body>
 <div class="cover">
 
-  <svg viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg" width="600" height="900" style="position:absolute;inset:0">
-    <defs>
-      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"   stop-color="#1a3060"/>
-        <stop offset="25%"  stop-color="#2a4878"/>
-        <stop offset="50%"  stop-color="#3a5070"/>
-        <stop offset="72%"  stop-color="#3a4858"/>
-        <stop offset="100%" stop-color="#283830"/>
-      </linearGradient>
-      <linearGradient id="tarn" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"   stop-color="#2a4868"/>
-        <stop offset="100%" stop-color="#1a2e40"/>
-      </linearGradient>
-      <radialGradient id="moon-halo" cx="64%" cy="14%" r="28%">
-        <stop offset="0%"   stop-color="#7aa8d0" stop-opacity=".45"/>
-        <stop offset="100%" stop-color="#1a3060" stop-opacity="0"/>
-      </radialGradient>
-      <filter id="glow-strong">
-        <feGaussianBlur stdDeviation="4" result="b"/>
-        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-      <filter id="soft">
-        <feGaussianBlur stdDeviation="2"/>
-      </filter>
-    </defs>
+<svg viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg"
+     width="600" height="900" style="position:absolute;inset:0;display:block">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#1a4070"/>
+      <stop offset="28%"  stop-color="#2a5888"/>
+      <stop offset="55%"  stop-color="#3a6878"/>
+      <stop offset="78%"  stop-color="#3a5860"/>
+      <stop offset="100%" stop-color="#243828"/>
+    </linearGradient>
+    <linearGradient id="tarn-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#2a5878"/>
+      <stop offset="100%" stop-color="#182e42"/>
+    </linearGradient>
+    <radialGradient id="moon-halo" cx="65%" cy="13%" r="30%">
+      <stop offset="0%"   stop-color="#90c0e0" stop-opacity=".5"/>
+      <stop offset="100%" stop-color="#1a4070" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur2"><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="blur5"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
 
-    <!-- SKY — bright enough to silhouette the fells clearly -->
-    <rect width="600" height="900" fill="url(#sky)"/>
-    <rect width="600" height="900" fill="url(#moon-halo)"/>
+  <!-- ── SKY — genuinely bright enough to read ── -->
+  <rect width="600" height="900" fill="url(#sky)"/>
+  <rect width="600" height="900" fill="url(#moon-halo)"/>
 
-    <!-- Horizon glow — subtle warmth -->
-    <ellipse cx="300" cy="520" rx="350" ry="80" fill="#4a5848" opacity=".3"/>
+  <!-- Stars — white, clearly visible against blue -->
+  <circle cx="75"  cy="42"  r="1.8" fill="#e0eeff" opacity=".95"/>
+  <circle cx="148" cy="22"  r="1.2" fill="#d0e8ff" opacity=".8"/>
+  <circle cx="228" cy="60"  r="2.0" fill="#e8f4ff" opacity="1"/>
+  <circle cx="310" cy="18"  r="1.3" fill="#d8eeff" opacity=".85"/>
+  <circle cx="362" cy="50"  r="1.6" fill="#e0eeff" opacity=".9"/>
+  <circle cx="448" cy="30"  r="1.1" fill="#d0e8ff" opacity=".75"/>
+  <circle cx="528" cy="55"  r="1.8" fill="#e8f4ff" opacity=".95"/>
+  <circle cx="568" cy="24"  r="1.0" fill="#d0e8ff" opacity=".7"/>
+  <circle cx="52"  cy="88"  r="1.1" fill="#d8eeff" opacity=".65"/>
+  <circle cx="490" cy="75"  r="1.4" fill="#e0eeff" opacity=".8"/>
+  <circle cx="175" cy="92"  r="0.9" fill="#d0e8ff" opacity=".6"/>
+  <circle cx="395" cy="80"  r="1.2" fill="#e0eeff" opacity=".75"/>
+  <circle cx="258" cy="32"  r="1.0" fill="#d8eeff" opacity=".7"/>
+  <circle cx="112" cy="68"  r="1.4" fill="#e0eeff" opacity=".8"/>
 
-    <!-- Stars — small but clear against the blue sky -->
-    <circle cx="75"  cy="48"  r="1.5" fill="#c8daf0" opacity=".9"/>
-    <circle cx="148" cy="28"  r="1.0" fill="#c8daf0" opacity=".7"/>
-    <circle cx="218" cy="62"  r="1.8" fill="#d8eaff" opacity=".95"/>
-    <circle cx="305" cy="18"  r="1.1" fill="#c8daf0" opacity=".75"/>
-    <circle cx="358" cy="52"  r="1.4" fill="#d8eaff" opacity=".8"/>
-    <circle cx="445" cy="32"  r="1.0" fill="#c8daf0" opacity=".65"/>
-    <circle cx="522" cy="58"  r="1.6" fill="#d8eaff" opacity=".9"/>
-    <circle cx="562" cy="25"  r="0.9" fill="#c8daf0" opacity=".6"/>
-    <circle cx="52"  cy="90"  r="1.0" fill="#c8daf0" opacity=".5"/>
-    <circle cx="488" cy="78"  r="1.2" fill="#d8eaff" opacity=".7"/>
-    <circle cx="170" cy="95"  r="0.8" fill="#c8daf0" opacity=".5"/>
-    <circle cx="390" cy="82"  r="1.0" fill="#c8daf0" opacity=".6"/>
+  <!-- Moon — bright white, prominent -->
+  <circle cx="388" cy="102" r="50"  fill="#2a5888" filter="url(#blur5)" opacity=".5"/>
+  <circle cx="388" cy="102" r="32"  fill="#6a90b0"/>
+  <circle cx="388" cy="102" r="24"  fill="#90b8d0"/>
+  <circle cx="388" cy="102" r="18"  fill="#b8d4e8"/>
+  <circle cx="388" cy="102" r="12"  fill="#d8eaf8"/>
+  <ellipse cx="384" cy="97"  rx="5" ry="4" fill="#e8f4ff" opacity=".6"/>
 
-    <!-- Moon — bright and clear -->
-    <circle cx="384" cy="105" r="44" fill="#2a4878" filter="url(#soft)" opacity=".6"/>
-    <circle cx="384" cy="105" r="30" fill="#5a7898"/>
-    <circle cx="384" cy="105" r="22" fill="#7a9ab8"/>
-    <circle cx="384" cy="105" r="16" fill="#a0bcd0"/>
-    <!-- Moon sheen -->
-    <ellipse cx="380" cy="100" r="6" fill="#c8dae8" opacity=".5"/>
+  <!-- Clouds — mid-blue grey, visible -->
+  <ellipse cx="130" cy="142" rx="188" ry="50" fill="#2e4a68" opacity=".75"/>
+  <ellipse cx="450" cy="118" rx="170" ry="44" fill="#283e58" opacity=".7"/>
+  <ellipse cx="290" cy="190" rx="280" ry="58" fill="#263c52" opacity=".6"/>
+  <ellipse cx="62"  cy="200" rx="118" ry="36" fill="#2a4260" opacity=".55"/>
+  <ellipse cx="515" cy="178" rx="132" ry="34" fill="#263852" opacity=".5"/>
 
-    <!-- Cloud masses — visible mid-blue-grey -->
-    <ellipse cx="130" cy="138" rx="185" ry="52" fill="#2a3a52" opacity=".8"/>
-    <ellipse cx="440" cy="112" rx="175" ry="46" fill="#243048" opacity=".75"/>
-    <ellipse cx="295" cy="185" rx="280" ry="60" fill="#223048" opacity=".65"/>
-    <ellipse cx="70"  cy="195" rx="120" ry="38" fill="#263448" opacity=".6"/>
-    <ellipse cx="510" cy="172" rx="135" ry="36" fill="#223048" opacity=".55"/>
+  <!-- ── FAR FELLS — dark silhouette against bright sky ── -->
+  <polygon points="0,498 0,292 68,256 138,275 208,242 290,264 372,235 454,258 532,240 600,260 600,498"
+           fill="#0c1a10"/>
 
-    <!-- FAR FELLS — dark silhouette, clearly visible against the blue sky -->
-    <polygon points="0,500 0,295 65,260 135,278 205,245 285,268 368,238 450,260 528,242 600,262 600,500"
-             fill="#0d1810"/>
+  <!-- ── MID FELLS — main dramatic shapes, almost black ── -->
+  <polygon points="0,612 0,342 50,305 108,326 165,272 218,303 255,260 300,290 338,263 360,286 378,612"
+           fill="#091208"/>
+  <polygon points="220,622 275,275 318,308 357,260 398,293 444,270 484,305 518,622"
+           fill="#07100a"/>
+  <polygon points="468,622 505,292 548,310 586,288 600,302 600,622"
+           fill="#091208"/>
 
-    <!-- MID FELLS — darker still, main shapes -->
-    <!-- Left crag -->
-    <polygon points="0,610 0,345 48,308 105,328 162,275 215,305 252,262 298,292 335,265 358,288 375,610"
-             fill="#0a130c"/>
-    <!-- Central Pike — tallest dramatic shape -->
-    <polygon points="218,620 272,278 315,308 355,262 396,295 442,272 482,305 515,620"
-             fill="#08110a"/>
-    <!-- Right fell -->
-    <polygon points="465,620 505,295 548,312 585,290 600,305 600,620"
-             fill="#0a130c"/>
+  <!-- Valley floor -->
+  <polygon points="0,622 600,622 600,568 528,550 442,560 356,546 270,556 184,543 98,553 18,546 0,554"
+           fill="#060c06"/>
 
-    <!-- Valley floor -->
-    <polygon points="0,620 600,620 600,568 525,552 440,562 355,548 270,558 185,545 100,555 20,548 0,555"
-             fill="#080e08"/>
+  <!-- ── TARN — bright reflective blue, clearly visible ── -->
+  <ellipse cx="300" cy="654" rx="252" ry="63" fill="url(#tarn-fill)"/>
+  <!-- Tarn surface sheen -->
+  <ellipse cx="300" cy="642" rx="250" ry="50" fill="none" stroke="#5a88a8" stroke-width="2"   opacity=".6"/>
+  <ellipse cx="300" cy="652" rx="212" ry="38" fill="none" stroke="#4a7898" stroke-width="1.5" opacity=".5"/>
+  <ellipse cx="296" cy="661" rx="162" ry="24" fill="none" stroke="#3a6888" stroke-width="1"   opacity=".4"/>
+  <ellipse cx="292" cy="669" rx="108" ry="14" fill="none" stroke="#3a6888" stroke-width="1"   opacity=".3"/>
+  <!-- Moon column on water -->
+  <ellipse cx="335" cy="645" rx="28"  ry="11" fill="#7aa8c8" opacity=".45" filter="url(#blur2)"/>
+  <ellipse cx="335" cy="645" rx="13"  ry="5"  fill="#a0c8e0" opacity=".4"/>
+  <line    x1="333" y1="647" x2="328" y2="685" stroke="#5a88a8" stroke-width="2.5" opacity=".25"/>
 
-    <!-- TARN — bright reflective surface, clearly visible -->
-    <ellipse cx="300" cy="652" rx="250" ry="62" fill="url(#tarn)" opacity=".95"/>
-    <!-- Tarn rim highlight -->
-    <ellipse cx="300" cy="640" rx="248" ry="52" fill="none" stroke="#4a6888" stroke-width="2" opacity=".6"/>
-    <!-- Ripples -->
-    <ellipse cx="300" cy="650" rx="210" ry="40" fill="none" stroke="#3a5878" stroke-width="1.2" opacity=".5"/>
-    <ellipse cx="296" cy="660" rx="160" ry="26" fill="none" stroke="#3a5878" stroke-width="1"   opacity=".4"/>
-    <ellipse cx="292" cy="668" rx="105" ry="15" fill="none" stroke="#3a5878" stroke-width="1"   opacity=".3"/>
-    <!-- Moon reflection — bright column -->
-    <ellipse cx="328" cy="644" rx="25" ry="10" fill="#5a7898" opacity=".5" filter="url(#soft)"/>
-    <ellipse cx="328" cy="644" rx="12" ry="5"  fill="#8aaac0" opacity=".45"/>
-    <line x1="326" y1="645" x2="322" y2="682" stroke="#4a6888" stroke-width="2" opacity=".3"/>
+  <!-- Shore -->
+  <polygon points="0,900 0,712 88,696 188,703 288,691 388,700 488,689 588,697 600,695 600,900"
+           fill="#040804"/>
 
-    <!-- Shore / ground -->
-    <polygon points="0,900 0,710 85,695 185,702 285,690 385,698 485,688 585,696 600,694 600,900"
-             fill="#060a06"/>
+  <!-- ── ODG building — warm glowing windows ── -->
+  <ellipse cx="104" cy="622" rx="65" ry="18" fill="#4a2c08" opacity=".2" filter="url(#blur5)"/>
+  <rect x="58"  y="576" width="94" height="56" fill="#1e2c18" rx="1"/>
+  <polygon points="49,576 105,553 161,576" fill="#182210"/>
+  <polygon points="80,576 100,564 120,576" fill="#141e0e"/>
+  <!-- Windows — bold warm amber -->
+  <rect x="68"  y="586" width="14" height="18" fill="#c06018" rx="1"/>
+  <rect x="88"  y="586" width="14" height="18" fill="#d87020" rx="1"/>
+  <rect x="108" y="586" width="14" height="18" fill="#b05818" rx="1"/>
+  <rect x="128" y="586" width="11" height="18" fill="#904808" rx="1"/>
+  <!-- Window glow -->
+  <rect x="68"  y="586" width="14" height="18" fill="#ff9030" rx="1" opacity=".4" filter="url(#blur2)"/>
+  <rect x="88"  y="586" width="14" height="18" fill="#ff9030" rx="1" opacity=".45" filter="url(#blur2)"/>
+  <!-- Door -->
+  <rect x="102" y="606" width="16" height="26" fill="#0e140c" rx="1"/>
+  <!-- Wall -->
+  <rect x="40" y="630" width="142" height="5" fill="#1a2414" rx="1"/>
+  <!-- Light spill -->
+  <ellipse cx="108" cy="634" rx="14" ry="5" fill="#804010" opacity=".18"/>
 
-    <!-- ODG building — warm glow, clearly visible -->
-    <!-- Warm ambient light on ground around it -->
-    <ellipse cx="102" cy="620" rx="60" ry="20" fill="#3a2408" opacity=".25" filter="url(#soft)"/>
-    <rect x="58"  y="578" width="92" height="55" fill="#1c2818" rx="1"/>
-    <polygon points="50,578 104,556 158,578" fill="#161e12"/>
-    <!-- Dormer -->
-    <polygon points="80,578 98,566 116,578" fill="#131a0f"/>
-    <rect x="86" y="568" width="10" height="10" fill="#1a2216" rx="1"/>
-    <!-- Windows — warm amber, glowing -->
-    <rect x="68"  y="588" width="13" height="17" fill="#8a5010" rx="1"/>
-    <rect x="87"  y="588" width="13" height="17" fill="#a05c12" rx="1"/>
-    <rect x="106" y="588" width="13" height="17" fill="#7a4808" rx="1"/>
-    <rect x="125" y="588" width="11" height="17" fill="#603808" rx="1"/>
-    <!-- Window glow halos -->
-    <rect x="68"  y="588" width="13" height="17" fill="#e08020" rx="1" opacity=".3" filter="url(#soft)"/>
-    <rect x="87"  y="588" width="13" height="17" fill="#e08020" rx="1" opacity=".35" filter="url(#soft)"/>
-    <!-- Door -->
-    <rect x="100" y="606" width="15" height="27" fill="#0e1410" rx="1"/>
-    <!-- Stone wall -->
-    <rect x="40" y="630" width="140" height="5" fill="#182018" rx="1"/>
-    <!-- Warm light spill on path -->
-    <ellipse cx="107" cy="633" rx="12" ry="4" fill="#6a3a08" opacity=".2"/>
+  <!-- Figure — clearly visible silhouette -->
+  <line x1="184" y1="664" x2="184" y2="646" stroke="#5a7858" stroke-width="4"/>
+  <circle cx="184" cy="641" r="5.5" fill="#5a7858"/>
+  <line   x1="187" y1="655" x2="194" y2="667" stroke="#4a6848" stroke-width="2.5"/>
 
-    <!-- Figure — clearly silhouetted -->
-    <line x1="182" y1="662" x2="182" y2="646" stroke="#4a6848" stroke-width="3.5"/>
-    <circle cx="182" cy="642" r="5" fill="#4a6848"/>
-    <!-- Walking stick -->
-    <line x1="185" y1="654" x2="191" y2="664" stroke="#3a5838" stroke-width="2"/>
+  <!-- Rain — blue, clearly visible -->
+  <g stroke="#5a88b0" stroke-width="1.2" opacity=".4">
+    <line x1="35"  y1="0"   x2="26"  y2="105"/>
+    <line x1="105" y1="20"  x2="96"  y2="125"/>
+    <line x1="172" y1="0"   x2="163" y2="105"/>
+    <line x1="245" y1="30"  x2="236" y2="135"/>
+    <line x1="320" y1="10"  x2="311" y2="115"/>
+    <line x1="395" y1="0"   x2="386" y2="105"/>
+    <line x1="465" y1="22"  x2="456" y2="127"/>
+    <line x1="535" y1="8"   x2="526" y2="113"/>
+    <line x1="70"  y1="122" x2="61"  y2="227"/>
+    <line x1="150" y1="140" x2="141" y2="245"/>
+    <line x1="268" y1="105" x2="259" y2="210"/>
+    <line x1="375" y1="125" x2="366" y2="230"/>
+    <line x1="480" y1="112" x2="471" y2="217"/>
+    <line x1="565" y1="132" x2="556" y2="237"/>
+    <line x1="22"  y1="230" x2="13"  y2="335"/>
+    <line x1="195" y1="242" x2="186" y2="347"/>
+    <line x1="345" y1="218" x2="336" y2="323"/>
+    <line x1="495" y1="235" x2="486" y2="340"/>
+  </g>
+</svg>
 
-    <!-- Rain streaks — properly visible blue-grey -->
-    <g stroke="#4a6888" stroke-width="1" opacity=".35">
-      <line x1="35"  y1="0"   x2="27"  y2="100"/>
-      <line x1="105" y1="18"  x2="97"  y2="118"/>
-      <line x1="172" y1="0"   x2="164" y2="100"/>
-      <line x1="242" y1="28"  x2="234" y2="128"/>
-      <line x1="318" y1="8"   x2="310" y2="108"/>
-      <line x1="392" y1="0"   x2="384" y2="100"/>
-      <line x1="462" y1="20"  x2="454" y2="120"/>
-      <line x1="532" y1="6"   x2="524" y2="106"/>
-      <line x1="70"  y1="118" x2="62"  y2="218"/>
-      <line x1="148" y1="138" x2="140" y2="238"/>
-      <line x1="265" y1="102" x2="257" y2="202"/>
-      <line x1="372" y1="122" x2="364" y2="222"/>
-      <line x1="478" y1="108" x2="470" y2="208"/>
-      <line x1="562" y1="128" x2="554" y2="228"/>
-      <line x1="22"  y1="225" x2="14"  y2="325"/>
-      <line x1="192" y1="235" x2="184" y2="335"/>
-      <line x1="342" y1="212" x2="334" y2="312"/>
-      <line x1="492" y1="228" x2="484" y2="328"/>
-      <line x1="575" y1="202" x2="567" y2="302"/>
-    </g>
-
-  </svg>
-
-  <div class="mist"></div>
-  <div class="label-top">A Choose Your Own Story</div>
-
-  <div class="text-layer">
-    <div class="tagline">
-      You weren't looking for trouble.<br>
-      But trouble found you in the Lake District.
-    </div>
-    <div class="title">DEAD<br>GROUND</div>
-    <div class="subtitle">A Lake District Story</div>
-    <div class="byline">Interactive &nbsp;·&nbsp; Choose Your Own Path</div>
+<div class="fade-bottom"></div>
+<div class="label-top">A Choose Your Own Story</div>
+<div class="text-layer">
+  <div class="tagline">
+    You weren't looking for trouble.<br>
+    But trouble found you in the Lake District.
   </div>
+  <div class="title">DEAD<br>GROUND</div>
+  <div class="subtitle">A Lake District Story</div>
+  <div class="byline">Interactive &nbsp;·&nbsp; Choose Your Own Path</div>
+</div>
 
 </div>
 </body>

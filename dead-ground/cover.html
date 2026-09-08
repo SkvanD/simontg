@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dead Ground — Cover</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0c10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+  .cover {
+    width: 600px;
+    height: 900px;
+    position: relative;
+    overflow: hidden;
+    background: #0e1118;
+    box-shadow: 0 0 80px rgba(0,0,0,0.8);
+  }
+
+  /* SCENE */
+  .scene { position: absolute; inset: 0; }
+
+  /* MIST OVERLAY */
+  .mist {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(10,12,18,0.15) 0%,
+      rgba(10,12,18,0.0) 30%,
+      rgba(10,12,18,0.0) 55%,
+      rgba(10,12,18,0.55) 75%,
+      rgba(10,12,18,0.92) 88%,
+      rgba(10,12,18,1) 100%
+    );
+    z-index: 2;
+  }
+
+  /* TEXT LAYER */
+  .text-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 56px;
+  }
+
+  .label-top {
+    position: absolute;
+    top: 32px;
+    left: 48px;
+    font-size: 11px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: #6a9e78;
+    z-index: 4;
+  }
+
+  .tagline {
+    font-size: 14px;
+    color: #7a9088;
+    letter-spacing: .08em;
+    font-style: italic;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .title {
+    font-size: 82px;
+    font-weight: normal;
+    letter-spacing: .15em;
+    color: #e8dfd0;
+    line-height: .95;
+    margin-bottom: 18px;
+    text-shadow: 0 2px 40px rgba(0,0,0,0.9);
+  }
+
+  .subtitle {
+    font-size: 16px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: #6a9e78;
+    margin-bottom: 48px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #2a3830;
+  }
+
+  .byline {
+    font-size: 12px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #3a4a42;
+  }
+
+  /* Rain lines */
+  .rain {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div class="cover">
+
+  <!-- SCENE SVG -->
+  <div class="scene">
+    <svg viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg" width="600" height="900">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#080c14"/>
+          <stop offset="40%" stop-color="#0e1525"/>
+          <stop offset="75%" stop-color="#121e1a"/>
+          <stop offset="100%" stop-color="#0a1008"/>
+        </linearGradient>
+        <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0a1218"/>
+          <stop offset="100%" stop-color="#060c10"/>
+        </linearGradient>
+        <radialGradient id="moon-glow" cx="68%" cy="18%" r="30%">
+          <stop offset="0%" stop-color="#1e2e40" stop-opacity=".6"/>
+          <stop offset="100%" stop-color="#080c14" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="blur-sm">
+          <feGaussianBlur stdDeviation="1.5"/>
+        </filter>
+        <filter id="blur-lg">
+          <feGaussianBlur stdDeviation="4"/>
+        </filter>
+      </defs>
+
+      <!-- Sky -->
+      <rect width="600" height="900" fill="url(#sky)"/>
+      <rect width="600" height="900" fill="url(#moon-glow)"/>
+
+      <!-- Moon -->
+      <circle cx="408" cy="115" r="28" fill="#1a2535" filter="url(#blur-lg)"/>
+      <circle cx="408" cy="115" r="18" fill="#2a3a4a" filter="url(#blur-sm)"/>
+      <circle cx="408" cy="115" r="10" fill="#3a4e60"/>
+
+      <!-- Cloud masses -->
+      <ellipse cx="200" cy="110" rx="200" ry="60" fill="#0f1520" opacity=".95"/>
+      <ellipse cx="480" cy="90" rx="180" ry="50" fill="#0f1520" opacity=".85"/>
+      <ellipse cx="300" cy="155" rx="300" ry="70" fill="#0d1318" opacity=".75"/>
+      <ellipse cx="100" cy="180" rx="140" ry="45" fill="#0a1015" opacity=".7"/>
+
+      <!-- Far fells (very dark, receding) -->
+      <polygon points="0,560 0,320 60,290 130,310 200,275 280,295 360,265 440,285 520,270 600,290 600,560" fill="#0a1008" opacity=".95"/>
+
+      <!-- Mid fells left - dramatic crag -->
+      <polygon points="0,640 0,370 40,340 90,360 140,310 190,340 220,295 260,330 290,640" fill="#0d1610"/>
+
+      <!-- Central Pike - main dramatic shape -->
+      <polygon points="200,640 250,310 290,345 330,285 370,318 420,298 460,330 500,640" fill="#0a1208"/>
+
+      <!-- Right fell -->
+      <polygon points="420,640 460,330 500,640 600,640 600,350 560,320 600,310 600,640" fill="#0d1410"/>
+
+      <!-- Foreground fell base -->
+      <polygon points="0,640 600,640 600,580 520,560 440,575 360,558 280,568 200,555 120,568 40,558 0,568" fill="#080e06"/>
+
+      <!-- Lake / tarn reflection -->
+      <ellipse cx="300" cy="660" rx="230" ry="55" fill="url(#water)" opacity=".9"/>
+
+      <!-- Moon reflection on water -->
+      <ellipse cx="310" cy="655" rx="18" ry="8" fill="#1a2838" opacity=".6" filter="url(#blur-sm)"/>
+      <ellipse cx="310" cy="655" rx="8" ry="4" fill="#2a3848" opacity=".5"/>
+
+      <!-- Water ripple lines -->
+      <ellipse cx="300" cy="660" rx="200" ry="40" fill="none" stroke="#0f1a22" stroke-width="1" opacity=".4"/>
+      <ellipse cx="300" cy="672" rx="160" ry="28" fill="none" stroke="#0f1a22" stroke-width="1" opacity=".3"/>
+      <ellipse cx="295" cy="682" rx="110" ry="18" fill="none" stroke="#0f1a22" stroke-width="1" opacity=".2"/>
+
+      <!-- Ground / near shore dark -->
+      <polygon points="0,900 0,700 80,688 160,695 240,685 320,692 400,683 480,690 560,684 600,690 600,900" fill="#060a04"/>
+
+      <!-- The ODG building — small, nestled under fells, right side -->
+      <rect x="68" y="590" width="80" height="48" fill="#0e1510" rx="1"/>
+      <polygon points="60,590 108,572 156,590" fill="#0a1008"/>
+      <!-- Small lit window -->
+      <rect x="82" y="600" width="9" height="12" fill="#1e1608" rx="1"/>
+      <rect x="100" y="600" width="9" height="12" fill="#241a0a" rx="1" opacity=".7"/>
+      <!-- Door -->
+      <rect x="104" y="616" width="10" height="22" fill="#080c08" rx="1"/>
+      <!-- Stone wall -->
+      <rect x="50" y="634" width="120" height="4" fill="#0c1210" rx="1"/>
+
+      <!-- Figure — lone, small, on path below ODG -->
+      <line x1="152" y1="660" x2="152" y2="648" stroke="#1a2218" stroke-width="2.5"/>
+      <circle cx="152" cy="645" r="3.5" fill="#1a2218"/>
+
+      <!-- Rain streaks -->
+      <g stroke="#0f1825" stroke-width=".7" opacity=".35">
+        <line x1="50" y1="0" x2="44" y2="80"/>
+        <line x1="120" y1="20" x2="114" y2="100"/>
+        <line x1="190" y1="0" x2="184" y2="80"/>
+        <line x1="250" y1="30" x2="244" y2="110"/>
+        <line x1="330" y1="10" x2="324" y2="90"/>
+        <line x1="400" y1="0" x2="394" y2="80"/>
+        <line x1="470" y1="20" x2="464" y2="100"/>
+        <line x1="540" y1="5" x2="534" y2="85"/>
+        <line x1="80" y1="100" x2="74" y2="180"/>
+        <line x1="160" y1="120" x2="154" y2="200"/>
+        <line x1="280" y1="90" x2="274" y2="170"/>
+        <line x1="380" y1="110" x2="374" y2="190"/>
+        <line x1="500" y1="95" x2="494" y2="175"/>
+        <line x1="30" y1="200" x2="24" y2="280"/>
+        <line x1="210" y1="210" x2="204" y2="290"/>
+        <line x1="350" y1="195" x2="344" y2="275"/>
+        <line x1="490" y1="205" x2="484" y2="285"/>
+        <line x1="570" y1="180" x2="564" y2="260"/>
+      </g>
+
+    </svg>
+  </div>
+
+  <!-- MIST / FADE -->
+  <div class="mist"></div>
+
+  <!-- LABEL TOP -->
+  <div class="label-top">A Choose Your Own Story</div>
+
+  <!-- TEXT -->
+  <div class="text-layer">
+    <div class="tagline">
+      You weren't looking for trouble.<br>
+      But trouble found you in the Lake District.
+    </div>
+    <div class="title">DEAD<br>GROUND</div>
+    <div class="subtitle">A Lake District Story</div>
+    <div class="byline">Interactive &nbsp;·&nbsp; Choose Your Own Path</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>KARDS Ground Truth Annotator</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #1a1a2e; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; font-size: 13px; height: 100vh; display: flex; flex-direction: column; }
+
+  #header { background: #16213e; padding: 10px 16px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #0f3460; flex-shrink: 0; }
+  #header h1 { font-size: 15px; color: #e94560; flex: 1; }
+  .nav-btn { background: #0f3460; color: #e0e0e0; border: 1px solid #e94560; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+  .nav-btn:hover { background: #e94560; }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; background: #0f3460; }
+  #shot-label { color: #e94560; font-weight: bold; font-size: 15px; min-width: 80px; text-align: center; }
+  #export-btn { background: #2e7d32; color: #fff; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+  #export-btn:hover { background: #43a047; }
+  #saved-indicator { color: #4caf50; font-size: 11px; min-width: 60px; }
+
+  #main { display: flex; flex: 1; overflow: hidden; }
+
+  #img-panel { flex: 0 0 60%; background: #0a0a1a; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 8px; }
+  #screenshot { max-width: 100%; max-height: 100%; object-fit: contain; border: 1px solid #0f3460; }
+
+  #form-panel { flex: 1; overflow-y: auto; padding: 12px; background: #16213e; border-left: 2px solid #0f3460; }
+
+  .section { margin-bottom: 12px; }
+  .section-title { color: #e94560; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; border-bottom: 1px solid #0f3460; padding-bottom: 3px; }
+
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .field { display: flex; flex-direction: column; gap: 3px; }
+  label { font-size: 11px; color: #9e9e9e; }
+  input[type=text], input[type=number], select, textarea {
+    background: #0f3460; color: #e0e0e0; border: 1px solid #1a4a80; border-radius: 3px;
+    padding: 4px 7px; font-size: 12px; width: 100%;
+  }
+  input[type=text]:focus, input[type=number]:focus, select:focus, textarea:focus {
+    outline: none; border-color: #e94560;
+  }
+  select option { background: #0f3460; }
+
+  /* Unit tables */
+  .unit-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+  .unit-table th { background: #0f3460; color: #9e9e9e; font-size: 10px; padding: 3px 5px; text-align: left; font-weight: normal; }
+  .unit-table td { padding: 2px 3px; }
+  .unit-table input { width: 100%; background: #0a1628; border: 1px solid #1a4a80; color: #e0e0e0; border-radius: 2px; padding: 3px 5px; font-size: 12px; }
+  .unit-table input:focus { outline: none; border-color: #e94560; }
+  .del-btn { background: #7f0000; color: #fff; border: none; border-radius: 2px; padding: 2px 6px; cursor: pointer; font-size: 11px; }
+  .del-btn:hover { background: #c62828; }
+  .add-btn { background: #0f3460; color: #e0e0e0; border: 1px solid #1a4a80; border-radius: 3px; padding: 3px 10px; cursor: pointer; font-size: 11px; margin-top: 4px; }
+  .add-btn:hover { background: #1a4a80; }
+
+  #notes-field { width: 100%; height: 60px; resize: vertical; }
+  #hand-field { width: 100%; }
+
+  .done-marker { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #4caf50; margin-left: 6px; vertical-align: middle; }
+  #progress { display: flex; gap: 4px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #0f3460; border: 1px solid #1a4a80; cursor: pointer; }
+  .dot.done { background: #4caf50; }
+  .dot.current { border-color: #e94560; }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>KARDS Ground Truth Annotator</h1>
+  <div id="progress"></div>
+  <span id="shot-label">1 / 10</span>
+  <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#9664; Prev</button>
+  <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#9654;</button>
+  <button id="export-btn" onclick="exportJSON()">&#8595; Export JSON</button>
+  <span id="saved-indicator"></span>
+</div>
+
+<div id="main">
+  <div id="img-panel">
+    <img id="screenshot" src="shot_001.png" alt="Screenshot">
+  </div>
+
+  <div id="form-panel">
+
+    <div class="section">
+      <div class="section-title">HQ Health</div>
+      <div class="row2">
+        <div class="field"><label>my_hq_hp</label><input type="number" id="my_hq_hp" min="0" max="30" placeholder="e.g. 20"></div>
+        <div class="field"><label>opponent_hq_hp</label><input type="number" id="opponent_hq_hp" min="0" max="30" placeholder="e.g. 20"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Turn &amp; Kredits</div>
+      <div class="row3">
+        <div class="field">
+          <label>turn</label>
+          <select id="turn">
+            <option value="">-- select --</option>
+            <option value="mine">mine</option>
+            <option value="opponent">opponent</option>
+          </select>
+        </div>
+        <div class="field"><label>my_kredits</label><input type="text" id="my_kredits" placeholder="e.g. 3/5"></div>
+        <div class="field"><label>opponent_kredits</label><input type="text" id="opponent_kredits" placeholder="e.g. 2/6"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Frontline</div>
+      <div class="field" style="margin-bottom:6px">
+        <label>frontline_controller</label>
+        <select id="frontline_controller">
+          <option value="">-- select --</option>
+          <option value="mine">mine</option>
+          <option value="opponent">opponent</option>
+          <option value="empty">empty</option>
+        </select>
+      </div>
+      <div id="frontline-units"></div>
+      <button class="add-btn" onclick="addUnit('frontline')">+ Add unit</button>
+    </div>
+
+    <div class="section">
+      <div class="section-title">My HQ Line (support zone — bottom)</div>
+      <div id="my_hq_line-units"></div>
+      <button class="add-btn" onclick="addUnit('my_hq_line')">+ Add unit</button>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Opponent HQ Line (support zone — top)</div>
+      <div id="opponent_hq_line-units"></div>
+      <button class="add-btn" onclick="addUnit('opponent_hq_line')">+ Add unit</button>
+    </div>
+
+    <div class="section">
+      <div class="section-title">My Hand</div>
+      <div class="field">
+        <label>my_hand (comma-separated card names)</label>
+        <input type="text" id="my_hand" placeholder="e.g. GIFU REGIMENT, HMS SCEPTRE, IJN MIKURA">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Notes</div>
+      <textarea id="notes" id="notes-field" placeholder="Any observations — game events, card effects, game end screen..."></textarea>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const TOTAL = 10;
+let current = 1;
+const ZONES = ['frontline', 'my_hq_line', 'opponent_hq_line'];
+
+// Storage key per shot
+function key(shot) { return `kards_gt_shot_${shot}`; }
+
+// ── Unit row helpers ────────────────────────────────────────────────
+function unitTableId(zone) { return `${zone}-table`; }
+
+function buildUnitRow(zone, idx, data) {
+  data = data || {};
+  return `<tr id="${zone}-row-${idx}">
+    <td><input type="text" id="${zone}-name-${idx}" value="${esc(data.name||'')}" placeholder="Card name" oninput="autoSave()"></td>
+    <td><input type="text" id="${zone}-atk-${idx}" value="${data.attack??''}" placeholder="–" style="width:45px" oninput="autoSave()"></td>
+    <td><input type="text" id="${zone}-def-${idx}" value="${data.defense??''}" placeholder="–" style="width:45px" oninput="autoSave()"></td>
+    <td><input type="text" id="${zone}-eff-${idx}" value="${esc(data.effects||'')}" placeholder="e.g. +1+1" oninput="autoSave()"></td>
+    <td><button class="del-btn" onclick="removeUnit('${zone}',${idx})">✕</button></td>
+  </tr>`;
+}
+
+function esc(s) { return String(s).replace(/"/g,'&quot;'); }
+
+function ensureTable(zone) {
+  const container = document.getElementById(`${zone}-units`);
+  let tbl = document.getElementById(unitTableId(zone));
+  if (!tbl) {
+    container.innerHTML = `<table class="unit-table" id="${unitTableId(zone)}">
+      <thead><tr><th style="width:40%">Name</th><th>Atk</th><th>Def</th><th>Effects</th><th></th></tr></thead>
+      <tbody id="${zone}-tbody"></tbody>
+    </table>`;
+  }
+}
+
+let unitCounters = { frontline: 0, my_hq_line: 0, opponent_hq_line: 0 };
+
+function addUnit(zone, data) {
+  ensureTable(zone);
+  const idx = ++unitCounters[zone];
+  const tbody = document.getElementById(`${zone}-tbody`);
+  const row = document.createElement('tr');
+  row.id = `${zone}-row-${idx}`;
+  row.innerHTML = buildUnitRow(zone, idx, data).replace(/^<tr[^>]*>/, '').replace(/<\/tr>$/, '');
+  tbody.appendChild(row);
+}
+
+function removeUnit(zone, idx) {
+  const row = document.getElementById(`${zone}-row-${idx}`);
+  if (row) row.remove();
+  autoSave();
+}
+
+function clearUnits(zone) {
+  const container = document.getElementById(`${zone}-units`);
+  container.innerHTML = '';
+  unitCounters[zone] = 0;
+}
+
+// ── Read / write form ───────────────────────────────────────────────
+function readUnits(zone) {
+  const tbody = document.getElementById(`${zone}-tbody`);
+  if (!tbody) return [];
+  const units = [];
+  tbody.querySelectorAll('tr').forEach(row => {
+    const id = row.id.replace(`${zone}-row-`, '');
+    const name = (document.getElementById(`${zone}-name-${id}`)?.value || '').trim();
+    if (!name) return;
+    const atk = document.getElementById(`${zone}-atk-${id}`)?.value;
+    const def = document.getElementById(`${zone}-def-${id}`)?.value;
+    const eff = (document.getElementById(`${zone}-eff-${id}`)?.value || '').trim();
+    units.push({
+      name,
+      attack: atk === '' || atk === undefined ? null : (isNaN(atk) ? atk : Number(atk)),
+      defense: def === '' || def === undefined ? null : (isNaN(def) ? def : Number(def)),
+      effects: eff
+    });
+  });
+  return units;
+}
+
+function readForm() {
+  const handRaw = document.getElementById('my_hand').value;
+  const hand = handRaw ? handRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+  return {
+    my_hq_hp: document.getElementById('my_hq_hp').value !== '' ? Number(document.getElementById('my_hq_hp').value) : null,
+    opponent_hq_hp: document.getElementById('opponent_hq_hp').value !== '' ? Number(document.getElementById('opponent_hq_hp').value) : null,
+    turn: document.getElementById('turn').value || null,
+    my_kredits: document.getElementById('my_kredits').value || null,
+    opponent_kredits: document.getElementById('opponent_kredits').value || null,
+    frontline_controller: document.getElementById('frontline_controller').value || null,
+    frontline: readUnits('frontline'),
+    my_hq_line: readUnits('my_hq_line'),
+    opponent_hq_line: readUnits('opponent_hq_line'),
+    my_hand: hand,
+    card_being_played: null,
+    notes: document.getElementById('notes').value || ''
+  };
+}
+
+function populateForm(data) {
+  if (!data) data = {};
+  document.getElementById('my_hq_hp').value = data.my_hq_hp ?? '';
+  document.getElementById('opponent_hq_hp').value = data.opponent_hq_hp ?? '';
+  document.getElementById('turn').value = data.turn || '';
+  document.getElementById('my_kredits').value = data.my_kredits || '';
+  document.getElementById('opponent_kredits').value = data.opponent_kredits || '';
+  document.getElementById('frontline_controller').value = data.frontline_controller || '';
+  document.getElementById('my_hand').value = (data.my_hand || []).join(', ');
+  document.getElementById('notes').value = data.notes || '';
+
+  ZONES.forEach(zone => {
+    clearUnits(zone);
+    (data[zone] || []).forEach(u => addUnit(zone, u));
+  });
+}
+
+// ── Auto-save ───────────────────────────────────────────────────────
+let saveTimer = null;
+function autoSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    localStorage.setItem(key(current), JSON.stringify(readForm()));
+    const ind = document.getElementById('saved-indicator');
+    ind.textContent = 'Saved ✓';
+    setTimeout(() => { ind.textContent = ''; }, 1500);
+    updateProgress();
+  }, 400);
+}
+
+// Attach autoSave to all simple inputs
+document.querySelectorAll('input, select, textarea').forEach(el => {
+  el.addEventListener('input', autoSave);
+  el.addEventListener('change', autoSave);
+});
+
+// ── Navigation ──────────────────────────────────────────────────────
+function navigate(dir) {
+  autoSave();
+  clearTimeout(saveTimer);
+  localStorage.setItem(key(current), JSON.stringify(readForm()));
+  current = Math.max(1, Math.min(TOTAL, current + dir));
+  loadShot(current);
+}
+
+function loadShot(n) {
+  current = n;
+  document.getElementById('screenshot').src = `shot_${String(n).padStart(3,'0')}.png`;
+  document.getElementById('shot-label').textContent = `${n} / ${TOTAL}`;
+  document.getElementById('prev-btn').disabled = n <= 1;
+  document.getElementById('next-btn').disabled = n >= TOTAL;
+
+  const saved = localStorage.getItem(key(n));
+  populateForm(saved ? JSON.parse(saved) : {});
+  updateProgress();
+}
+
+// ── Progress dots ───────────────────────────────────────────────────
+function updateProgress() {
+  const prog = document.getElementById('progress');
+  prog.innerHTML = '';
+  for (let i = 1; i <= TOTAL; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (localStorage.getItem(key(i)) ? ' done' : '') + (i === current ? ' current' : '');
+    dot.title = `Shot ${i}`;
+    dot.onclick = ((n) => () => { localStorage.setItem(key(current), JSON.stringify(readForm())); loadShot(n); })(i);
+    prog.appendChild(dot);
+  }
+}
+
+// ── Export ──────────────────────────────────────────────────────────
+function exportJSON() {
+  localStorage.setItem(key(current), JSON.stringify(readForm()));
+  const shots = [];
+  for (let i = 1; i <= TOTAL; i++) {
+    const saved = localStorage.getItem(key(i));
+    const data = saved ? JSON.parse(saved) : {};
+    data.shot = i;
+    data.file = `shot_${String(i).padStart(3,'0')}.png`;
+    shots.push(data);
+  }
+  const out = { session: 'benchmark_10shot', model: 'human_ground_truth', shots };
+  const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'benchmark_human_ground_truth.json';
+  a.click();
+}
+
+// ── Init ─────────────────────────────────────────────────────────────
+loadShot(1);
+</script>
+</body>
+</html>

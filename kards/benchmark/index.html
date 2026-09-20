@@ -15,7 +15,21 @@
   #shot-label { color: #e94560; font-weight: bold; font-size: 15px; min-width: 80px; text-align: center; }
   #export-btn { background: #2e7d32; color: #fff; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; }
   #export-btn:hover { background: #43a047; }
+  #gist-btn { background: #6a1b9a; color: #fff; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+  #gist-btn:hover { background: #8e24aa; }
+  #gist-btn:disabled { opacity: 0.5; cursor: default; }
+  #gist-status { font-size: 11px; min-width: 80px; }
   #saved-indicator { color: #4caf50; font-size: 11px; min-width: 60px; }
+
+  /* Gist settings panel */
+  #gist-panel { display: none; background: #0f3460; border: 1px solid #6a1b9a; border-radius: 6px; padding: 10px 14px; gap: 10px; flex-wrap: wrap; align-items: center; }
+  #gist-panel.open { display: flex; }
+  #gist-panel label { font-size: 11px; color: #9e9e9e; margin-right: 4px; }
+  #gist-panel input { background: #1a1a2e; color: #e0e0e0; border: 1px solid #6a1b9a; border-radius: 3px; padding: 4px 8px; font-size: 12px; }
+  #gist-token-input { width: 220px; }
+  #gist-id-input { width: 280px; font-family: monospace; }
+  #gist-save-btn { background: #6a1b9a; color: #fff; border: none; padding: 4px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; }
+  #gist-save-btn:hover { background: #8e24aa; }
 
   #main { display: flex; flex: 1; overflow: hidden; }
 
@@ -70,7 +84,18 @@
   <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#9664; Prev</button>
   <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#9654;</button>
   <button id="export-btn" onclick="exportJSON()">&#8595; Export JSON</button>
+  <button id="gist-btn" onclick="pushToGist()">&#9729; Push to Gist</button>
+  <button class="nav-btn" onclick="toggleGistPanel()" style="font-size:16px;padding:4px 10px;">&#9881;</button>
+  <span id="gist-status"></span>
   <span id="saved-indicator"></span>
+</div>
+<div id="gist-panel">
+  <label>GitHub Token:</label>
+  <input type="password" id="gist-token-input" placeholder="ghp_xxxxxxxxxxxx">
+  <label>Gist ID:</label>
+  <input type="text" id="gist-id-input" placeholder="leave blank to create new">
+  <button id="gist-save-btn" onclick="saveGistSettings()">Save</button>
+  <span style="font-size:11px;color:#9e9e9e">Settings saved in browser only — never sent anywhere except GitHub.</span>
 </div>
 
 <div id="main">
@@ -334,6 +359,92 @@ function exportJSON() {
   a.href = URL.createObjectURL(blob);
   a.download = 'benchmark_human_ground_truth.json';
   a.click();
+}
+
+// ── Gist integration ────────────────────────────────────────────────
+function toggleGistPanel() {
+    document.getElementById('gist-panel').classList.toggle('open');
+    const s = loadGistSettings();
+    document.getElementById('gist-token-input').value = s.token;
+    document.getElementById('gist-id-input').value = s.gistId;
+}
+
+function saveGistSettings() {
+    localStorage.setItem('kards_gt_gist_token', document.getElementById('gist-token-input').value.trim());
+    localStorage.setItem('kards_gt_gist_id', document.getElementById('gist-id-input').value.trim());
+    document.getElementById('gist-panel').classList.remove('open');
+    setGistStatus('Settings saved ✓', '#4caf50');
+    setTimeout(() => setGistStatus('', ''), 2000);
+}
+
+function loadGistSettings() {
+    return {
+        token: localStorage.getItem('kards_gt_gist_token') || '',
+        gistId: localStorage.getItem('kards_gt_gist_id') || ''
+    };
+}
+
+function setGistStatus(msg, color) {
+    const el = document.getElementById('gist-status');
+    el.textContent = msg;
+    el.style.color = color || '#e0e0e0';
+}
+
+async function pushToGist() {
+    const { token, gistId } = loadGistSettings();
+    if (!token) {
+        toggleGistPanel();
+        setGistStatus('Enter token first', '#f44336');
+        return;
+    }
+
+    // Save current shot first
+    localStorage.setItem(key(current), JSON.stringify(readForm()));
+
+    const shots = [];
+    for (let i = 1; i <= TOTAL; i++) {
+        const saved = localStorage.getItem(key(i));
+        const data = saved ? JSON.parse(saved) : {};
+        data.shot = i;
+        data.file = `shot_${String(i).padStart(3,'0')}.png`;
+        shots.push(data);
+    }
+    const payload = JSON.stringify({ session: 'benchmark_10shot', model: 'human_ground_truth', shots }, null, 2);
+
+    const btn = document.getElementById('gist-btn');
+    btn.disabled = true;
+    setGistStatus('Pushing…', '#ff9800');
+
+    try {
+        const url = gistId
+            ? `https://api.github.com/gists/${gistId}`
+            : 'https://api.github.com/gists';
+        const method = gistId ? 'PATCH' : 'POST';
+        const body = {
+            description: 'KARDS VLM Benchmark Ground Truth',
+            public: false,
+            files: { 'benchmark_human_ground_truth.json': { content: payload } }
+        };
+
+        const resp = await fetch(url, {
+            method,
+            headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        if (!resp.ok) throw new Error(`${resp.status} ${resp.statusText}`);
+        const data = await resp.json();
+
+        if (!gistId) {
+            localStorage.setItem('kards_gt_gist_id', data.id);
+            document.getElementById('gist-id-input').value = data.id;
+        }
+        setGistStatus('Pushed ✓', '#4caf50');
+        setTimeout(() => setGistStatus('', ''), 3000);
+    } catch (e) {
+        setGistStatus(`Error: ${e.message}`, '#f44336');
+    } finally {
+        btn.disabled = false;
+    }
 }
 
 // ── Init ─────────────────────────────────────────────────────────────

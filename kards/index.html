@@ -2276,8 +2276,8 @@ function toggleSection(elemId, btn) {
                 : `<div class="rating-pill" style="font-size:14px;background:rgba(255,255,255,0.05);color:var(--text-secondary);border:1px solid var(--border-color);">No matches yet</div>`;
 
             const totalCards = sortedCards.reduce((a,c)=>a+(c.qty||1),0);
-            const mainCards  = sortedCards.filter(c=>(c.faction||'').toLowerCase()===deck.main_nation).reduce((a,c)=>a+(c.qty||1),0);
-            const allyCards  = sortedCards.filter(c=>(c.faction||'').toLowerCase()===deck.ally_nation).reduce((a,c)=>a+(c.qty||1),0);
+            const mainCards  = sortedCards.filter(c=>(c.faction||'').toLowerCase()===(deck.main_nation||'').toLowerCase()).reduce((a,c)=>a+(c.qty||1),0);
+            const allyCards  = sortedCards.filter(c=>(c.faction||'').toLowerCase()===(deck.ally_nation||'').toLowerCase()).reduce((a,c)=>a+(c.qty||1),0);
 
             modalBody.innerHTML = `
                 <div style="margin-bottom:20px;">

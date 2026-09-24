@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keenmow Sabe — Robot Mower Shelter Plan</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; background: #fff; }
+  .toolbar {
+    background: #5c3a21; color: #fff; padding: 12px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .toolbar a { color: #f4d9bc; text-decoration: none; font-size: 14px; }
+  .toolbar a:hover { color: #fff; }
+  .print-btn {
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+    color: #fff; padding: 7px 16px; border-radius: 8px; cursor: pointer;
+    font-size: 14px; font-weight: 600;
+  }
+  .print-btn:hover { background: rgba(255,255,255,0.25); }
+  .content { max-width: 860px; margin: 0 auto; padding: 32px 24px; }
+  h1 { color: #5c3a21; border-bottom: 2px solid #5c3a21; padding-bottom: 8px; font-size: 26px; }
+  h2 { color: #8b4513; margin-top: 28px; border-bottom: 1px solid #ddd; padding-bottom: 5px; font-size: 20px; }
+  h3 { color: #444; font-size: 16px; margin-top: 18px; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; }
+  th, td { border: 1px solid #b5b5b5; padding: 9px 11px; text-align: left; }
+  th { background-color: #f4ece1; color: #5c3a21; font-weight: bold; }
+  tr:nth-child(even) { background-color: #fdfbf7; }
+  .note { background-color: #eef6fc; border-left: 4px solid #2980b9; padding: 12px; margin: 15px 0; font-size: 14px; }
+  .warn { background-color: #fff8e1; border-left: 4px solid #f39c12; padding: 12px; margin: 15px 0; font-size: 14px; }
+  ul, ol { padding-left: 20px; margin: 8px 0; }
+  li { margin-bottom: 6px; }
+  @media print {
+    .toolbar { display: none; }
+    body { font-size: 12px; }
+    h1 { font-size: 18px; }
+    h2 { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <a href="index.html">← Shop Plans</a>
+  <span style="font-weight:700; font-size:15px;">Keenmow Sabe — Mower Shelter</span>
+  <button class="print-btn" onclick="window.print()">&#128424; Print</button>
+</div>
+
+<div class="content">
+
+<h1>Keenmow Sabe &mdash; Robot Mower Shelter</h1>
+
+<!-- TECHNICAL DRAWING -->
+<div style="margin:28px 0; background:#f8f6f2; border:1px solid #ddd; border-radius:8px; padding:16px; overflow-x:auto;">
+<svg width="720" height="410" viewBox="0 0 720 410" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif" style="display:block; max-width:100%;">
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <polygon points="0,0 7,3.5 0,7" fill="#555"/>
+    </marker>
+    <marker id="arrl" markerWidth="7" markerHeight="7" refX="1" refY="3.5" orient="auto">
+      <polygon points="7,0 0,3.5 7,7" fill="#555"/>
+    </marker>
+  </defs>
+
+  <rect width="720" height="410" fill="#f8f6f2"/>
+
+  <!-- ===== FRONT ELEVATION (left half) ===== -->
+  <!-- Scale 1" = 5px. Ground y=350. Front posts 27" tall → top y=215. -->
+  <!-- Left post x=78..96, right post x=258..276. Interior x=96..258 (162px ≈ 32"). -->
+
+  <text x="177" y="18" text-anchor="middle" font-size="12" font-weight="bold" fill="#5c3a21">Front Elevation — North Face (Opening)</text>
+  <text x="177" y="32" text-anchor="middle" font-size="10" fill="#999">1&quot; = 5 px &nbsp;|&nbsp; all dims in inches</text>
+
+  <!-- Paving slab -->
+  <rect x="62" y="350" width="232" height="9" fill="#bbb" stroke="#999" stroke-width="1"/>
+
+  <!-- Left front post -->
+  <rect x="78" y="215" width="18" height="135" fill="#c8a06a" stroke="#7a4f1f" stroke-width="1.5"/>
+  <!-- Right front post -->
+  <rect x="258" y="215" width="18" height="135" fill="#c8a06a" stroke="#7a4f1f" stroke-width="1.5"/>
+
+  <!-- Roof panel (overhangs each side by 8px = 1.5") -->
+  <rect x="70" y="208" width="216" height="9" fill="#b8905a" stroke="#7a4f1f" stroke-width="1.5"/>
+
+  <!-- Rain sensor notch cut-out on roof front edge (3" wide = 15px, centred at x=177) -->
+  <rect x="170" y="208" width="15" height="9" fill="#e8f4fc" stroke="#2980b9" stroke-width="1.5"/>
+
+  <!-- Fascia board: y=222..250 (28px ≈ 5.5"), spans outside of posts x=78..276 -->
+  <rect x="78" y="222" width="196" height="28" fill="#d4aa77" stroke="#7a4f1f" stroke-width="1.5"/>
+  <text x="176" y="240" text-anchor="middle" font-size="9" font-weight="bold" fill="#5c3a21">KEENMOW SABE</text>
+
+  <!-- Opening (shaded, dashed border) -->
+  <rect x="96" y="250" width="162" height="100" fill="#ddeef8" stroke="#7a4f1f" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="177" y="304" text-anchor="middle" font-size="10" fill="#7a4f1f" font-style="italic">opening</text>
+
+  <!-- Rain sensor notch callout -->
+  <line x1="177" y1="198" x2="177" y2="207" stroke="#2980b9" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="177" y="196" text-anchor="middle" font-size="9" fill="#2980b9">rain sensor notch</text>
+  <text x="177" y="187" text-anchor="middle" font-size="9" fill="#2980b9">3&quot; wide &times; 8&quot; deep</text>
+
+  <!-- DIMENSIONS — front elevation -->
+  <!-- Overall width 39" at y=372 -->
+  <line x1="78" y1="372" x2="276" y2="372" stroke="#2980b9" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+  <text x="177" y="382" text-anchor="middle" font-size="10" fill="#2980b9">39&quot; overall</text>
+
+  <!-- Interior width 32" at y=365 -->
+  <line x1="96" y1="364" x2="258" y2="364" stroke="#888" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+  <text x="177" y="360" text-anchor="middle" font-size="9" fill="#888">32&quot; interior</text>
+
+  <!-- Post height 27" -->
+  <line x1="57" y1="215" x2="57" y2="350" stroke="#2980b9" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+  <text x="50" y="285" text-anchor="middle" font-size="9" fill="#2980b9" transform="rotate(-90 50 285)">27&quot;</text>
+
+  <!-- Opening height 20" -->
+  <line x1="302" y1="250" x2="302" y2="350" stroke="#888" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+  <text x="312" y="303" text-anchor="middle" font-size="9" fill="#888" transform="rotate(-90 312 303)">20&quot; clear</text>
+
+  <!-- Fascia height 5.5" -->
+  <line x1="310" y1="222" x2="310" y2="250" stroke="#888" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+  <text x="322" y="238" text-anchor="middle" font-size="9" fill="#888" transform="rotate(-90 322 238)">5&frac12;&quot;</text>
+
+  <!-- Fascia label -->
+  <line x1="276" y1="236" x2="326" y2="220" stroke="#aaa" stroke-width="1"/>
+  <text x="328" y="218" font-size="9" fill="#666">name board</text>
+
+  <!-- Divider -->
+  <line x1="358" y1="10" x2="358" y2="400" stroke="#ddd" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- ===== SIDE ELEVATION (right half) ===== -->
+  <!-- Scale 1" = 5px. Front post (left): x=388..406, ht 27" → top y=215 -->
+  <!-- Back post (right): interior 36"=180px → x=586..604, ht 20" → top y=250 -->
+
+  <text x="504" y="18" text-anchor="middle" font-size="12" font-weight="bold" fill="#5c3a21">Side Elevation — East Face</text>
+  <text x="504" y="32" text-anchor="middle" font-size="10" fill="#999">showing roof slope &amp; wall slats</text>
+
+  <!-- Paving slab -->
+  <rect x="372" y="350" width="252" height="9" fill="#bbb" stroke="#999" stroke-width="1"/>
+
+  <!-- Front post (27" = 135px tall) -->
+  <rect x="388" y="215" width="18" height="135" fill="#c8a06a" stroke="#7a4f1f" stroke-width="1.5"/>
+  <!-- Back post (20" = 100px tall) -->
+  <rect x="586" y="250" width="18" height="100" fill="#c8a06a" stroke="#7a4f1f" stroke-width="1.5"/>
+
+  <!-- Sloped roof: front top-left x=380,y=208; front bottom x=380,y=215; back top x=612,y=243; back bottom x=612,y=250 -->
+  <polygon points="380,208 612,243 612,250 380,215" fill="#b8905a" stroke="#7a4f1f" stroke-width="1.5"/>
+
+  <!-- Side bottom rail (2×4): y=336..344, between posts -->
+  <rect x="406" y="336" width="180" height="8" fill="#b8905a" stroke="#7a4f1f" stroke-width="1"/>
+
+  <!-- 3 wall slats on side (horizontal 1x4, 5px thick for visibility) -->
+  <!-- Slat 3 upper: y=274 -->
+  <rect x="406" y="274" width="180" height="5" fill="#c8a06a" stroke="#7a4f1f" stroke-width="1"/>
+  <!-- Slat 2 mid: y=296 -->
+  <rect x="406" y="296" width="180" height="5" fill="#c8a06a" stroke="#7a4f1f" stroke-width="1"/>
+  <!-- Slat 1 lower: y=318 -->
+  <rect x="406" y="318" width="180" height="5" fill="#c8a06a" stroke="#7a4f1f" stroke-width="1"/>
+
+  <!-- Slope dashed reference line -->
+  <line x1="397" y1="215" x2="595" y2="250" stroke="#e74c3c" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Slope annotation -->
+  <text x="510" y="225" text-anchor="middle" font-size="9" fill="#e74c3c">7&quot; slope</text>
+
+  <!-- Rain sensor notch visible on front roof edge -->
+  <line x1="386" y1="200" x2="386" y2="207" stroke="#2980b9" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="386" y="198" text-anchor="middle" font-size="9" fill="#2980b9">notch</text>
+
+  <!-- DIMENSIONS — side elevation -->
+  <!-- Total depth 43" at y=372 -->
+  <line x1="388" y1="372" x2="604" y2="372" stroke="#2980b9" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+  <text x="496" y="382" text-anchor="middle" font-size="10" fill="#2980b9">43&quot; overall</text>
+
+  <!-- Interior depth 36" at y=365 -->
+  <line x1="406" y1="364" x2="586" y2="364" stroke="#888" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+  <text x="496" y="360" text-anchor="middle" font-size="9" fill="#888">36&quot; interior</text>
+
+  <!-- Front post height 27" -->
+  <line x1="370" y1="215" x2="370" y2="350" stroke="#2980b9" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+  <text x="363" y="285" text-anchor="middle" font-size="9" fill="#2980b9" transform="rotate(-90 363 285)">27&quot;</text>
+
+  <!-- Back post height 20" -->
+  <line x1="623" y1="250" x2="623" y2="350" stroke="#2980b9" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+  <text x="632" y="303" text-anchor="middle" font-size="9" fill="#2980b9" transform="rotate(-90 632 303)">20&quot;</text>
+
+  <!-- North / South direction labels -->
+  <text x="390" y="400" text-anchor="middle" font-size="10" fill="#888">&#8592; NORTH</text>
+  <text x="602" y="400" text-anchor="middle" font-size="10" fill="#888">SOUTH &#8594;</text>
+
+</svg>
+</div>
+
+<p><strong>Project</strong>: Outdoor shelter for Keenmow K1 robot lawnmower and charging base<br>
+<strong>Material</strong>: Pressure-treated pine throughout &middot; 3/4&quot; PT plywood roof<br>
+<strong>Finish</strong>: Oil/shellac primer, 2 coats white exterior latex, white elastomeric coating on roof<br>
+<strong>Units</strong>: Imperial (inches)</p>
+
+<h2>1. Project Overview &amp; Specs</h2>
+<p>Free-standing outdoor shelter for a Keenmow K1 robot mower and its charging base. Located in a south-facing position; opening faces north to minimise direct sun ingress. Site is paving slabs. Three slatted walls provide shade, weather protection and airflow to prevent heat build-up. Roof slopes south so rain drains away from the opening. Painted white throughout to reflect heat and present a finished appearance.</p>
+<ul>
+  <li><strong>Interior dimensions</strong>: 32&quot; W &times; 36&quot; D &times; 20&quot; H</li>
+  <li><strong>Opening</strong>: Faces north &middot; 32&quot; wide &times; 20&quot; tall</li>
+  <li><strong>Post heights</strong>: Front (north) 27&quot; &middot; Back (south) 20&quot;</li>
+  <li><strong>Roof slope</strong>: 7&quot; drop north-to-south &mdash; rain drains away from the opening</li>
+  <li><strong>Rain sensor notch</strong>: 3&quot; wide &times; 8&quot; deep, centred on the front (north) roof edge &mdash; exposes the K1&apos;s onboard rain sensor when docked</li>
+  <li><strong>Name board</strong>: 1&times;6 fascia across front above opening &mdash; paint &ldquo;Keenmow Sabe&rdquo;</li>
+  <li><strong>Charging station clearance</strong>: Station is 17&quot; W &times; 32&quot; D &times; 17&quot; H; shelter gives 7&frac12;&quot; side clearance and 4&quot; rear clearance</li>
+</ul>
+
+<h2>2. Lumber &amp; Materials</h2>
+<table>
+  <thead><tr><th>Item</th><th>Qty</th><th>Size</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>4&times;4 PT pine</td><td>2</td><td>8&apos; boards</td><td>All 4 corner posts</td></tr>
+    <tr><td>2&times;4 PT pine</td><td>3</td><td>8&apos; boards</td><td>Top and bottom rails</td></tr>
+    <tr><td>1&times;4 PT pine</td><td>4</td><td>8&apos; boards</td><td>Wall slats (9 total)</td></tr>
+    <tr><td>1&times;6 PT pine</td><td>1</td><td>8&apos; board</td><td>Front fascia / name board (only 39&quot; needed)</td></tr>
+    <tr><td>3/4&quot; PT plywood</td><td>1</td><td>4&times;8 sheet</td><td>Roof panel</td></tr>
+  </tbody>
+</table>
+
+<h2>3. Cut List</h2>
+
+<h3>4&times;4 Posts</h3>
+<table>
+  <thead><tr><th>Qty</th><th>Length</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td>2</td><td>27&quot;</td><td>Front (north) corner posts &mdash; from 4&times;4 board 1</td></tr>
+    <tr><td>2</td><td>20&quot;</td><td>Back (south) corner posts &mdash; from 4&times;4 board 2</td></tr>
+  </tbody>
+</table>
+
+<h3>2&times;4 Rails</h3>
+<table>
+  <thead><tr><th>Qty</th><th>Length</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td>2</td><td>37&quot;</td><td>Side top rails (E &amp; W) &mdash; from 2&times;4 board 1 (37&quot; + 37&quot;)</td></tr>
+    <tr><td>2</td><td>36&quot;</td><td>Side bottom rails (E &amp; W) &mdash; from 2&times;4 board 2 (36&quot; + 36&quot;)</td></tr>
+    <tr><td>1</td><td>32&quot;</td><td>Front top rail &mdash; from 2&times;4 board 3</td></tr>
+    <tr><td>1</td><td>32&quot;</td><td>Back top rail &mdash; from 2&times;4 board 3</td></tr>
+    <tr><td>1</td><td>32&quot;</td><td>Back bottom rail &mdash; from 2&times;4 board 3 (32&quot; + 32&quot; + 32&quot; = 96&quot; exact)</td></tr>
+  </tbody>
+</table>
+<div class="note">Side top rails (37&quot;) run at a slight angle &mdash; front end attaches at the top of the 27&quot; post, back end at the top of the 20&quot; post. No bevel cut required; attach square-cut ends flat to the post faces.</div>
+
+<h3>1&times;4 Wall Slats</h3>
+<table>
+  <thead><tr><th>Qty</th><th>Length</th><th>Wall</th></tr></thead>
+  <tbody>
+    <tr><td>3</td><td>32&quot;</td><td>Back (south) wall &mdash; 3 horizontal slats, evenly spaced &mdash; from 1&times;4 board 1 (32&quot; + 32&quot; + 32&quot; = 96&quot; exact)</td></tr>
+    <tr><td>3</td><td>36&quot;</td><td>East side wall &mdash; from 1&times;4 boards 2 &amp; 3</td></tr>
+    <tr><td>3</td><td>36&quot;</td><td>West side wall &mdash; from 1&times;4 boards 3 &amp; 4 (2 slats per board, 24&quot; offcut each)</td></tr>
+  </tbody>
+</table>
+
+<h3>1&times;6 Fascia</h3>
+<table>
+  <thead><tr><th>Qty</th><th>Length</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>39&quot;</td><td>Name board &mdash; spans outside face of both front posts (rest of 8&apos; board is spare)</td></tr>
+  </tbody>
+</table>
+
+<h3>Roof &mdash; 3/4&quot; PT Plywood</h3>
+<table>
+  <thead><tr><th>Qty</th><th>Cut size</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>42&quot; &times; 46&quot;</td><td>Cut from 4&times;8 sheet. Then cut rain sensor notch: 3&quot; wide &times; 8&quot; deep, centred on the 42&quot; front edge.</td></tr>
+  </tbody>
+</table>
+
+<h2>4. Hardware</h2>
+<table>
+  <thead><tr><th>Item</th><th>Qty</th><th>Use</th></tr></thead>
+  <tbody>
+    <tr><td>3&quot; galvanized deck screws</td><td>1 lb box</td><td>Rails to posts</td></tr>
+    <tr><td>2&quot; galvanized deck screws</td><td>1 lb box</td><td>Slats to rails and posts</td></tr>
+    <tr><td>1-5/8&quot; galvanized deck screws</td><td>1 lb box</td><td>Roof plywood to rails</td></tr>
+    <tr><td>Non-penetrating post base pads (4&times;4)</td><td>4</td><td>Keeps posts off paving slabs &mdash; extends life of PT pine</td></tr>
+  </tbody>
+</table>
+
+<h2>5. Finishing Schedule</h2>
+<div class="warn"><strong>Important:</strong> PT pine must dry for 2&ndash;4 weeks after purchase before painting. Painting too soon traps moisture and causes peeling.</div>
+<table>
+  <thead><tr><th>Product</th><th>Qty</th><th>Application</th></tr></thead>
+  <tbody>
+    <tr><td>Oil-based or shellac primer</td><td>1 qt</td><td>All surfaces &mdash; seals tannins, prevents bleed-through</td></tr>
+    <tr><td>White exterior latex paint</td><td>1 qt</td><td>2 coats all surfaces</td></tr>
+    <tr><td>White elastomeric roof coating</td><td>1 qt</td><td>Roof panel top surface only, applied over final paint coat</td></tr>
+  </tbody>
+</table>
+
+<h2>6. Step-by-Step Build</h2>
+
+<h3>Step 1 &mdash; Cut all parts</h3>
+<ol>
+  <li>Cut 4&times;4 posts: 2 at 27&quot; (front), 2 at 20&quot; (back).</li>
+  <li>Cut 2&times;4 rails: 2 &times; 37&quot;, 2 &times; 36&quot;, 3 &times; 32&quot;.</li>
+  <li>Cut 1&times;4 slats: 3 &times; 32&quot;, 6 &times; 36&quot;.</li>
+  <li>Cut 1&times;6 fascia: 1 &times; 39&quot;.</li>
+  <li>Cut plywood roof panel: 42&quot; &times; 46&quot; from the 4&times;8 sheet.</li>
+</ol>
+
+<h3>Step 2 &mdash; Cut the rain sensor notch</h3>
+<ol>
+  <li>Find the centre of the 42&quot; front edge (21&quot; from each side). Mark it.</li>
+  <li>Mark 1&frac12;&quot; each side of centre &mdash; giving a 3&quot;-wide notch.</li>
+  <li>Mark 8&quot; depth in from the front edge.</li>
+  <li>Clamp the panel to sawhorses. Using the jigsaw: plunge-cut down each side line, then cross-cut at the 8&quot; mark to release the waste piece.</li>
+</ol>
+<div class="note">The notch centres above the K1&apos;s rain sensor when the mower is docked. The sensor sits 7&quot; from the opening edge; the 8&quot; notch gives 1&quot; of clearance beyond it.</div>
+
+<h3>Step 3 &mdash; Lay out post positions on the slabs</h3>
+<ol>
+  <li>Mark a 32&quot; &times; 36&quot; rectangle on the paving slabs for the post inside corners.</li>
+  <li>Set post base pads at each corner. Check square by measuring diagonals &mdash; they must be equal.</li>
+  <li>Front two posts face north; back two face south.</li>
+</ol>
+
+<h3>Step 4 &mdash; Set the posts</h3>
+<ol>
+  <li>Drop front posts (27&quot;) in the north base pads and back posts (20&quot;) in the south base pads.</li>
+  <li>Check each post is plumb on two faces with a spirit level before fastening.</li>
+</ol>
+
+<h3>Step 5 &mdash; Install top rails</h3>
+<ol>
+  <li><strong>Front top rail (32&quot;)</strong>: screw horizontally between the two front posts flush with their tops at 27&quot;.</li>
+  <li><strong>Back top rail (32&quot;)</strong>: screw horizontally between the two back posts flush with their tops at 20&quot;.</li>
+  <li><strong>Side top rails (37&quot;)</strong>: attach one end to the top of the front post (27&quot;) and the other to the top of the back post (20&quot;). The rail runs at a slight angle &mdash; no bevel cut needed, attach square ends flush to post faces. 2 &times; 3&quot; screws per end.</li>
+</ol>
+
+<h3>Step 6 &mdash; Install bottom rails</h3>
+<ol>
+  <li>Fit the <strong>back bottom rail (32&quot;)</strong> between the two back posts, raised ~3&quot; above slab level.</li>
+  <li>Fit the <strong>side bottom rails (36&quot;)</strong> between the front and back posts on each side, also ~3&quot; above slab level.</li>
+  <li>2 &times; 3&quot; screws per end.</li>
+</ol>
+<div class="note">No bottom rail on the north (opening) face &mdash; the K1 drives straight through.</div>
+
+<h3>Step 7 &mdash; Fit the wall slats</h3>
+<ol>
+  <li>Space the 3 slats evenly between the bottom and top rails on each walled face (back, east, west). Pre-drill to avoid splitting.</li>
+  <li><strong>Back wall slats (32&quot;)</strong>: ends screw into back posts. 2 &times; 2&quot; screws per end.</li>
+  <li><strong>Side wall slats (36&quot;)</strong>: ends screw into the front and back posts on each side. 2 &times; 2&quot; screws per end.</li>
+</ol>
+
+<h3>Step 8 &mdash; Fit the fascia board</h3>
+<ol>
+  <li>Mount the 39&quot; 1&times;6 fascia board on the <em>outside face</em> of the two front posts.</li>
+  <li>Bottom of fascia flush with the 20&quot; mark on the posts; top sits at ~25&frac12;&quot;.</li>
+  <li>2 &times; 3&quot; screws into each post, countersunk.</li>
+</ol>
+
+<h3>Step 9 &mdash; Fit the roof</h3>
+<ol>
+  <li>Lift the 42&quot; &times; 46&quot; plywood panel onto the four top rails with the notch at the north (front) edge.</li>
+  <li>Check overhang: approximately 1&frac12;&quot; on each side and 1&frac12;&quot; front and back.</li>
+  <li>Confirm the notch is centred over the front opening.</li>
+  <li>Screw down into the front and back top rails using 1-5/8&quot; screws at ~8&quot; intervals.</li>
+</ol>
+
+<h3>Step 10 &mdash; Prime and paint (after drying period)</h3>
+<div class="warn">Wait 2&ndash;4 weeks after building before painting to let the PT pine fully dry out.</div>
+<ol>
+  <li>Apply one coat of oil-based or shellac primer to all surfaces. Allow to dry fully.</li>
+  <li>Apply two coats of white exterior latex paint to all surfaces, allowing each coat to dry.</li>
+  <li>Apply white elastomeric roof coating to the top face of the plywood panel only.</li>
+</ol>
+
+<h3>Step 11 &mdash; Paint the name</h3>
+<ol>
+  <li>Once the final paint coat is fully cured, paint or stencil <strong>KEENMOW SABE</strong> on the fascia board using exterior-rated outdoor paint.</li>
+  <li>Dark lettering on the white background reads well from a distance and finishes the shelter off like a proper kennel.</li>
+</ol>
+
+</div>
+</body>
+</html>

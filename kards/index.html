@@ -2506,15 +2506,46 @@ function toggleSection(elemId, btn) {
                     '<td style="color:var(--text-secondary)">' + c.type + ' / ' + c.rarity + '</td>' +
                     '<td style="text-align:center">' + atk + '/' + def + ' ' + c.kredits + 'k</td>' +
                     '<td style="text-align:center;' + ownedStyle + '">' + ownedLabel + '</td>' +
-                    '<td><textarea data-cardid="' + c.id + '" rows="2" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:var(--text-primary);border-radius:6px;padding:6px 8px;font-size:13px;resize:vertical;" placeholder="Enter card text..."></textarea></td>' +
-                    '<td><button onclick="skipReview(this)" style="font-size:11px;padding:4px 8px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:var(--text-secondary);border-radius:4px;cursor:pointer;">Skip</button></td>' +
+                    '<td><textarea data-cardid="' + c.id + '" rows="2" oninput="lsSaveText(this)" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:var(--text-primary);border-radius:6px;padding:6px 8px;font-size:13px;resize:vertical;" placeholder="Enter card text..."></textarea></td>' +
+                    '<td style="white-space:nowrap"><button onclick="saveCardText(this)" style="font-size:11px;padding:4px 8px;background:rgba(80,160,80,0.2);border:1px solid var(--accent-green);color:var(--accent-green);border-radius:4px;cursor:pointer;display:block;margin-bottom:4px;width:100%">Save</button><button onclick="skipReview(this)" style="font-size:11px;padding:4px 8px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:var(--text-secondary);border-radius:4px;cursor:pointer;display:block;width:100%">Skip</button></td>' +
                     '</tr>';
             }).join('');
+            document.querySelectorAll('#reviews-table-body textarea[data-cardid]').forEach(ta => {
+                const saved = localStorage.getItem('card_text_' + ta.getAttribute('data-cardid'));
+                if (saved) ta.value = saved;
+            });
         }
 
         function skipReview(btn) {
             const row = btn.closest('tr');
             if (row) { row.style.opacity = '0.3'; row.style.pointerEvents = 'none'; }
+        }
+
+        function lsSaveText(ta) {
+            const id = ta.getAttribute('data-cardid') || ta.getAttribute('data-weatherid');
+            if (id) localStorage.setItem('card_text_' + id, ta.value);
+        }
+
+        function saveCardText(btn) {
+            const row = btn.closest('tr');
+            const ta = row.querySelector('textarea');
+            const id = ta.getAttribute('data-cardid') || ta.getAttribute('data-weatherid');
+            const text = ta.value.trim();
+            if (!text) return;
+            fetch('http://localhost:5050/card-text', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id, text})
+            }).then(r => r.json()).then(d => {
+                if (d.ok) {
+                    localStorage.removeItem('card_text_' + id);
+                    row.style.opacity = '0.3'; row.style.pointerEvents = 'none';
+                    btn.textContent = 'Saved';
+                }
+            }).catch(() => {
+                btn.textContent = 'Local';
+                btn.title = 'Server offline — saved locally. Survives reloads but not dashboard rebuilds.';
+            });
         }
 
         function renderWeatherReview() {
@@ -2530,10 +2561,14 @@ function toggleSection(elemId, btn) {
                     '<td style="text-align:center;color:var(--text-secondary)">' + c.kredits + 'k</td>' +
                     '<td style="color:var(--text-secondary)">' + cat + '</td>' +
                     '<td style="font-size:12px;color:var(--text-secondary)">' + dbText + '</td>' +
-                    '<td><textarea data-weatherid="' + c.id + '" rows="2" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:var(--text-primary);border-radius:6px;padding:6px 8px;font-size:13px;resize:vertical;" placeholder="Enter verified card text..."></textarea></td>' +
-                    '<td><button onclick="skipReview(this)" style="font-size:11px;padding:4px 8px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:var(--text-secondary);border-radius:4px;cursor:pointer;">Skip</button></td>' +
+                    '<td><textarea data-weatherid="' + c.id + '" rows="2" oninput="lsSaveText(this)" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:var(--text-primary);border-radius:6px;padding:6px 8px;font-size:13px;resize:vertical;" placeholder="Enter verified card text..."></textarea></td>' +
+                    '<td style="white-space:nowrap"><button onclick="saveCardText(this)" style="font-size:11px;padding:4px 8px;background:rgba(80,160,80,0.2);border:1px solid var(--accent-green);color:var(--accent-green);border-radius:4px;cursor:pointer;display:block;margin-bottom:4px;width:100%">Save</button><button onclick="skipReview(this)" style="font-size:11px;padding:4px 8px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:var(--text-secondary);border-radius:4px;cursor:pointer;display:block;width:100%">Skip</button></td>' +
                     '</tr>';
             }).join('');
+            document.querySelectorAll('#weather-table-body textarea[data-weatherid]').forEach(ta => {
+                const saved = localStorage.getItem('card_text_' + ta.getAttribute('data-weatherid'));
+                if (saved) ta.value = saved;
+            });
         }
 
         function exportReviewJSON() {

@@ -919,27 +919,6 @@
                 </table>
             </div>
 
-            <!-- Weather Spawnable Cards section -->
-            <div style="margin-top:24px;margin-bottom:12px;background:rgba(0,0,0,0.4);padding:14px 20px;border-radius:8px;border:1px solid #2a4a6a;">
-                <h3 style="font-family:'Outfit';color:#7ecfff;font-size:16px;margin-bottom:4px;">🌩️ Weather Spawnable Cards</h3>
-                <span style="color:var(--text-secondary);font-size:13px;">These 9 uncollectible Forecast weather cards exist in the DB but their text is unverified — the API may have stale or wrong text. Play the Weather deck to see each card in game, then enter the correct text and export.</span>
-            </div>
-            <div class="table-card">
-                <table class="review-table">
-                    <thead>
-                        <tr>
-                            <th>Card</th>
-                            <th>Cost</th>
-                            <th>Category</th>
-                            <th style="min-width:220px">Current DB Text</th>
-                            <th style="min-width:280px">Corrected Text</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="weather-table-body"></tbody>
-                </table>
-            </div>
-
             <!-- Unknown Faction Cards — full metadata entry -->
             <div id="unknown-cards-section" style="display:none;margin-top:24px;">
                 <div style="margin-bottom:12px;background:rgba(0,0,0,0.4);padding:14px 20px;border-radius:8px;border:1px solid #6a3a2a;display:flex;justify-content:space-between;align-items:center;">
@@ -1191,7 +1170,7 @@
                 if (target === 'view-decks') renderDecks();
                 if (target === 'view-cards') renderCards();
                 if (target === 'view-wishlist') { renderWishlist(); checkServerStatus(); }
-                if (target === 'view-reviews') { renderReviews(); renderWeatherReview(); renderUnknownCards(); renderGoalTextUnknown(); renderOracleReview(); }
+                if (target === 'view-reviews') { renderReviews(); renderUnknownCards(); renderGoalTextUnknown(); renderOracleReview(); }
                 if (target === 'view-matchlogs') renderMatchLogs();
                 if (target === 'view-library') renderLibrary();
             });
@@ -2545,40 +2524,12 @@ function toggleSection(elemId, btn) {
             });
         }
 
-        function renderWeatherReview() {
-            const tbody = document.getElementById('weather-table-body');
-            if (!tbody) return;
-            const sunny = new Set(['heatwave','jungle_fever','scorching_sun']);
-            const rain  = new Set(['deluge','torrential_rain','monsoon_rain']);
-            tbody.innerHTML = WEATHER_CARDS.map(c => {
-                const cat = sunny.has(c.id) ? '&#9728;&#65039; Sunny' : rain.has(c.id) ? '&#127783;&#65039; Rain' : '&#9928;&#65039; Storm';
-                const dbText = c.text ? c.text.replace(/</g,'&lt;').replace(/>/g,'&gt;') : '<em style="color:var(--accent-red)">(empty)</em>';
-                return '<tr>' +
-                    '<td style="white-space:nowrap;font-weight:600;color:var(--text-primary)">' + c.name + '</td>' +
-                    '<td style="text-align:center;color:var(--text-secondary)">' + c.kredits + 'k</td>' +
-                    '<td style="color:var(--text-secondary)">' + cat + '</td>' +
-                    '<td style="font-size:12px;color:var(--text-secondary)">' + dbText + '</td>' +
-                    '<td><textarea data-weatherid="' + c.id + '" rows="2" oninput="lsSaveText(this)" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:var(--text-primary);border-radius:6px;padding:6px 8px;font-size:13px;resize:vertical;" placeholder="Enter verified card text..."></textarea></td>' +
-                    '<td style="white-space:nowrap"><button onclick="saveCardText(this)" style="font-size:11px;padding:4px 8px;background:rgba(80,160,80,0.2);border:1px solid var(--accent-green);color:var(--accent-green);border-radius:4px;cursor:pointer;display:block;margin-bottom:4px;width:100%">Save</button><button onclick="skipReview(this)" style="font-size:11px;padding:4px 8px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:var(--text-secondary);border-radius:4px;cursor:pointer;display:block;width:100%">Skip</button></td>' +
-                    '</tr>';
-            }).join('');
-            document.querySelectorAll('#weather-table-body textarea[data-weatherid]').forEach(ta => {
-                const saved = localStorage.getItem('card_text_' + ta.getAttribute('data-weatherid'));
-                if (saved) ta.value = saved;
-            });
-        }
-
         function exportReviewJSON() {
             const corrections = [];
             document.querySelectorAll('#reviews-table-body textarea').forEach(ta => {
                 const row = ta.closest('tr');
                 if (row && row.style.opacity === '0.3') return;
                 if (ta.value.trim()) corrections.push({ id: ta.getAttribute('data-cardid'), text: ta.value.trim() });
-            });
-            document.querySelectorAll('#weather-table-body textarea').forEach(ta => {
-                const row = ta.closest('tr');
-                if (row && row.style.opacity === '0.3') return;
-                if (ta.value.trim()) corrections.push({ id: ta.getAttribute('data-weatherid'), text: ta.value.trim() });
             });
             if (corrections.length === 0) { alert('No corrections entered yet.'); return; }
             const blob = new Blob([JSON.stringify(corrections, null, 2)], { type: 'application/json' });

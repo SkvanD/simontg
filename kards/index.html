@@ -926,7 +926,7 @@
                         <h3 style="font-family:'Outfit';color:#ff9966;font-size:16px;margin-bottom:4px;">New Cards — Enter Details</h3>
                         <span style="color:var(--text-secondary);font-size:13px;">API has no metadata yet. Look each up in-game and fill in the fields, then click Export.</span>
                     </div>
-                    <button class="copy-btn" onclick="exportNewCardMetadata()" style="background:var(--accent-gold);color:#0b0f19;font-weight:700;padding:8px 16px;cursor:pointer;">💾 Export new-cards.json</button>
+                    <button class="copy-btn" onclick="saveNewCardMetadata()" style="background:var(--accent-gold);color:#0b0f19;font-weight:700;padding:8px 16px;cursor:pointer;">💾 Save to Server</button>
                 </div>
                 <div class="table-card">
                     <table style="width:100%;border-collapse:collapse;font-size:12px;" id="unknown-cards-table">
@@ -2541,12 +2541,15 @@ function toggleSection(elemId, btn) {
 
         // ── Oracle Review ─────────────────────────────────────────────────────────
         function renderOracleReview() {
+            const section = document.getElementById('oracle-review-section');
             const tbody = document.getElementById('oracle-review-body');
             const empty = document.getElementById('oracle-review-empty');
             if (!tbody) return;
             const items = (ORACLE_REVIEW || []);
             const pending = items.filter(i => i.status === 'pending');
             const answered = items.filter(i => i.status !== 'pending');
+            if (pending.length === 0) { if (section) section.style.display = 'none'; return; }
+            if (section) section.style.display = 'block';
             if (items.length === 0) { if(empty) empty.style.display='block'; return; }
             const catLabel = c => c === 'fuzzy_confirm'
                 ? '<span style="background:#4a3a6a;color:#c89fff;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;">FUZZY</span>'
@@ -2658,7 +2661,7 @@ function toggleSection(elemId, btn) {
                 </tr>`).join('');
         }
 
-        function exportNewCardMetadata() {
+        async function saveNewCardMetadata() {
             const rows = document.querySelectorAll('#unknown-cards-body tr[data-cardid]');
             const out = [];
             rows.forEach(row => {
@@ -2678,9 +2681,21 @@ function toggleSection(elemId, btn) {
                 }
             });
             if (out.length === 0) { alert('No entries filled in yet.'); return; }
-            const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob); a.download = 'new_card_metadata.json'; a.click();
+            try {
+                const resp = await fetch('http://localhost:5050/new-card-metadata', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(out)
+                });
+                if (resp.ok) {
+                    const r = await resp.json();
+                    alert(`Saved ${r.updated} card(s) to DB. Run a sync to rebuild the dashboard.`);
+                } else {
+                    alert('Server error — check that the match log server is running.');
+                }
+            } catch(e) {
+                alert('Could not reach server (port 5050). Is match_log_server.py running?');
+            }
         }
 
         async function markVanilla(cardId) {

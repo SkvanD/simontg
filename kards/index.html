@@ -2529,7 +2529,6 @@ function toggleSection(elemId, btn) {
             const ta = row.querySelector('textarea');
             const id = ta.getAttribute('data-cardid') || ta.getAttribute('data-weatherid');
             const text = ta.value.trim();
-            if (!text) return;
             fetch('http://localhost:5050/card-text', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},

@@ -371,7 +371,8 @@ const pages = {
 <p>The man who walked away was calm. No panic. No running. Just turned and went back down the path like he'd been for a morning stroll.</p>`,
   choices:[
     {text:"Ask about the man who walked away",to:10},
-    {text:"Ask who found the body",to:11}
+    {text:"Ask who found the body",to:11},
+    {text:"Ask what happened when Billy reported it",to:8}
   ]
 },
 
@@ -394,8 +395,9 @@ const pages = {
 <p>You know that face.</p>
 <p>Marshall. You haven't seen him in the best part of a decade, but you don't forget Marshall. Nobody does.</p>`,
   choices:[
-    {text:"Go and talk to Marshall now",to:19},
-    {text:"Leave Marshall for now â€” hear the rest from Ralph first",to:5}
+    {text:”Go and talk to Marshall now”,to:19},
+    {text:”Leave Marshall for now â€” hear the rest from Ralph first”,to:5},
+    {text:”Check why Marshall is really here before you trust him”,to:25}
   ]
 },
 
@@ -517,7 +519,8 @@ const pages = {
 <p>Not looking back takes either confidence or practice. Usually both.</p>`,
   choices:[
     {text:"Ask if there was a vehicle",to:26},
-    {text:"Ask Billy to take you up there and show you the spot",to:27}
+    {text:"Ask Billy to take you up there and show you the spot",to:27},
+    {text:"Any identifying marks on either man?",to:9}
   ]
 },
 
@@ -649,7 +652,8 @@ const pages = {
 <p>Someone he worked for had him killed.</p>`,
   choices:[
     {text:"Someone paid him to do something he eventually refused to do",to:42},
-    {text:"Find out who Martin Voss actually is",to:43}
+    {text:"Find out who Martin Voss actually is",to:43},
+    {text:"You know enough. Confront Voss directly",to:58}
   ]
 },
 
@@ -740,7 +744,8 @@ const pages = {
 <p>Which means Billy saw exactly what he thinks he saw.</p>`,
   choices:[
     {text:"That makes Brennan the weak link",to:20},
-    {text:"Go back to the fell and look for evidence",to:27}
+    {text:"Go back to the fell and look for evidence",to:27},
+    {text:"Ask Ralph who actually brought you into this",to:12}
   ]
 },
 
@@ -1014,7 +1019,17 @@ const pages = {
 <p>Within hours of your approach, his lawyers are involved. A formal complaint is filed â€” harassment, defamation. By morning the ODG has no record of your booking. Brennan appears in the car park and asks very politely that you leave the area.</p>
 <p>You have no evidence and now you have shown your hand.</p>
 <p>You drive south out of the valley in the rain.</p>`,
-  end:{type:"bad",note:"Build the case first. Always.",restart:1}
+  end:{type:”bad”,note:”Build the case first. Always.”,restart:1}
+},
+
+60:{
+  prose:`<p>Marshall turns his glass in both hands. He does not look at you.</p>
+<p class=”dialogue”>”It's not there yet.”</p>
+<p>You start to object. He talks over you, not unkindly.</p>
+<p class=”dialogue”>”What you have is a shape. A direction. That's not nothing â€” but it's not enough for the calls I need to make. Voss has been doing this for thirty years. He has people. Lawyers. Friends in the right offices. If I move on this and it doesn't hold, it doesn't just fail â€” it disappears. And everyone who touched it becomes a problem to be dealt with.”</p>
+<p>He picks up his pint.</p>
+<p class=”dialogue”>”Come back when you have the pieces. All of them.”</p>`,
+  end:{type:”bad”,note:”The case needs more before Marshall can act on it. Go back and find the pieces.”,restart:1}
 }
 
 };
@@ -1041,6 +1056,10 @@ function goTo(n, addHistory){
 }
 
 function render(n, pushHist){
+  if(n === 57){
+    const evidencePages = [32, 39, 50, 52, 55];
+    if(evidencePages.filter(p => history.includes(p)).length < 3) n = 60;
+  }
   if(pushHist) history.push(n);
   const p = pages[n];
   if(!p){ console.error('No page '+n); return; }

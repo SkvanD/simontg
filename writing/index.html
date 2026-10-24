@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Library — Simon's Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --bg-card: rgba(23, 31, 48, 0.75);
+      --bg-card-hover: rgba(33, 44, 69, 0.9);
+      --border-card: rgba(255, 255, 255, 0.12);
+      --text-main: #f0f4f8;
+      --text-secondary: #94a3b8;
+      --accent-gold: #d4a017;
+      --accent-gold-bright: #ffc83b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(80, 160, 100, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(56, 100, 200, 0.07) 0%, transparent 40%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 40px 20px 60px;
+    }
+
+    .page-wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 40px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--text-main); }
+
+    header {
+      margin-bottom: 56px;
+    }
+
+    .portal-badge {
+      display: inline-block;
+      background: rgba(80, 160, 100, 0.15);
+      border: 1px solid rgba(80, 160, 100, 0.5);
+      color: #6aaa7a;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 60%, #6aaa7a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── CATEGORY SECTIONS ── */
+    .category {
+      margin-bottom: 56px;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .category-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .category-count {
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .category-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .category-divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent);
+      margin-bottom: 20px;
+    }
+
+    /* ── SERIES LABEL ── */
+    .series-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      margin-top: 28px;
+    }
+
+    .series-label:first-child { margin-top: 0; }
+
+    .series-name {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .series-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    /* ── BOOK CARDS ── */
+    .book-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .book-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      padding: 18px 22px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .book-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      border-radius: 14px 0 0 14px;
+      background: transparent;
+      transition: background 0.25s;
+    }
+
+    .book-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255,255,255,0.2);
+      transform: translateX(4px);
+    }
+
+    .cat-mystery .book-card:hover::before  { background: #38bdf8; }
+    .cat-shadow .book-card:hover::before   { background: #a855f7; }
+    .cat-childrens .book-card:hover::before { background: #f59e0b; }
+
+    .book-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .book-icon {
+      font-size: 28px;
+      min-width: 36px;
+      text-align: center;
+    }
+
+    .book-info {
+      flex: 1;
+    }
+
+    .book-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .book-meta {
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .book-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    .badge-series-shadow {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+
+    .badge-series-milo {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .badge-standalone {
+      background: rgba(148, 163, 184, 0.1);
+      color: var(--text-secondary);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .badge-interactive {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .arrow {
+      color: var(--text-secondary);
+      font-size: 18px;
+      transition: transform 0.25s, color 0.25s;
+    }
+    .book-card:hover .arrow {
+      transform: translateX(4px);
+      color: var(--text-main);
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 30px; }
+      .book-card { padding: 14px 16px; gap: 14px; }
+      .book-title { font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <a href="../" class="back-link">← Back to Portal</a>
+
+  <header>
+    <div class="portal-badge">The Library</div>
+    <h1>Books &amp; Stories</h1>
+    <p class="page-subtitle">Fiction written by Gemma 4, Claude, and Debbie. Mystery, children's adventures, and the Shadow Series.</p>
+  </header>
+
+  <!-- ── THE SHADOW SERIES ── -->
+  <section class="category cat-shadow">
+    <div class="category-header">
+      <div class="category-title">The Shadow Series</div>
+      <div class="category-count">2 books</div>
+    </div>
+    <p class="category-desc">A mystery series following Simon and Debbie through dark histories and forgotten crimes. Read in order.</p>
+    <div class="category-divider"></div>
+    <div class="book-list">
+
+      <a href="the-york-shadow-mystery.html" class="book-card">
+        <div class="book-num">Bk 1</div>
+        <div class="book-icon">🔍</div>
+        <div class="book-info">
+          <div class="book-title">The York Shadow Mystery</div>
+          <div class="book-meta">Murder in the bones of York Minster — stolen silver and silenced witnesses. By Gemma 4.</div>
+        </div>
+        <span class="book-badge badge-series-shadow">Shadow Series</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="the-shadows-of-barnack.html" class="book-card">
+        <div class="book-num">Bk 2</div>
+        <div class="book-icon">🪨</div>
+        <div class="book-info">
+          <div class="book-title">The Shadows of Barnack</div>
+          <div class="book-meta">An ancient death in the limestone quarries of Barnack — where the shadows move and the stone breathes. 15 chapters. By Gemma 4 &amp; Claude.</div>
+        </div>
+        <span class="book-badge badge-series-shadow">Shadow Series</span>
+        <span class="arrow">→</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── MYSTERY & THRILLER ── -->
+  <section class="category cat-mystery">
+    <div class="category-header">
+      <div class="category-title">Mystery &amp; Thriller</div>
+      <div class="category-count">3 books</div>
+    </div>
+    <p class="category-desc">Standalone mystery and thriller stories.</p>
+    <div class="category-divider"></div>
+    <div class="book-list">
+
+      <a href="the-echoes-of-york.html" class="book-card">
+        <div class="book-num"></div>
+        <div class="book-icon">👻</div>
+        <div class="book-info">
+          <div class="book-title">The Echoes of York</div>
+          <div class="book-meta">A Victorian murder at York Minster — a sapphire pendant, a restless spirit, a century of silence. 12 chapters. By Debbie Goodwin &amp; Gemma 4.</div>
+        </div>
+        <span class="book-badge badge-standalone">Standalone</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="the-real-history-of-skull-island-tn.html" class="book-card">
+        <div class="book-num"></div>
+        <div class="book-icon">💀</div>
+        <div class="book-info">
+          <div class="book-title">The Real History of Skull Island, TN</div>
+          <div class="book-meta">An Appalachian mystery — a hidden ledger, a valley the birds refuse to fly over, a town that was consumed. By Gemma 4.</div>
+        </div>
+        <span class="book-badge badge-standalone">Standalone</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="../dead-ground/" class="book-card">
+        <div class="book-num"></div>
+        <div class="book-icon">🌄</div>
+        <div class="book-info">
+          <div class="book-title">Dead Ground</div>
+          <div class="book-meta">A choose-your-own-path mystery set in the Lake District. You weren't looking for trouble — but trouble found you.</div>
+        </div>
+        <span class="book-badge badge-interactive">Interactive</span>
+        <span class="arrow">→</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── CHILDREN'S BOOKS ── -->
+  <section class="category cat-childrens">
+    <div class="category-header">
+      <div class="category-title">Children's Books</div>
+      <div class="category-count">3 books</div>
+    </div>
+    <p class="category-desc">Warm, funny adventures for young readers. Written by Gemma 4.</p>
+    <div class="category-divider"></div>
+    <div class="book-list">
+
+      <div class="series-label">
+        <span class="series-name">Milo &amp; Pip Adventures</span>
+        <div class="series-line"></div>
+      </div>
+
+      <a href="the-great-cheese-caper.html" class="book-card">
+        <div class="book-num">Bk 1</div>
+        <div class="book-icon">🧀</div>
+        <div class="book-info">
+          <div class="book-title">The Great Cheese Caper</div>
+          <div class="book-meta">Milo and Pip attempt the most daring cheese heist in mouse history — with Whiskers asleep in the kitchen.</div>
+        </div>
+        <span class="book-badge badge-series-milo">Milo &amp; Pip</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="the-great-cousin-caper.html" class="book-card">
+        <div class="book-num">Bk 2</div>
+        <div class="book-icon">🐭</div>
+        <div class="book-info">
+          <div class="book-title">The Great Cousin Caper</div>
+          <div class="book-meta">Four cousins arrive at the cat flap. Milo and Pip must sneak them past Whiskers and into the skirting board hole. 9 chapters.</div>
+        </div>
+        <span class="book-badge badge-series-milo">Milo &amp; Pip</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <div class="series-label">
+        <span class="series-name">Standalone</span>
+        <div class="series-line"></div>
+      </div>
+
+      <a href="the-great-garden-escape.html" class="book-card">
+        <div class="book-num"></div>
+        <div class="book-icon">🦔</div>
+        <div class="book-info">
+          <div class="book-title">The Great Garden Escape</div>
+          <div class="book-meta">A hedgehog, her cautious sister, a tortoise who refuses to hurry, and a bossy crow must reach the compost heap before the neighbour's terrier finds them. 6 chapters.</div>
+        </div>
+        <span class="book-badge badge-standalone">Standalone</span>
+        <span class="arrow">→</span>
+      </a>
+
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
